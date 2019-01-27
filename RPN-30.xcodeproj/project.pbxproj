@@ -13,6 +13,9 @@
 		8000B56E21F31C8000617988 /* RPN_30.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8000B56C21F31C8000617988 /* RPN_30.xcdatamodeld */; };
 		8000B57021F31C8200617988 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8000B56F21F31C8200617988 /* Assets.xcassets */; };
 		8000B57321F31C8200617988 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8000B57121F31C8200617988 /* LaunchScreen.storyboard */; };
+		8000B57F21F320CA00617988 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B57E21F320CA00617988 /* Calculator.swift */; };
+		8000B58121F84C8000617988 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B58021F84C8000617988 /* CalculatorButton.swift */; };
+		8000B58321FC944600617988 /* OldCodeDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B58221FC944600617988 /* OldCodeDump.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		8000B56F21F31C8200617988 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8000B57221F31C8200617988 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8000B57421F31C8200617988 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8000B57E21F320CA00617988 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
+		8000B58021F84C8000617988 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
+		8000B58221FC944600617988 /* OldCodeDump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldCodeDump.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,9 @@
 		8000B56421F31C8000617988 /* RPN-30 */ = {
 			isa = PBXGroup;
 			children = (
+				8000B57E21F320CA00617988 /* Calculator.swift */,
+				8000B58221FC944600617988 /* OldCodeDump.swift */,
+				8000B58021F84C8000617988 /* CalculatorButton.swift */,
 				8000B56521F31C8000617988 /* AppDelegate.swift */,
 				8000B56721F31C8000617988 /* ViewController.swift */,
 				8000B56921F31C8000617988 /* Main.storyboard */,
@@ -138,9 +147,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8000B58321FC944600617988 /* OldCodeDump.swift in Sources */,
 				8000B56821F31C8000617988 /* ViewController.swift in Sources */,
+				8000B57F21F320CA00617988 /* Calculator.swift in Sources */,
 				8000B56621F31C8000617988 /* AppDelegate.swift in Sources */,
 				8000B56E21F31C8000617988 /* RPN_30.xcdatamodeld in Sources */,
+				8000B58121F84C8000617988 /* CalculatorButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
