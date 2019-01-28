@@ -88,6 +88,14 @@ class Calculator: UIView {
             stackRegisters.append(0.0)
             defaults.set(self.stackRegisters, forKey: "stackRegisters")
         }
+        
+        if self.stackRegisters.count < 4 {
+            stackRegisters.append(0.0)
+            stackRegisters.append(0.0)
+            stackRegisters.append(0.0)
+            defaults.set(self.stackRegisters, forKey: "stackRegisters")
+        }
+        
         super.init(frame: frame)
 
         setupButtons()
@@ -107,6 +115,14 @@ class Calculator: UIView {
             stackRegisters.append(0.0)
             defaults.set(self.stackRegisters, forKey: "stackRegisters")
         }
+        
+        if self.stackRegisters.count < 4 {
+            stackRegisters.append(0.0)
+            stackRegisters.append(0.0)
+            stackRegisters.append(0.0)
+            defaults.set(self.stackRegisters, forKey: "stackRegisters")
+        }
+        
         super.init(coder: aDecoder)
 
         formatterScientific.numberStyle = .scientific
@@ -154,7 +170,7 @@ class Calculator: UIView {
         let textTitleSize = UIFont.boldSystemFont(ofSize: 18.0)
         
         // Set font size for function button
-        let functionFontSize = UIFont.systemFont(ofSize: 15.0)
+        let functionFontSize = UIFont.systemFont(ofSize: 20.0)
         
         // Set font size for symbol buttons
         let symbolTitleSize = UIFont.systemFont(ofSize: 30.0)
@@ -163,8 +179,18 @@ class Calculator: UIView {
         let functionTitleSize = UIFont.systemFont(ofSize: 8.5)
         
         // let functionTitleColor = UIColor(displayP3Red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0)
-        let functionTitleColor = UIColor.white
+        let functionTitleColor = UIColor.lightGray
         let functionTextColor = UIColor.black
+        
+        // Set highlight colors
+        clearButton.highlightColor = UIColor.white
+        chsButton.highlightColor = UIColor.white
+        divideButton.highlightColor = UIColor.white
+        multiplyButton.highlightColor = UIColor.orange.lighter(by: 50.0)
+        minusButton.highlightColor = UIColor.orange.lighter(by: 50.0)
+        plusButton.highlightColor = UIColor.orange.lighter(by: 50.0)
+        enterButton.highlightColor = UIColor.orange.lighter(by: 50.0)
+        
         
         // Set font sizes, colors and alignments for output display
         tzRegisterDisplay.textAlignment = .left
@@ -394,18 +420,16 @@ class Calculator: UIView {
         
         // Row 0A
         yRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: buttonHorizontalPadding).isActive = true
-        tzRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
-        
-        tzRegisterDisplay.leadingAnchor.constraint(equalTo: yRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
         yRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         
         lRegisterDisplay.leadingAnchor.constraint(equalTo: yRegisterDisplay.leadingAnchor, constant: 0.0).isActive = true
         lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: 0.0).isActive = true
         
-        functionDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        functionDisplay.leadingAnchor.constraint(equalTo: yRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
         functionDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         
- 
+        tzRegisterDisplay.leadingAnchor.constraint(equalTo: functionDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        tzRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
 
         // Row 0B
         
@@ -746,22 +770,7 @@ class Calculator: UIView {
         nineFunctionLabel.layer.cornerRadius = 5
         nineFunctionLabel.clipsToBounds = true
         
-        // let eightLabel = generateFunctionLabels(button: eightButton, labelText: "SWAP XY", buttonHeight: buttonHeight, buttonWidth: buttonWidth, actualButtonHeight: actualButtonWidth, superview: self)
-        // addSubview(eightLabel)
-        
-        /*
- 
- oneButton.states = ["1", "EE", ""]
- twoButton.states = ["2", "y^x", ""]
- threeButton.states = ["3", "e^x", "ln x", "π"]
- fourButton.states = ["4", "1/x", ""]
- fiveButton.states = ["5", "ROOT", ""]
- sixButton.states = ["6", "%", "% Δ", "% T"]
- sevenButton.states = ["7", "LAST X", "LAST Y", ""]
- eightButton.states = ["8", "SWAP XY", ""]
- nineButton.states = ["9", "sin", "cos", "tan", "asin", "acos", "atan", ""]
- 
- */
+
  
     
         updateDisplays()
@@ -770,10 +779,7 @@ class Calculator: UIView {
     }
     
     private func addTargets(){
-        print("test")
-    
-      
-        
+ 
         let clearLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(clearButtonLongAction(gesture:)))
         clearLongTapGesture.minimumPressDuration = minimumPressDuration
         clearButton.addGestureRecognizer(clearLongTapGesture)
@@ -1081,7 +1087,6 @@ class Calculator: UIView {
             let distance = hypotf(Float(currentPoint.x - longPressStartPoint!.x), Float(currentPoint.y - longPressStartPoint!.y))
             if distance < Float(maximumDistance) {
                 
-                print(UserDefaults.standard.double(forKey: "stackX"))
             }
             
         default:
@@ -1133,7 +1138,7 @@ class Calculator: UIView {
         if xRegisterDecimals <= 2 {
             UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
         }
-        
+        clearLastXRegister()
         updateDisplays()
     }
     
@@ -1239,6 +1244,7 @@ class Calculator: UIView {
         stackRegistersNew.append(contentsOf: stackRegistersOld) // Lift rest of stack registry up
         defaults.set(stackRegistersNew, forKey: "stackRegisters")
         defaults.set(stackRegistersNew[1], forKey: "lRegisterY")
+        defaults.set("", forKey: "lOperator")
         
     }
     
@@ -1249,6 +1255,12 @@ class Calculator: UIView {
         var stackRegistersNew = [Double]()
         stackRegistersNew.append(0.0)
         stackRegistersNew.append(contentsOf: stackRegistersOld)
+       
+        // Prevents reducing function below minimum 4 elements required at all times
+        stackRegistersNew.append(0.0)
+        stackRegistersNew.append(0.0)
+        stackRegistersNew.append(0.0)
+        
         defaults.set(stackRegistersNew, forKey: "stackRegisters")
 
     }
@@ -1257,16 +1269,11 @@ class Calculator: UIView {
     
     private func processInput(button: CalculatorButton, index: Int){
         
-        // Process digit input
-        if index == 0 {
-            numberInput(button)
-            return
-        }
-            
-        else { // Process operator input
+        // Process operator input
             
             isNewNumberEntry = true
             stackAutoLift = true
+            var unaryAction = false
             
             // Get xRegister value
             let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
@@ -1283,65 +1290,67 @@ class Calculator: UIView {
                 
             case "EE":
                 xRegisterNew = yRegister * pow(10.0, Double(xRegister))
-            case "e^x":
-                xRegisterNew = exp(xRegister)
-            case "ln x":
-                xRegisterNew = log(xRegister)
-            case "π" :
-                xRegisterNew = Double.pi
-            case "ROOT":
+            case "√":
                 xRegisterNew = pow(yRegister, 1.0 / xRegister)
-            case "sin":
-                xRegisterNew = sin(xRegister)
-            case "cos":
-                xRegisterNew = cos(xRegister)
-            case "tan":
-                xRegisterNew = tan(xRegister)
-            case "asin":
-                xRegisterNew = asin(xRegister)
-            case "acos":
-                xRegisterNew = acos(xRegister)
-            case "atan":
-                xRegisterNew = atan(xRegister)
+            case "1/x":
+                xRegisterNew = 1 / xRegister
+                unaryAction = true
             case "%":
                 xRegisterNew = yRegister * xRegister / 100
             case "% Δ":
                 xRegisterNew = (xRegister - yRegister) / yRegister
             case "% T":
                 xRegisterNew = xRegister / (yRegister + xRegister)
+            case "e^x":
+                xRegisterNew = exp(xRegister)
+                unaryAction = true
+            case "ln x":
+                xRegisterNew = log(xRegister)
+                unaryAction = true
             case "y^x":
                 xRegisterNew = pow(yRegister, xRegister)
-            case "1/x":
-                xRegisterNew = 1 / xRegister
-            case "LAST X":
-                xRegisterNew = defaults.double(forKey: "lRegisterX")
-                amendStackRegister(value: xRegisterNew, at: 0)
-            case "LAST Y":
-                xRegisterNew = defaults.double(forKey: "lRegisterY")
-                amendStackRegister(value: xRegister, at: 0)
-                xRegisterNew = xRegister
-            case "SWAP XY":
-                amendStackRegister(value: yRegister, at: 0)
-                amendStackRegister(value: xRegister, at: 1)
-                xRegisterNew = xRegister
+
+            case "π" :
+                xRegisterNew = Double.pi
+                unaryAction = true
+            case "sin":
+                xRegisterNew = sin(xRegister)
+                unaryAction = true
+            case "cos":
+                xRegisterNew = cos(xRegister)
+                unaryAction = true
+            case "tan":
+                xRegisterNew = tan(xRegister)
+                unaryAction = true
+            case "asin":
+                xRegisterNew = asin(xRegister)
+                unaryAction = true
+            case "acos":
+                xRegisterNew = acos(xRegister)
+                unaryAction = true
+            case "atan":
+                xRegisterNew = atan(xRegister)
+                unaryAction = true
+
             default:
                 xRegisterNew = xRegister
             }
-            
-            
-            
-            // Set last operation register and amend stack for latest xRegister (unless LAST / SWAP functions are called
-            if (button.states![index] != "LAST X") && (button.states![index] != "LAST Y")  && (button.states![index] != "SWAP XY"){
-                // defaults.set(xRegister, forKey: "lRegisterX")
-                // defaults.set(yRegister, forKey: "lRegisterY")
-                defaults.set(button.states![index], forKey: "lOperator")
-                dropStackRegisters()
-                amendStackRegister(value: xRegisterNew, at: 0)
-            }
-            
-            updateDisplays()
-            
+        
+        defaults.set(button.states![index], forKey: "lOperator")
+        
+        if unaryAction {
+            defaults.set(0.0, forKey: "lRegisterY")
+            defaults.set(xRegister, forKey: "lRegisterX")
+        } else {
+            defaults.set(button.states![index], forKey: "lOperator")
+            defaults.set(xRegisterNew, forKey: "lRegisterX")
+            dropStackRegisters()
         }
+        
+            amendStackRegister(value: xRegisterNew, at: 0)
+        
+            updateDisplays()
+        
     }
     
     private func basicOperator(_ operatorAction: String){
@@ -1355,6 +1364,7 @@ class Calculator: UIView {
         let xRegister = stackRegisters[0]
         let yRegister = stackRegisters[1]
         
+        defaults.set(yRegister, forKey: "lRegisterY")
         defaults.set(xRegister, forKey: "lRegisterX")
         defaults.set(operatorAction, forKey: "lOperator")
         
@@ -1449,6 +1459,8 @@ class Calculator: UIView {
     
     private func updateLastDisplay(){
         
+        let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
+        
         // Get l registers (these need to be set by other operations)
         let lRegisterX = defaults.double(forKey: "lRegisterX")
         let lRegisterY = defaults.double(forKey: "lRegisterY")
@@ -1465,18 +1477,49 @@ class Calculator: UIView {
         lRegisterYString = formatterLYRegister.string(from: lRegisterYNS) ?? ""
         lRegisterXString = formatterLXRegister.string(from: lRegisterXNS) ?? ""
         
-        if lRegisterY == 0.0 {
-            lRegisterYString = ""
+
+
+  
+
+
+        var lOperatorString = defaults.string(forKey: "lOperator") ?? ""
+        
+        if lOperatorString != "" {
+            lOperatorString = "{ " + lOperatorString + " }"
         }
+        
         if lRegisterX == 0.0 {
             lRegisterXString = ""
+        } else {
+            if lOperatorString != "" {
+                lRegisterXString += "  ="
+            }
         }
-  
-        yRegisterDisplay.text = lRegisterYString
+ 
+        if stackRegisters[1] == 0.0 && lOperatorString != "" {
+            yRegisterDisplay.text = "0"
+            if lRegisterY == 0.0 {
+                if (lOperatorString == "{ e^x }" || lOperatorString == "{ ln x }" || lOperatorString == "{ 1/x }") {
+                    lRegisterYString = "0  +"
+                } else {
+                    lRegisterYString = "0"
+                }
+            }
+            lRegisterDisplay.text = lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString
+        } else {
+            
+            if lRegisterY == 0.0 {
+                lRegisterYString = ""
+            }
+            yRegisterDisplay.text = lRegisterYString
+            if lOperatorString != "" {
+                lRegisterDisplay.text = lOperatorString + "  " + lRegisterXString
+            } else {
+                lRegisterDisplay.text = lRegisterXString
+            }
 
-        let lOperatorString = defaults.string(forKey: "lOperator") ?? ""
-        
-        lRegisterDisplay.text = lOperatorString + " " + lRegisterXString
+
+        }
         
     }
     
@@ -1486,8 +1529,7 @@ class Calculator: UIView {
         updateNumberDisplay()
         updateLastDisplay()
         updateStackDisplay()
-        
-        printStackRegister()
+
         
     }
     

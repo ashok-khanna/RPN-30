@@ -1,0 +1,16 @@
+Touch gestures for mainDisplay
+Touch gestures for y display
+Touch gestures for x display
+Help button
+Help guide
+function to keyboard button
+store
+recall
+button highlighting on digits [done]
+button highlighting on orange buttons [done]
+button highlighting on top row [done]
+fix y x storing on unary transactions
+fix decimals
+set limits on double calculation size
+add clear on start up
+max two decimals on lregisterdisplay + scientific mode at x

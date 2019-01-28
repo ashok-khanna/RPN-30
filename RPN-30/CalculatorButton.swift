@@ -28,7 +28,7 @@ class CalculatorButton: UIButton {
     
     var originalBackgroundColor: UIColor!
     
-    let highlightColor = UIColor(displayP3Red: 135/255, green: 206/255, blue: 250/255, alpha: 1.0)
+    var highlightColor = UIColor.lightGray
     
     override var backgroundColor: UIColor? {
         didSet {
@@ -44,7 +44,7 @@ class CalculatorButton: UIButton {
             guard let originalBackgroundColor = originalBackgroundColor else {
                 return
             }
-            backgroundColor = isHighlighted ? .white : originalBackgroundColor
+            backgroundColor = isHighlighted ? highlightColor : originalBackgroundColor
         }
     }
 
