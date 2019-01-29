@@ -14,3 +14,4 @@ fix decimals
 set limits on double calculation size
 add clear on start up
 max two decimals on lregisterdisplay + scientific mode at x
+fix display of stackregisters

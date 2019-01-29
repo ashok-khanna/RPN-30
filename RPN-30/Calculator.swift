@@ -205,12 +205,12 @@ class Calculator: UIView {
         lRegisterDisplay.textColor = .darkGray
         
         yRegisterDisplay.textColor = .white
-        functionDisplay.textColor = .white
+        functionDisplay.textColor = .darkGray
         mainDisplay.textColor = .white
         
         tzRegisterDisplay.font = UIFont.systemFont(ofSize: 9.0)
         tzRegisterDisplay.numberOfLines = 0
-        lRegisterDisplay.font = UIFont.systemFont(ofSize: 15.0)
+        lRegisterDisplay.font = UIFont.systemFont(ofSize: 12.0)
         cancelButton.font = UIFont.systemFont(ofSize: 10.0)
         
         cancelButton.text = "BIN"
@@ -219,7 +219,7 @@ class Calculator: UIView {
         cancelButton.textColor = .darkGray
         
         yRegisterDisplay.font = UIFont.systemFont(ofSize: 23.0)
-        functionDisplay.font = functionFontSize
+        functionDisplay.font = UIFont.systemFont(ofSize: 10.0)
         mainDisplay.font = UIFont.systemFont(ofSize: 36.0)
         tzRegisterDisplay.adjustsFontSizeToFitWidth = true
         yRegisterDisplay.adjustsFontSizeToFitWidth = true
@@ -230,11 +230,11 @@ class Calculator: UIView {
         // Set colors for UI elements
         
         tzRegisterDisplay.backgroundColor = UIColor.lightGray
-        lRegisterDisplay.backgroundColor = UIColor.lightGray
+        lRegisterDisplay.backgroundColor = UIColor.black
         cancelButton.backgroundColor = UIColor.lightGray
         
         yRegisterDisplay.backgroundColor = UIColor.darkGray
-        functionDisplay.backgroundColor = UIColor.darkGray
+        functionDisplay.backgroundColor = UIColor.lightGray
         mainDisplay.backgroundColor = UIColor.black
         
         deleteButton.backgroundColor = UIColor.darkGray
@@ -375,10 +375,10 @@ class Calculator: UIView {
         
         // Set UI element widths and heights
         tzRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true // One-fourth height
-        yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: 0.0).isActive = true // One-fourth height
+        yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: buttonVerticalPadding).isActive = true // One-fourth height
         lRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
         cancelButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
-        functionDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: 0.0).isActive = true
+        functionDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0, constant: 0.0).isActive = true
         mainDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:  buttonHeight, constant: 0.0).isActive = true
         
         deleteButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
@@ -402,10 +402,10 @@ class Calculator: UIView {
         nineButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
         
         tzRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
-        yRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 2.0, constant: buttonHorizontalPadding).isActive = true // Twice width
-        lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 2.5, constant: buttonHorizontalPadding * 2.0).isActive = true
-        cancelButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: -buttonHorizontalPadding / 2.0).isActive = true
-        functionDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true // One-third width
+        yRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: 2.0 * buttonHorizontalPadding).isActive = true // Twice width
+        lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 2.5, constant: buttonHorizontalPadding * 1.0).isActive = true
+        cancelButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
+        functionDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.0, constant: 0.0).isActive = true // One-third width
         mainDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: buttonHorizontalPadding * 2.0).isActive = true // Two-third width
         
         deleteButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
@@ -436,25 +436,25 @@ class Calculator: UIView {
         tzRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
         yRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         
-        lRegisterDisplay.leadingAnchor.constraint(equalTo: functionDisplay.leadingAnchor, constant: 0.0).isActive = true
-        lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        lRegisterDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant:  buttonVerticalPadding / 2.0).isActive = true
         
-        cancelButton.leadingAnchor.constraint(equalTo: lRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding / 2.0).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        cancelButton.leadingAnchor.constraint(equalTo: lRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        cancelButton.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
         
-        yRegisterDisplay.leadingAnchor.constraint(equalTo: functionDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        functionDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
+        yRegisterDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+       // functionDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
         
-        functionDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+      //  functionDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
         tzRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
 
         // Row 0B
         
         mainDisplay.leadingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        deleteButton.bottomAnchor.constraint(equalTo: self.multiplyButton.topAnchor, constant: -buttonVerticalPadding).isActive = true
+        deleteButton.topAnchor.constraint(equalTo: self.tzRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
 
         deleteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        mainDisplay.topAnchor.constraint(equalTo: lRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        mainDisplay.topAnchor.constraint(equalTo: deleteButton.topAnchor, constant: 0.0).isActive = true
         // mainDisplay.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         
         // Row 1
@@ -511,10 +511,13 @@ class Calculator: UIView {
             button.clipsToBounds = true
         }
         
-        tzRegisterDisplay.layer.cornerRadius = 10
+        deleteButton.layer.cornerRadius = 10
+        deleteButton.clipsToBounds = true
+        
+        tzRegisterDisplay.layer.cornerRadius = 8.75
         tzRegisterDisplay.clipsToBounds = true
         
-        functionDisplay.layer.cornerRadius = 10
+        functionDisplay.layer.cornerRadius = 7.5
         functionDisplay.clipsToBounds = true
         
         // Add text to buttons
@@ -788,13 +791,13 @@ class Calculator: UIView {
         nineFunctionLabel.clipsToBounds = true
         
 
-        yRegisterDisplay.layer.cornerRadius = 10
+        yRegisterDisplay.layer.cornerRadius = 8.75
         yRegisterDisplay.clipsToBounds = true
         
         lRegisterDisplay.layer.cornerRadius = 5
         lRegisterDisplay.clipsToBounds = true
 
-        cancelButton.layer.cornerRadius = 5
+        cancelButton.layer.cornerRadius = 7.5
         cancelButton.clipsToBounds = true
 
         
@@ -1026,12 +1029,12 @@ class Calculator: UIView {
         case .changed:
             longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
             let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
-            updateFunctionDisplay(button: button, stateIndex: stateIndex)
+            updateFunctionDisplay2(button: button, stateIndex: stateIndex)
             
         case .ended:
             longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
             let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
-            updateFunctionDisplay(button: button, stateIndex: stateIndex)
+           // updateFunctionDisplay(button: button, stateIndex: stateIndex)
             
             processInput(button: button, index: stateIndex)
             
@@ -1124,6 +1127,20 @@ class Calculator: UIView {
     
     
     //MARK: Stack manipulation
+    
+    func clearStack(){
+        var stackRegisters = [Double]()
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        defaults.set(self.stackRegisters, forKey: "stackRegisters")
+        defaults.set(0.0, forKey: "lRegisterX")
+        defaults.set(0.0, forKey: "lRegisterY")
+        defaults.set(0.0, forKey: "lOperator")
+        updateDisplays()
+        print("test")
+    }
     
     @objc private func enterInput(){
         isNewNumberEntry = true // Adding digits after enter key should be creating a new number
@@ -1229,6 +1246,8 @@ class Calculator: UIView {
         if stackAutoLift {
             liftStackRegisters()
             stackAutoLift = false
+            clearLastRegisters()
+            updateLastDisplay()
         }
         
         if isNewNumberEntry {
@@ -1427,6 +1446,10 @@ class Calculator: UIView {
         functionDisplay.text = button.states![stateIndex]
     }
     
+    private func updateFunctionDisplay2(button: CalculatorButton, stateIndex: Int){
+        mainDisplay.text = button.states![stateIndex]
+    }
+    
     private func resetFunctionDisplay(){
         functionDisplay.text = ""
     }
@@ -1482,7 +1505,7 @@ class Calculator: UIView {
             tRegisterString = self.formatterDecimal.string(from: tRegisterNS) ?? ""
         }
         
-        tzRegisterDisplay.text = "  T: " + tRegisterString + "\n" + "\n" + "  U: " + zRegisterString + "\n" + "\n" + "  Y: " + yRegisterString
+        tzRegisterDisplay.text = "  T: " + tRegisterString + "\n" + "\n" + "  Z: " + zRegisterString
         
     }
     
@@ -1511,7 +1534,7 @@ class Calculator: UIView {
         if yRegisterString == "" {
             yRegisterDisplay.text = ""
         } else {
-            yRegisterDisplay.text = "  " + yRegisterString + "  "
+            yRegisterDisplay.text = yRegisterString
         }
 
         var lOperatorString = defaults.string(forKey: "lOperator") ?? ""
