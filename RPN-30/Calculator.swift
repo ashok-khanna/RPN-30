@@ -976,39 +976,39 @@ class Calculator: UIView, UITextFieldDelegate {
         zeroButton.addGestureRecognizer(zeroLongTapGesture)
         
         let oneLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(oneButtonLongAction(gesture:)))
-        oneLongTapGesture.minimumPressDuration = longGestureStartTime
+        oneLongTapGesture.minimumPressDuration = minimumPressDuration
         oneButton.addGestureRecognizer(oneLongTapGesture)
         
         let twoLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(twoButtonLongAction(gesture:)))
-        twoLongTapGesture.minimumPressDuration = longGestureStartTime
+        twoLongTapGesture.minimumPressDuration = minimumPressDuration
         twoButton.addGestureRecognizer(twoLongTapGesture)
         
         let threeLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(threeButtonLongAction(gesture:)))
-        threeLongTapGesture.minimumPressDuration = longGestureStartTime
+        threeLongTapGesture.minimumPressDuration = minimumPressDuration
         threeButton.addGestureRecognizer(threeLongTapGesture)
         
         let fourLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(fourButtonLongAction(gesture:)))
-        fourLongTapGesture.minimumPressDuration = longGestureStartTime
+        fourLongTapGesture.minimumPressDuration = minimumPressDuration
         fourButton.addGestureRecognizer(fourLongTapGesture)
         
         let fiveLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(fiveButtonLongAction(gesture:)))
-        fiveLongTapGesture.minimumPressDuration = longGestureStartTime
+        fiveLongTapGesture.minimumPressDuration = minimumPressDuration
         fiveButton.addGestureRecognizer(fiveLongTapGesture)
         
         let sixLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(sixButtonLongAction(gesture:)))
-        sixLongTapGesture.minimumPressDuration = longGestureStartTime
+        sixLongTapGesture.minimumPressDuration = minimumPressDuration
         sixButton.addGestureRecognizer(sixLongTapGesture)
         
         let sevenLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(sevenButtonLongAction(gesture:)))
-        sevenLongTapGesture.minimumPressDuration = longGestureStartTime
+        sevenLongTapGesture.minimumPressDuration = minimumPressDuration
         sevenButton.addGestureRecognizer(sevenLongTapGesture)
         
         let eightLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(eightButtonLongAction(gesture:)))
-        eightLongTapGesture.minimumPressDuration = longGestureStartTime
+        eightLongTapGesture.minimumPressDuration = minimumPressDuration
         eightButton.addGestureRecognizer(eightLongTapGesture)
         
         let nineLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(nineButtonLongAction(gesture:)))
-        nineLongTapGesture.minimumPressDuration = longGestureStartTime
+        nineLongTapGesture.minimumPressDuration = minimumPressDuration
         nineButton.addGestureRecognizer(nineLongTapGesture)
         
         let clearLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(clearButtonLongAction(gesture:)))
