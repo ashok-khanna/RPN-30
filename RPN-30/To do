@@ -1,17 +1,31 @@
-Touch gestures for mainDisplay
-Touch gestures for y display
-Touch gestures for x display
 Help button
 Help guide
 function to keyboard button
-store
-recall
-button highlighting on digits [done]
-button highlighting on orange buttons [done]
-button highlighting on top row [done]
-fix y x storing on unary transactions
+
+light orange highlight button on store and on long press
+light red button for reset and zero
+
 fix decimals
 set limits on double calculation size
-add clear on start up
+
 max two decimals on lregisterdisplay + scientific mode at x
-fix display of stackregisters
+
+fix displays of zero when result on maindisplay
+fix 0 0 showing in lregister
+attributed strings for l operator on main display
+
+
+
+add highlighting for long press buttons
+
+add recall delete digit button
+
+unary actions into button properties, incl for lOperator
+unary actions work correctly for BIN
+
+
+fix code for pi (overrides xregister and shows pi x register)
+
+
+add text mode button for main entry [done]
+done instead of return for keyboard [done]

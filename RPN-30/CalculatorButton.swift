@@ -19,7 +19,7 @@ class CalculatorButton: UIButton {
     */
     
     var digitValue: Double?
-    
+    var digitString: String?
     var stateZero: String?
     var stateOne: String?
     var stateTwo: String?

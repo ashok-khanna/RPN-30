@@ -10,7 +10,7 @@
 
 import UIKit
 
-class Calculator: UIView {
+class Calculator: UIView, UITextFieldDelegate {
     
     //MARK: Initialization
     
@@ -22,6 +22,8 @@ class Calculator: UIView {
     // Only after an operation is completed AND user has not left the screen should stackAutoLift be set to true. When this occurs entering a new number after an operation results in autolift
     
     var stackAutoLift: Bool
+    var storeBalance: Bool
+    var recallBalance: Bool
     
     
     //Create global variable for starting position of longPress (of button) that is set every time a button long gesture begins
@@ -29,7 +31,7 @@ class Calculator: UIView {
     var longPressStartTime: TimeInterval?
     var longPressEndTime: TimeInterval?
     let maximumDistance = 30
-    let minimumPressDuration = 1.0
+    let minimumPressDuration = 0.5
     let longGestureStartTime = 0.5
     
     //Create UI elements
@@ -59,7 +61,13 @@ class Calculator: UIView {
     let lRegisterDisplay = UILabel()
     let functionDisplay = UILabel()
     let mainDisplay = UILabel()
-    let cancelButton = UILabel()
+    let cancelLabel = UILabel()
+    
+    let displayTextfield = UITextField()
+    
+    let lightOrange = UIColor.orange.lighter(by: 25.0)
+    let lighterOrange = UIColor.orange.lighter(by: 50.0)
+    let lightRed = UIColor.red.lighter(by: 25.0)
     
     let formatterXRegister = NumberFormatter() // For showing all decimals for x Register
     let formatterLYRegister = NumberFormatter() // For showing only accepted number of decimals for Y L registers
@@ -80,23 +88,15 @@ class Calculator: UIView {
     override init(frame: CGRect) {
         self.isNewNumberEntry = true
         self.stackAutoLift = false // User does not expect this behaviour when accessing calculator for first time
-        if let actual = defaults.array(forKey: "stackRegisters") as? [Double] {
-            self.stackRegisters = actual
-        } else {
-            self.stackRegisters = [Double]()
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            defaults.set(self.stackRegisters, forKey: "stackRegisters")
-        }
-        
-        if self.stackRegisters.count < 4 {
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            defaults.set(self.stackRegisters, forKey: "stackRegisters")
-        }
+        self.storeBalance = false
+        self.recallBalance = false
+        self.stackRegisters = [Double]()
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        defaults.set(self.stackRegisters, forKey: "stackRegisters")
         
         super.init(frame: frame)
 
@@ -107,24 +107,16 @@ class Calculator: UIView {
         //  fatalError("init(coder:) has not been implemented")
         self.isNewNumberEntry = true
         self.stackAutoLift = false // User does not expect this behaviour when accessing calculator for first time
-        if let actual = defaults.array(forKey: "stackRegisters") as? [Double] {
-            self.stackRegisters = actual
-        } else {
-            self.stackRegisters = [Double]()
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            defaults.set(self.stackRegisters, forKey: "stackRegisters")
-        }
-        
-        if self.stackRegisters.count < 4 {
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            stackRegisters.append(0.0)
-            defaults.set(self.stackRegisters, forKey: "stackRegisters")
-        }
-        
+        self.storeBalance = false
+        self.recallBalance = false
+        self.stackRegisters = [Double]()
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        stackRegisters.append(0.0)
+        defaults.set(self.stackRegisters, forKey: "stackRegisters")
+
         super.init(coder: aDecoder)
 
         formatterScientific.numberStyle = .scientific
@@ -142,6 +134,12 @@ class Calculator: UIView {
         
         self.backgroundColor = UIColor.black
         
+        displayTextfield.delegate = self
+        displayTextfield.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingChanged)
+        displayTextfield.returnKeyType = UIReturnKeyType.done
+        
+        //rdisplayTextfield.isDar
+        
         //Initialise button values
         zeroButton.digitValue = 0.0
         oneButton.digitValue = 1.0
@@ -153,6 +151,16 @@ class Calculator: UIView {
         sevenButton.digitValue = 7.0
         eightButton.digitValue = 8.0
         nineButton.digitValue = 9.0
+        
+        oneButton.digitString = "one"
+        twoButton.digitString = "two"
+        threeButton.digitString = "three"
+        fourButton.digitString = "four"
+        fiveButton.digitString = "five"
+        sixButton.digitString = "six"
+        sevenButton.digitString = "seven"
+        eightButton.digitString = "eight"
+        nineButton.digitString = "nine"
         
         //Initialise states for digits
         oneButton.states = ["EE"]
@@ -185,6 +193,9 @@ class Calculator: UIView {
         let functionTextColor = UIColor.black
         
         // Set highlight colors
+        
+
+        
         clearButton.highlightColor = UIColor.white
         chsButton.highlightColor = UIColor.white
         divideButton.highlightColor = UIColor.white
@@ -211,12 +222,12 @@ class Calculator: UIView {
         tzRegisterDisplay.font = UIFont.systemFont(ofSize: 9.0)
         tzRegisterDisplay.numberOfLines = 0
         lRegisterDisplay.font = UIFont.systemFont(ofSize: 12.0)
-        cancelButton.font = UIFont.systemFont(ofSize: 10.0)
+        cancelLabel.font = UIFont.systemFont(ofSize: 10.0)
         
-        cancelButton.text = "BIN"
-        cancelButton.adjustsFontSizeToFitWidth = true
-        cancelButton.textAlignment = .center
-        cancelButton.textColor = .darkGray
+        cancelLabel.text = "UNDO"
+        cancelLabel.adjustsFontSizeToFitWidth = true
+        cancelLabel.textAlignment = .center
+        cancelLabel.textColor = .darkGray
         
         yRegisterDisplay.font = UIFont.systemFont(ofSize: 23.0)
         functionDisplay.font = UIFont.systemFont(ofSize: 10.0)
@@ -231,7 +242,7 @@ class Calculator: UIView {
         
         tzRegisterDisplay.backgroundColor = UIColor.lightGray
         lRegisterDisplay.backgroundColor = UIColor.black
-        cancelButton.backgroundColor = UIColor.lightGray
+        cancelLabel.backgroundColor = UIColor.lightGray
         
         yRegisterDisplay.backgroundColor = UIColor.darkGray
         functionDisplay.backgroundColor = UIColor.lightGray
@@ -259,7 +270,9 @@ class Calculator: UIView {
         eightButton.backgroundColor = UIColor.darkGray
         nineButton.backgroundColor = UIColor.darkGray
 
-
+        // Textfield adjustments
+        mainDisplay.isUserInteractionEnabled = true
+        // displayTextfield.keyboardAppearance = .dark
 
         /*
          
@@ -280,7 +293,7 @@ class Calculator: UIView {
         lRegisterDisplay.translatesAutoresizingMaskIntoConstraints = false
         functionDisplay.translatesAutoresizingMaskIntoConstraints = false
         mainDisplay.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        cancelLabel.translatesAutoresizingMaskIntoConstraints = false
         
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         clearButton.translatesAutoresizingMaskIntoConstraints = false
@@ -327,8 +340,9 @@ class Calculator: UIView {
         addSubview(sevenButton)
         addSubview(eightButton)
         addSubview(nineButton)
-        addSubview(cancelButton)
-
+        addSubview(cancelLabel)
+        addSubview(displayTextfield)
+        
         
         /*
             Set positions of buttons
@@ -371,13 +385,15 @@ class Calculator: UIView {
         
               //  let mainDisplayHeight = (1.0 * registerHeight * self.bounds.size.height) // Zero padding between registers as we will use right alignment vs calculating appropriate padding
         
-        
+        // Make lregister layer on top
+        self.bringSubviewToFront(lRegisterDisplay)
         
         // Set UI element widths and heights
         tzRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true // One-fourth height
         yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: buttonVerticalPadding).isActive = true // One-fourth height
         lRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
-        cancelButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
+        cancelLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
+        
         functionDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0, constant: 0.0).isActive = true
         mainDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:  buttonHeight, constant: 0.0).isActive = true
         
@@ -403,8 +419,8 @@ class Calculator: UIView {
         
         tzRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
         yRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: 2.0 * buttonHorizontalPadding).isActive = true // Twice width
-        lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 2.5, constant: buttonHorizontalPadding * 1.0).isActive = true
-        cancelButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
+        lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 2.0, constant: buttonHorizontalPadding * 1.0).isActive = true
+        cancelLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: buttonHorizontalPadding * 0.0).isActive = true
         functionDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.0, constant: 0.0).isActive = true // One-third width
         mainDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: buttonHorizontalPadding * 2.0).isActive = true // Two-third width
         
@@ -439,8 +455,8 @@ class Calculator: UIView {
         lRegisterDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
         lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant:  buttonVerticalPadding / 2.0).isActive = true
         
-        cancelButton.leadingAnchor.constraint(equalTo: lRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
+        cancelLabel.leadingAnchor.constraint(equalTo: lRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        cancelLabel.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
         
         yRegisterDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
        // functionDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
@@ -556,20 +572,14 @@ class Calculator: UIView {
         enterButton.setAttributedTitle(myMutableString, for: .normal)
         
         // Text label for decimalButton
-        myMutableString = NSMutableAttributedString(string: "\n . \n RECALL", attributes: [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font: digitTitleSize, NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
-        
-        myMutableString.addAttributes([NSAttributedString.Key.foregroundColor: functionTitleColor, NSAttributedString.Key.font: functionTitleSize], range: NSRange(location:6,length:6))
+        myMutableString = NSMutableAttributedString(string: "·", attributes: [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28), NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
         
         decimalButton.setAttributedTitle(myMutableString, for: .normal)
-        decimalButton.titleLabel?.numberOfLines = 0
         
         // Text label for zeroButton
-        myMutableString = NSMutableAttributedString(string: "\n 0 \n STORE", attributes: [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font: digitTitleSize, NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
-        
-        myMutableString.addAttributes([NSAttributedString.Key.foregroundColor: functionTitleColor, NSAttributedString.Key.font: functionTitleSize], range: NSRange(location:6,length:5))
+        myMutableString = NSMutableAttributedString(string: "0", attributes: [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font: digitTitleSize, NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
         
         zeroButton.setAttributedTitle(myMutableString, for: .normal)
-        zeroButton.titleLabel?.numberOfLines = 0
         
         // Text label for oneButton
         myMutableString = NSMutableAttributedString(string: "1", attributes: [NSAttributedString.Key.foregroundColor:UIColor.white, NSAttributedString.Key.font: digitTitleSize, NSAttributedString.Key.paragraphStyle: titleParagraphStyle])
@@ -617,7 +627,44 @@ class Calculator: UIView {
         
         nineButton.setAttributedTitle(myMutableString, for: .normal)
         
-
+        // Code for decimalButton Label
+        
+        let decimalFunctionLabel = UILabel()
+        decimalFunctionLabel.text = "RECALL"
+        decimalFunctionLabel.textColor = functionTextColor
+        decimalFunctionLabel.backgroundColor = functionTitleColor
+        decimalFunctionLabel.font = functionLabelSize
+        decimalFunctionLabel.textAlignment = .center
+        decimalFunctionLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(decimalFunctionLabel)
+        decimalFunctionLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.20, constant: 0.0).isActive = true
+        decimalFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
+        
+        decimalFunctionLabel.centerXAnchor.constraint(equalTo: decimalButton.centerXAnchor, constant: 0.0).isActive = true
+        decimalFunctionLabel.centerYAnchor.constraint(equalTo: decimalButton.centerYAnchor, constant: 1.75 * actualButtonHeight / 5.0).isActive = true
+        
+        decimalFunctionLabel.layer.cornerRadius = 5
+        decimalFunctionLabel.clipsToBounds = true
+        
+        // Code for zeroButton Label
+        
+        let zeroFunctionLabel = UILabel()
+        zeroFunctionLabel.text = "STORE"
+        zeroFunctionLabel.textColor = functionTextColor
+        zeroFunctionLabel.backgroundColor = functionTitleColor
+        zeroFunctionLabel.font = functionLabelSize
+        zeroFunctionLabel.textAlignment = .center
+        zeroFunctionLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(zeroFunctionLabel)
+        zeroFunctionLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.20, constant: 0.0).isActive = true
+        zeroFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
+        
+        zeroFunctionLabel.centerXAnchor.constraint(equalTo: zeroButton.centerXAnchor, constant: 0.0).isActive = true
+        zeroFunctionLabel.centerYAnchor.constraint(equalTo: zeroButton.centerYAnchor, constant: 1.75 * actualButtonHeight / 5.0).isActive = true
+        
+        zeroFunctionLabel.layer.cornerRadius = 5
+        zeroFunctionLabel.clipsToBounds = true
+        
         // Code for oneButton Label
         
         let oneFunctionLabel = UILabel()
@@ -794,11 +841,11 @@ class Calculator: UIView {
         yRegisterDisplay.layer.cornerRadius = 8.75
         yRegisterDisplay.clipsToBounds = true
         
-        lRegisterDisplay.layer.cornerRadius = 5
+        lRegisterDisplay.layer.cornerRadius = 8.75
         lRegisterDisplay.clipsToBounds = true
 
-        cancelButton.layer.cornerRadius = 7.5
-        cancelButton.clipsToBounds = true
+        cancelLabel.layer.cornerRadius = 8.75
+        cancelLabel.clipsToBounds = true
 
         
         updateDisplays()
@@ -808,17 +855,14 @@ class Calculator: UIView {
     
     private func addTargets(){
  
-        let clearLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(clearButtonLongAction(gesture:)))
-        clearLongTapGesture.minimumPressDuration = minimumPressDuration
-        clearButton.addGestureRecognizer(clearLongTapGesture)
-        
-        let zeroLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(zeroButtonLongAction(gesture:)))
-        zeroLongTapGesture.minimumPressDuration = minimumPressDuration
-        zeroButton.addGestureRecognizer(zeroLongTapGesture)
+
         
         
         //Add short gestures
     
+        let mainDisplayShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(mainDisplayInput))
+        mainDisplayShortTapGesture.numberOfTapsRequired = 1
+        mainDisplay.addGestureRecognizer(mainDisplayShortTapGesture)
         
         let decimalShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(decimalInput))
         decimalShortTapGesture.numberOfTapsRequired = 1
@@ -896,7 +940,40 @@ class Calculator: UIView {
         deleteTapGesture.numberOfTapsRequired = 1
         deleteButton.addGestureRecognizer(deleteTapGesture)
         
+        let cancelTapGesture = UITapGestureRecognizer(target: self, action: #selector(cancelInput))
+        cancelTapGesture.numberOfTapsRequired = 1
+        cancelLabel.addGestureRecognizer(cancelTapGesture)
+        cancelLabel.isUserInteractionEnabled = true
+        
+        let registerTapGestureOne = UITapGestureRecognizer(target: self, action: #selector(registerInputOne))
+        
+        let registerTapGestureTwo = UITapGestureRecognizer(target: self, action: #selector(registerInputTwo))
+
+        let registerTapGestureThree = UITapGestureRecognizer(target: self, action: #selector(registerInputThree))
+        
+        registerTapGestureOne.numberOfTapsRequired = 1
+        registerTapGestureTwo.numberOfTapsRequired = 2
+        registerTapGestureThree.numberOfTapsRequired = 3
+        
+        registerTapGestureOne.require(toFail: registerTapGestureTwo)
+        registerTapGestureTwo.require(toFail: registerTapGestureThree)
+        
+        tzRegisterDisplay.addGestureRecognizer(registerTapGestureOne)
+        tzRegisterDisplay.isUserInteractionEnabled = true
+        tzRegisterDisplay.addGestureRecognizer(registerTapGestureTwo)
+        tzRegisterDisplay.addGestureRecognizer(registerTapGestureThree)
+
+
+        
         // Configure long gestures
+        
+        let decimalLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(decimalButtonLongAction(gesture:)))
+        decimalLongTapGesture.minimumPressDuration = minimumPressDuration
+        decimalButton.addGestureRecognizer(decimalLongTapGesture)
+        
+        let zeroLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(zeroButtonLongAction(gesture:)))
+        zeroLongTapGesture.minimumPressDuration = minimumPressDuration
+        zeroButton.addGestureRecognizer(zeroLongTapGesture)
         
         let oneLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(oneButtonLongAction(gesture:)))
         oneLongTapGesture.minimumPressDuration = longGestureStartTime
@@ -933,10 +1010,93 @@ class Calculator: UIView {
         let nineLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(nineButtonLongAction(gesture:)))
         nineLongTapGesture.minimumPressDuration = longGestureStartTime
         nineButton.addGestureRecognizer(nineLongTapGesture)
+        
+        let clearLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(clearButtonLongAction(gesture:)))
+        clearLongTapGesture.minimumPressDuration = minimumPressDuration
+        clearButton.addGestureRecognizer(clearLongTapGesture)
+        
+        
+        // Prevent conflicts of buttons for zero / decimal and digits
+        oneShortTapGesture.require(toFail: zeroShortTapGesture)
+        oneShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        twoShortTapGesture.require(toFail: zeroShortTapGesture)
+        twoShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        threeShortTapGesture.require(toFail: zeroShortTapGesture)
+        threeShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        fourShortTapGesture.require(toFail: zeroShortTapGesture)
+        fourShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        fiveShortTapGesture.require(toFail: zeroShortTapGesture)
+        fiveShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        sixShortTapGesture.require(toFail: zeroShortTapGesture)
+        sixShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        sevenShortTapGesture.require(toFail: zeroShortTapGesture)
+        sevenShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        eightShortTapGesture.require(toFail: zeroShortTapGesture)
+        eightShortTapGesture.require(toFail: decimalShortTapGesture)
+        
+        nineShortTapGesture.require(toFail: zeroShortTapGesture)
+        nineShortTapGesture.require(toFail: decimalShortTapGesture)
   
     }
     
+    // Textfield delegate methods
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        displayTextfield.text = ""
+        mainDisplay.text = ""
+        self.displayTextfield.endEditing(true)
+    }
+    
+    @objc func textFieldDidChange () {
+        mainDisplay.text = displayTextfield.text
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        displayTextfield.resignFirstResponder()
+        
+        if let number = Double(textField.text!) {
+            
+            if stackAutoLift {
+                liftStackRegisters()
+                stackAutoLift = false
+                clearLastRegisters()
+                updateLastDisplay()
+            }
+            
+            if isNewNumberEntry {
+                amendStackRegister(value: 0.0, at: 0)
+                isNewNumberEntry = false
+                UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
+            }
+            
+            amendStackRegister(value: number, at: 0)
+            defaults.set(number, forKey: "lRegisterX")
+            updateNumberDisplay()
+        } else {
+            let buttonOperation = textField.text ?? ""
+            processInput(buttonOperation)
+        }
+        
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
+    
     // Short gestures code
+    
+    @objc private func mainDisplayInput(){
+        mainDisplay.text = ""
+        displayTextfield.becomeFirstResponder()
+    }
     
     @objc private func zeroInput(){
         numberInput(zeroButton)
@@ -998,7 +1158,45 @@ class Calculator: UIView {
         basicOperator("chs")
     }
     
- 
+    @objc private func registerInputOne(){
+        var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
+        stackRegisters[0] = stackRegisters[2]
+        defaults.set(stackRegisters, forKey: "stackRegisters")
+        updateDisplays()
+    }
+    
+    @objc private func registerInputTwo(){
+        var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
+        stackRegisters[0] = stackRegisters[3]
+        defaults.set(stackRegisters, forKey: "stackRegisters")
+        updateDisplays()
+    }
+    
+    @objc private func registerInputThree(){
+        var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
+        stackRegisters[0] = stackRegisters[4]
+        defaults.set(stackRegisters, forKey: "stackRegisters")
+        updateDisplays()
+    }
+    
+    @objc private func cancelInput(){
+        var stackRegisters = [Double]()
+        var stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
+        
+        stackRegisters.append(defaults.double(forKey: "lRegisterX"))
+        stackRegisters.append(defaults.double(forKey: "lRegisterY"))
+       
+
+        stackRegistersOld.removeFirst()
+        stackRegisters.append(contentsOf: stackRegistersOld)
+        defaults.set(stackRegisters, forKey: "stackRegisters")
+    
+        defaults.set(0.0, forKey: "lRegisterY")
+        defaults.set(0.0, forKey: "lRegisterX")
+        defaults.set("", forKey: "lOperator")
+
+        updateDisplays()
+    }
 
     
     //MARK: Long press functions
@@ -1026,24 +1224,82 @@ class Calculator: UIView {
             longPressStartTime = NSDate.timeIntervalSinceReferenceDate
             longPressEndTime = 0.0
             
+            button.highlightColor = lightOrange
+            button.isHighlighted = true
+            
         case .changed:
-            longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
-            let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
-            updateFunctionDisplay2(button: button, stateIndex: stateIndex)
+            if !(storeBalance || recallBalance){
+                button.highlightColor = lightOrange
+                button.isHighlighted = true
+                
+                longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
+                let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
+                updateFunctionDisplay2(button: button, stateIndex: stateIndex)
+
+            }
             
         case .ended:
-            longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
-            let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
-           // updateFunctionDisplay(button: button, stateIndex: stateIndex)
-            
-            processInput(button: button, index: stateIndex)
-            
+            if !(storeBalance || recallBalance){
+                longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
+                let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
+               // updateFunctionDisplay(button: button, stateIndex: stateIndex)
+                button.isHighlighted = false
+                button.highlightColor = .lightGray
+                let buttonOperation = button.states?[stateIndex] ?? ""
+                processInput(buttonOperation)
+                return
+            }
         default:
             break
         }
     }
     
     // MARK: Number Input Actions
+    
+    @objc private func decimalButtonLongAction(gesture: UILongPressGestureRecognizer){
+        
+        switch gesture.state {
+            
+        case .began:
+            recallBalance = true
+            decimalButton.isHighlighted = true
+        case .changed:
+            decimalButton.highlightColor = lightRed
+            decimalButton.isHighlighted = true
+            orangeDigits()
+            recallBalance = true
+        case .ended:
+            decimalButton.isHighlighted = false
+            decimalButton.highlightColor = .lightGray
+            darkGrayDigits()
+            recallBalance = false
+        default:
+            break
+        }
+        
+    }
+    
+    @objc private func zeroButtonLongAction(gesture: UILongPressGestureRecognizer){
+        
+        switch gesture.state {
+            
+        case .began:
+            storeBalance = true
+        case .changed:
+            zeroButton.highlightColor = lightRed
+            zeroButton.isHighlighted = true
+            orangeDigits()
+            storeBalance = true
+        case .ended:
+            zeroButton.isHighlighted = false
+            zeroButton.highlightColor = .lightGray
+            darkGrayDigits()
+            storeBalance = false
+        default:
+            break
+        }
+        
+    }
 
     @objc private func oneButtonLongAction(gesture: UILongPressGestureRecognizer){
         completeOperation(button: oneButton, gesture: gesture)
@@ -1093,35 +1349,7 @@ class Calculator: UIView {
         }
     }
     
-    @objc private func zeroButtonLongAction(gesture: UILongPressGestureRecognizer){
-        
-        switch gesture.state {
-            
-        case .began:
-            longPressStartTime = NSDate.timeIntervalSinceReferenceDate
-            longPressEndTime = 0.0
-            longPressStartPoint = gesture.location(in: self)
-        case .changed:
-            longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
-            
-            let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: 3)
-            updateFunctionDisplay(button: zeroButton, stateIndex: stateIndex)
-            
-        case .ended:
-            longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
-            let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: 3)
-            updateFunctionDisplay(button: zeroButton, stateIndex: stateIndex)
-            let currentPoint = gesture.location(in: self)
-            let distance = hypotf(Float(currentPoint.x - longPressStartPoint!.x), Float(currentPoint.y - longPressStartPoint!.y))
-            if distance < Float(maximumDistance) {
-                
-            }
-            
-        default:
-            break
-        }
-        
-    }
+ 
     
     
     
@@ -1193,8 +1421,15 @@ class Calculator: UIView {
         if stackRegisters[0] == 0.0 {
             if stackRegisters[1] == 0.0 {
                 if stackRegisters[2] == 0.0 {
-                    stackRegisters[3] = 0.0
-
+                    if stackRegisters[3] == 0.0 {
+                        defaults.set(stackRegisters, forKey: "stackRegisters")
+                        dropStackRegistersOneAtATime()
+                        clearLastRegisters()
+                        updateDisplays()
+                        return
+                    } else {
+                        stackRegisters[3] = 0.0
+                    }
                 } else {
                     stackRegisters[2] = 0.0
                 }
@@ -1212,19 +1447,12 @@ class Calculator: UIView {
     
     @ objc private func clearButtonLongAction(gesture: UILongPressGestureRecognizer){
         stackAutoLift = false
-        /*
-        amendStackRegister(value: 0.0, at: 0)
-        amendStackRegister(value: 0.0, at: 1)
-        amendStackRegister(value: 0.0, at: 2)
-        amendStackRegister(value: 0.0, at: 3)
-        */
         
         isNewNumberEntry = true // Start new number after clear input
         
-        let zeroRegisters = [0.0, 0.0, 0.0, 0.0]
+        let zeroRegisters = [0.0, 0.0, 0.0, 0.0, 0.0]
         defaults.set(zeroRegisters, forKey: "stackRegisters")
         clearLastRegisters()
-        
         updateDisplays()
     }
     
@@ -1242,6 +1470,25 @@ class Calculator: UIView {
     private func numberInput(_ sender: CalculatorButton){
         
         var stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
+        
+        if storeBalance {
+            if sender.digitValue != 0 {
+                defaults.set(stackRegistersOld[0], forKey: sender.digitString!)
+            }
+            isNewNumberEntry = false
+            return
+        }
+        
+        if recallBalance {
+            if sender.digitValue != 0 {
+                let xRegisterNew = defaults.double(forKey: sender.digitString!)
+                amendStackRegister(value: xRegisterNew, at: 0)
+                updateNumberDisplay()
+            }
+            isNewNumberEntry = false
+            return
+        }
+
         
         if stackAutoLift {
             liftStackRegisters()
@@ -1293,6 +1540,22 @@ class Calculator: UIView {
         
     }
     
+    private func dropStackRegistersOneAtATime(){
+        var stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
+        stackRegistersOld.removeFirst()
+        var stackRegistersNew = [Double]()
+        stackRegistersNew.append(contentsOf: stackRegistersOld)
+        
+        // Prevents reducing function below minimum 5 elements required at all times
+        stackRegistersNew.append(0.0)
+        stackRegistersNew.append(0.0)
+        stackRegistersNew.append(0.0)
+        stackRegistersNew.append(0.0)
+        
+        defaults.set(stackRegistersNew, forKey: "stackRegisters")
+        
+    }
+    
     private func dropStackRegisters(){
         var stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
         stackRegistersOld.removeFirst()
@@ -1301,7 +1564,8 @@ class Calculator: UIView {
         stackRegistersNew.append(0.0)
         stackRegistersNew.append(contentsOf: stackRegistersOld)
        
-        // Prevents reducing function below minimum 4 elements required at all times
+        // Prevents reducing function below minimum 5 elements required at all times
+        stackRegistersNew.append(0.0)
         stackRegistersNew.append(0.0)
         stackRegistersNew.append(0.0)
         stackRegistersNew.append(0.0)
@@ -1312,7 +1576,7 @@ class Calculator: UIView {
     
     //MARK: Operations
     
-    private func processInput(button: CalculatorButton, index: Int){
+    private func processInput(_ operation: String){
         
         // Process operator input
             
@@ -1331,7 +1595,7 @@ class Calculator: UIView {
             
             var xRegisterNew: Double
             
-            switch button.states![index] {
+            switch operation {
                 
             case "EE":
                 xRegisterNew = yRegister * pow(10.0, Double(xRegister))
@@ -1354,8 +1618,7 @@ class Calculator: UIView {
                 unaryAction = true
             case "y^x":
                 xRegisterNew = pow(yRegister, xRegister)
-
-            case "π" :
+            case "pi" :
                 xRegisterNew = Double.pi
                 unaryAction = true
             case "sin":
@@ -1378,16 +1641,17 @@ class Calculator: UIView {
                 unaryAction = true
 
             default:
-                xRegisterNew = xRegister
+                updateNumberDisplay()
+                return
             }
         
-        defaults.set(button.states![index], forKey: "lOperator")
+        defaults.set(operation, forKey: "lOperator")
         
         if unaryAction {
             defaults.set(0.0, forKey: "lRegisterY")
             defaults.set(xRegister, forKey: "lRegisterX")
         } else {
-            defaults.set(button.states![index], forKey: "lOperator")
+            defaults.set(operation, forKey: "lOperator")
             defaults.set(xRegister, forKey: "lRegisterX")
             dropStackRegisters()
         }
@@ -1477,21 +1741,15 @@ class Calculator: UIView {
     private func updateStackDisplay(){
         let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
 
-        let yRegister = stackRegisters[1]
         let zRegister = stackRegisters[2]
         let tRegister = stackRegisters[3]
+        let uRegister = stackRegisters[4]
         
-        let yRegisterNS = NSNumber(value: yRegister)
         let zRegisterNS = NSNumber(value: zRegister)
         let tRegisterNS = NSNumber(value: tRegister)
+        let uRegisterNS = NSNumber(value: uRegister)
         
-        var yRegisterString, zRegisterString, tRegisterString : String
-        
-        if(abs(yRegister) > stackRegisterDisplaySize) {
-            yRegisterString = self.formatterScientific.string(from: yRegisterNS) ?? ""
-        } else {
-            yRegisterString = self.formatterDecimal.string(from: yRegisterNS) ?? ""
-        }
+        var zRegisterString, tRegisterString, uRegisterString : String
         
         if(abs(zRegister) > stackRegisterDisplaySize) {
             zRegisterString = self.formatterScientific.string(from: zRegisterNS) ?? ""
@@ -1505,7 +1763,13 @@ class Calculator: UIView {
             tRegisterString = self.formatterDecimal.string(from: tRegisterNS) ?? ""
         }
         
-        tzRegisterDisplay.text = "  T: " + tRegisterString + "\n" + "\n" + "  Z: " + zRegisterString
+        if(abs(uRegister) > stackRegisterDisplaySize) {
+            uRegisterString = self.formatterScientific.string(from: uRegisterNS) ?? ""
+        } else {
+            uRegisterString = self.formatterDecimal.string(from: uRegisterNS) ?? ""
+        }
+        
+        tzRegisterDisplay.text = "  " + uRegisterString + "\n" + "\n" + "  " + tRegisterString + "\n" + "\n" + "  " + zRegisterString
         
     }
     
@@ -1554,7 +1818,11 @@ class Calculator: UIView {
         if (stackRegisters[1] == 0.0 || stackRegisters[1] != lRegisterY) && lOperatorString != "" {
             if lRegisterY == 0.0 {
                 if (lOperatorString == " e^x " || lOperatorString == " ln x " || lOperatorString == " 1/x ") {
-                    lRegisterYString = "  0  +"
+                    if lRegisterX == 0.0 {
+                        lRegisterYString = "  "
+                    } else {
+                        lRegisterYString = "  0  +"
+                    }
                 } else {
                     lRegisterYString = "  0"
                 }
@@ -1596,6 +1864,50 @@ class Calculator: UIView {
         print(stackRegister[1])
         print(stackRegister[2])
         print(stackRegister[3])
+    }
+    
+    private func orangeDigits(){
+        oneButton.backgroundColor = lighterOrange
+        twoButton.backgroundColor = lighterOrange
+        threeButton.backgroundColor = lighterOrange
+        fourButton.backgroundColor = lighterOrange
+        fiveButton.backgroundColor = lighterOrange
+        sixButton.backgroundColor = lighterOrange
+        sevenButton.backgroundColor = lighterOrange
+        eightButton.backgroundColor = lighterOrange
+        nineButton.backgroundColor = lighterOrange
+        
+        oneButton.highlightColor = .black
+        twoButton.highlightColor = .black
+        threeButton.highlightColor = .black
+        fourButton.highlightColor = .black
+        fiveButton.highlightColor = .black
+        sixButton.highlightColor = .black
+        sevenButton.highlightColor = .black
+        eightButton.highlightColor = .black
+        nineButton.highlightColor = .black
+    }
+    
+    private func darkGrayDigits(){
+        oneButton.backgroundColor = .darkGray
+        twoButton.backgroundColor = .darkGray
+        threeButton.backgroundColor = .darkGray
+        fourButton.backgroundColor = .darkGray
+        fiveButton.backgroundColor = .darkGray
+        sixButton.backgroundColor = .darkGray
+        sevenButton.backgroundColor = .darkGray
+        eightButton.backgroundColor = .darkGray
+        nineButton.backgroundColor = .darkGray
+        
+        oneButton.highlightColor = .lightGray
+        twoButton.highlightColor = .lightGray
+        threeButton.highlightColor = .lightGray
+        fourButton.highlightColor = .lightGray
+        fiveButton.highlightColor = .lightGray
+        sixButton.highlightColor = .lightGray
+        sevenButton.highlightColor = .lightGray
+        eightButton.highlightColor = .lightGray
+        nineButton.highlightColor = .lightGray
     }
     
     //MARK: RPN Logic
