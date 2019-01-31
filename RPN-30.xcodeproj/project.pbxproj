@@ -18,6 +18,7 @@
 		8000B58321FC944600617988 /* OldCodeDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B58221FC944600617988 /* OldCodeDump.swift */; };
 		8000B58521FE3C1D00617988 /* To do in Resources */ = {isa = PBXBuildFile; fileRef = 8000B58421FE3C1D00617988 /* To do */; };
 		8000B58721FE44C000617988 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B58621FE44C000617988 /* ColorExtension.swift */; };
+		8000B5892202B6B700617988 /* DismissKeyboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B5882202B6B700617988 /* DismissKeyboardExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		8000B58221FC944600617988 /* OldCodeDump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldCodeDump.swift; sourceTree = "<group>"; };
 		8000B58421FE3C1D00617988 /* To do */ = {isa = PBXFileReference; lastKnownFileType = text; path = "To do"; sourceTree = "<group>"; };
 		8000B58621FE44C000617988 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		8000B5882202B6B700617988 /* DismissKeyboardExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissKeyboardExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				8000B58421FE3C1D00617988 /* To do */,
 				8000B58221FC944600617988 /* OldCodeDump.swift */,
 				8000B58021F84C8000617988 /* CalculatorButton.swift */,
+				8000B5882202B6B700617988 /* DismissKeyboardExtension.swift */,
 				8000B56521F31C8000617988 /* AppDelegate.swift */,
 				8000B56721F31C8000617988 /* ViewController.swift */,
 				8000B56921F31C8000617988 /* Main.storyboard */,
@@ -157,6 +160,7 @@
 				8000B58321FC944600617988 /* OldCodeDump.swift in Sources */,
 				8000B56821F31C8000617988 /* ViewController.swift in Sources */,
 				8000B57F21F320CA00617988 /* Calculator.swift in Sources */,
+				8000B5892202B6B700617988 /* DismissKeyboardExtension.swift in Sources */,
 				8000B56621F31C8000617988 /* AppDelegate.swift in Sources */,
 				8000B56E21F31C8000617988 /* RPN_30.xcdatamodeld in Sources */,
 				8000B58721FE44C000617988 /* ColorExtension.swift in Sources */,

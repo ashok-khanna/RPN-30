@@ -24,6 +24,7 @@ class CalculatorButton: UIButton {
     var stateOne: String?
     var stateTwo: String?
 
+    var longPressStartTime = 0.0
     var states: [String]?
     
     var originalBackgroundColor: UIColor!

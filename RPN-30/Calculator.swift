@@ -31,8 +31,8 @@ class Calculator: UIView, UITextFieldDelegate {
     var longPressStartTime: TimeInterval?
     var longPressEndTime: TimeInterval?
     let maximumDistance = 30
-    let minimumPressDuration = 0.5
-    let longGestureStartTime = 0.5
+    let minimumPressDuration = 0.0
+    let longGestureStartTime = 0.0
     
     //Create UI elements
     let deleteButton = CalculatorButton()
@@ -227,7 +227,7 @@ class Calculator: UIView, UITextFieldDelegate {
         cancelLabel.text = "UNDO"
         cancelLabel.adjustsFontSizeToFitWidth = true
         cancelLabel.textAlignment = .center
-        cancelLabel.textColor = .darkGray
+        cancelLabel.textColor = .black
         
         yRegisterDisplay.font = UIFont.systemFont(ofSize: 23.0)
         functionDisplay.font = UIFont.systemFont(ofSize: 10.0)
@@ -242,7 +242,7 @@ class Calculator: UIView, UITextFieldDelegate {
         
         tzRegisterDisplay.backgroundColor = UIColor.lightGray
         lRegisterDisplay.backgroundColor = UIColor.black
-        cancelLabel.backgroundColor = UIColor.lightGray
+        cancelLabel.backgroundColor = UIColor.black
         
         yRegisterDisplay.backgroundColor = UIColor.darkGray
         functionDisplay.backgroundColor = UIColor.lightGray
@@ -271,7 +271,7 @@ class Calculator: UIView, UITextFieldDelegate {
         nineButton.backgroundColor = UIColor.darkGray
 
         // Textfield adjustments
-        mainDisplay.isUserInteractionEnabled = true
+        // mainDisplay.isUserInteractionEnabled = true
         // displayTextfield.keyboardAppearance = .dark
 
         /*
@@ -392,7 +392,7 @@ class Calculator: UIView, UITextFieldDelegate {
         tzRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true // One-fourth height
         yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: buttonVerticalPadding).isActive = true // One-fourth height
         lRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
-        cancelLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
+        cancelLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: 0.0).isActive = true // One-fourth height
         
         functionDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0, constant: 0.0).isActive = true
         mainDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:  buttonHeight, constant: 0.0).isActive = true
@@ -868,6 +868,7 @@ class Calculator: UIView, UITextFieldDelegate {
         decimalShortTapGesture.numberOfTapsRequired = 1
         decimalButton.addGestureRecognizer(decimalShortTapGesture)
         
+        /*
         let zeroShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(zeroInput))
         zeroShortTapGesture.numberOfTapsRequired = 1
         zeroButton.addGestureRecognizer(zeroShortTapGesture)
@@ -907,6 +908,8 @@ class Calculator: UIView, UITextFieldDelegate {
         let nineShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(nineInput))
         nineShortTapGesture.numberOfTapsRequired = 1
         nineButton.addGestureRecognizer(nineShortTapGesture)
+ 
+        */
         
         let enterTapGesture = UITapGestureRecognizer(target: self, action: #selector(enterInput))
         enterTapGesture.numberOfTapsRequired = 1
@@ -1017,6 +1020,7 @@ class Calculator: UIView, UITextFieldDelegate {
         
         
         // Prevent conflicts of buttons for zero / decimal and digits
+        /*
         oneShortTapGesture.require(toFail: zeroShortTapGesture)
         oneShortTapGesture.require(toFail: decimalShortTapGesture)
         
@@ -1043,15 +1047,21 @@ class Calculator: UIView, UITextFieldDelegate {
         
         nineShortTapGesture.require(toFail: zeroShortTapGesture)
         nineShortTapGesture.require(toFail: decimalShortTapGesture)
+ */
   
     }
     
     // Textfield delegate methods
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        displayTextfield.text = ""
-        mainDisplay.text = ""
-        self.displayTextfield.endEditing(true)
+
+        if displayTextfield.isEditing {
+            displayTextfield.text = ""
+            mainDisplay.text = ""
+            self.displayTextfield.endEditing(true)
+            
+        }
+        
     }
     
     @objc func textFieldDidChange () {
@@ -1217,38 +1227,51 @@ class Calculator: UIView, UITextFieldDelegate {
     }
     
     private func completeOperation(button: CalculatorButton, gesture: UILongPressGestureRecognizer) {
+        let longPressEndTime = NSDate.timeIntervalSinceReferenceDate - button.longPressStartTime
         
         switch gesture.state {
             
         case .began:
-            longPressStartTime = NSDate.timeIntervalSinceReferenceDate
-            longPressEndTime = 0.0
+            button.longPressStartTime = NSDate.timeIntervalSinceReferenceDate
             
-            button.highlightColor = lightOrange
+            button.highlightColor = .lightGray
             button.isHighlighted = true
             
         case .changed:
-            if !(storeBalance || recallBalance){
+            if longPressEndTime > 0.5 {
                 button.highlightColor = lightOrange
                 button.isHighlighted = true
                 
-                longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
-                let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
-                updateFunctionDisplay2(button: button, stateIndex: stateIndex)
-
+                if !(storeBalance || recallBalance){
+                    let stateIndex = calculateButtonStage(timeInterval: longPressEndTime, numberOfStages: button.states!.count)
+                    updateFunctionDisplay2(button: button, stateIndex: stateIndex)
+                    
+                } else {
+                    button.highlightColor = .lightGray
+                    button.isHighlighted = true
+                }
             }
+
             
         case .ended:
-            if !(storeBalance || recallBalance){
-                longPressEndTime = NSDate.timeIntervalSinceReferenceDate - longPressStartTime!
-                let stateIndex = calculateButtonStage(timeInterval: longPressEndTime!, numberOfStages: button.states!.count)
-               // updateFunctionDisplay(button: button, stateIndex: stateIndex)
-                button.isHighlighted = false
+
+            if longPressEndTime > 0.5 {
+                if !(storeBalance || recallBalance){
+                    let stateIndex = calculateButtonStage(timeInterval: longPressEndTime, numberOfStages: button.states!.count)
+                    // updateFunctionDisplay(button: button, stateIndex: stateIndex)
+                    button.isHighlighted = false
+                    button.highlightColor = .lightGray
+                    
+                    let buttonOperation = button.states?[stateIndex] ?? ""
+                    processInput(buttonOperation)
+                    return
+                }
+            } else {
                 button.highlightColor = .lightGray
-                let buttonOperation = button.states?[stateIndex] ?? ""
-                processInput(buttonOperation)
-                return
+                button.isHighlighted = false
+                numberInput(button)
             }
+  
         default:
             break
         }

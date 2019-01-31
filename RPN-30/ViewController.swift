@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.hideKeyboardWhenTappedAround()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
         /* resultLabel.layer.cornerRadius = resultLabel.bounds.height * 0.25
