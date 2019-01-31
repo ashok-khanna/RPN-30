@@ -33,6 +33,13 @@ class Calculator: UIView, UITextFieldDelegate {
     let maximumDistance = 30
     let minimumPressDuration = 0.0
     let longGestureStartTime = 0.0
+    let longPressRequiredTime = 0.3
+    
+    let translucentOrange = UIColor.init(displayP3Red: 1.0, green: 0.5, blue: 0.0, alpha: 0.5)
+    let translucentLightOrange = UIColor.init(displayP3Red: 1.0, green: 0.5, blue: 0.0, alpha: 0.75)
+    let translucentDarkGray = UIColor.init(white: 1.0 / 3.0, alpha: 0.5)
+    let translucentLightGray = UIColor.init(white: 2.0 / 3.0, alpha: 0.5)
+    var translucentLighterOrange = UIColor()
     
     //Create UI elements
     let deleteButton = CalculatorButton()
@@ -69,11 +76,17 @@ class Calculator: UIView, UITextFieldDelegate {
     let lighterOrange = UIColor.orange.lighter(by: 50.0)
     let lightRed = UIColor.red.lighter(by: 25.0)
     
-    let formatterXRegister = NumberFormatter() // For showing all decimals for x Register
-    let formatterLYRegister = NumberFormatter() // For showing only accepted number of decimals for Y L registers
-    let formatterLXRegister = NumberFormatter()
-    let formatterDecimal = NumberFormatter() // For adding commas into the numbers
+    // Number formatters
+    let formatterDecimal = NumberFormatter()
     let formatterScientific = NumberFormatter() // For displaying numbers in scientific mode
+    let formatterXRegister = NumberFormatter() // For showing all decimals for x Registe
+    
+    let maxNumberLengthForLRegister = 999999999.9
+    let maxNumberLengthForSRegister = 99999999.9
+    let defaultMaximumDecimalsForXRegister = 5
+    
+    
+
     
     let functionLabelSize = UIFont.systemFont(ofSize: 8.5)
     
@@ -91,6 +104,8 @@ class Calculator: UIView, UITextFieldDelegate {
         self.storeBalance = false
         self.recallBalance = false
         self.stackRegisters = [Double]()
+
+        self.translucentLighterOrange = self.translucentLightOrange.lighter(by: 50.0)
         stackRegisters.append(0.0)
         stackRegisters.append(0.0)
         stackRegisters.append(0.0)
@@ -99,7 +114,8 @@ class Calculator: UIView, UITextFieldDelegate {
         defaults.set(self.stackRegisters, forKey: "stackRegisters")
         
         super.init(frame: frame)
-
+        
+        setupNSFormatters()
         setupButtons()
     }
     
@@ -110,6 +126,8 @@ class Calculator: UIView, UITextFieldDelegate {
         self.storeBalance = false
         self.recallBalance = false
         self.stackRegisters = [Double]()
+        
+        self.translucentLighterOrange = self.translucentLightOrange.lighter(by: 75.0)
         stackRegisters.append(0.0)
         stackRegisters.append(0.0)
         stackRegisters.append(0.0)
@@ -119,12 +137,9 @@ class Calculator: UIView, UITextFieldDelegate {
 
         super.init(coder: aDecoder)
 
-        formatterScientific.numberStyle = .scientific
-        formatterScientific.usesSignificantDigits = true
-        formatterDecimal.numberStyle = .decimal
+        setupNSFormatters()
         formatterXRegister.numberStyle = .decimal
-        formatterLYRegister.numberStyle = .decimal // Add commas after 000s to numbers
-        formatterLXRegister.numberStyle = .decimal
+
         setupButtons()
     }
     
@@ -133,10 +148,6 @@ class Calculator: UIView, UITextFieldDelegate {
     private func setupButtons(){
         
         // self.backgroundColor = UIColor.black
-        
-        displayTextfield.delegate = self
-        displayTextfield.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingChanged)
-        displayTextfield.returnKeyType = UIReturnKeyType.done
         
         //rdisplayTextfield.isDar
         
@@ -248,9 +259,7 @@ class Calculator: UIView, UITextFieldDelegate {
         functionDisplay.backgroundColor = UIColor.lightGray
         // mainDisplay.backgroundColor = UIColor.black
         
-        let translucentOrange = UIColor.init(displayP3Red: 1.0, green: 0.5, blue: 0.0, alpha: 0.5)
-        let translucentDarkGray = UIColor.init(white: 1.0 / 3.0, alpha: 0.5)
-        let translucentLightGray = UIColor.init(white: 2.0 / 3.0, alpha: 0.5)
+
         
         deleteButton.backgroundColor = translucentLightGray
         clearButton.backgroundColor = translucentLightGray
@@ -262,17 +271,7 @@ class Calculator: UIView, UITextFieldDelegate {
         plusButton.backgroundColor = translucentOrange
         enterButton.backgroundColor = translucentOrange
         
-        decimalButton.backgroundColor = translucentDarkGray
-        zeroButton.backgroundColor = translucentDarkGray
-        oneButton.backgroundColor = translucentDarkGray
-        twoButton.backgroundColor = translucentDarkGray
-        threeButton.backgroundColor = translucentDarkGray
-        fourButton.backgroundColor = translucentDarkGray
-        fiveButton.backgroundColor = translucentDarkGray
-        sixButton.backgroundColor = translucentDarkGray
-        sevenButton.backgroundColor = translucentDarkGray
-        eightButton.backgroundColor = translucentDarkGray
-        nineButton.backgroundColor = translucentDarkGray
+        darkGrayDigits()
 
         // Textfield adjustments
         mainDisplay.isUserInteractionEnabled = true
@@ -1012,100 +1011,8 @@ class Calculator: UIView, UITextFieldDelegate {
     
     // Textfield delegate methods
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
-        if displayTextfield.isEditing {
-            displayTextfield.text = ""
-            mainDisplay.text = ""
-            self.displayTextfield.endEditing(true)
-            
-        }
-        
-    }
-    
-    @objc func textFieldDidChange () {
-        mainDisplay.text = displayTextfield.text
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        displayTextfield.resignFirstResponder()
-        
-        if let number = Double(textField.text!) {
-            
-            if stackAutoLift {
-                liftStackRegisters()
-                stackAutoLift = false
-                clearLastRegisters()
-                updateLastDisplay()
-            }
-            
-            if isNewNumberEntry {
-                amendStackRegister(value: 0.0, at: 0)
-                isNewNumberEntry = false
-                UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
-            }
-            
-            amendStackRegister(value: number, at: 0)
-            defaults.set(number, forKey: "lRegisterX")
-            updateNumberDisplay()
-        } else {
-            let buttonOperation = textField.text ?? ""
-            processInput(buttonOperation)
-        }
-        
-        return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
-    }
-    
     // Short gestures code
-    
-    @objc private func mainDisplayInput(){
-        mainDisplay.text = ""
-        displayTextfield.becomeFirstResponder()
-    }
-    
-    @objc private func zeroInput(){
-        numberInput(zeroButton)
-    }
-    
-    @objc private func oneInput(){
-        numberInput(oneButton)
-    }
-    
-    @objc private func twoInput(){
-        numberInput(twoButton)
-    }
-    
-    @objc private func threeInput(){
-        numberInput(threeButton)
-    }
-    @objc private func fourInput(){
-        numberInput(fourButton)
-    }
-    
-    @objc private func fiveInput(){
-        numberInput(fiveButton)
-    }
-    
-    @objc private func sixInput(){
-        numberInput(sixButton)
-    }
-    
-    @objc private func sevenInput(){
-        numberInput(sevenButton)
-    }
-    
-    @objc private func eightInput(){
-        numberInput(eightButton)
-    }
-    
-    @objc private func nineInput(){
-        numberInput(nineButton)
-    }
-    
+
     
     @objc private func plusInput(){
         basicOperator("+")
@@ -1197,7 +1104,7 @@ class Calculator: UIView, UITextFieldDelegate {
             button.isHighlighted = true
             
         case .changed:
-            if longPressEndTime > 0.5 {
+            if longPressEndTime > longPressRequiredTime {
                 button.highlightColor = lightOrange
                 button.isHighlighted = true
                 
@@ -1214,7 +1121,7 @@ class Calculator: UIView, UITextFieldDelegate {
             
         case .ended:
 
-            if longPressEndTime > 0.5 {
+            if longPressEndTime > longPressRequiredTime {
                 if !(storeBalance || recallBalance){
                     let stateIndex = calculateButtonStage(timeInterval: longPressEndTime, numberOfStages: button.states!.count)
                     // updateFunctionDisplay(button: button, stateIndex: stateIndex)
@@ -1249,7 +1156,7 @@ class Calculator: UIView, UITextFieldDelegate {
             decimalButton.isHighlighted = true
             
         case .changed:
-            if longPressEndTime > 0.5 {
+            if longPressEndTime > longPressRequiredTime {
                 decimalButton.highlightColor = lightRed
                 decimalButton.isHighlighted = true
                 orangeDigits()
@@ -1262,7 +1169,7 @@ class Calculator: UIView, UITextFieldDelegate {
             
         case .ended:
             
-            if longPressEndTime > 0.5 {
+            if longPressEndTime > longPressRequiredTime {
                 darkGrayDigits()
                 recallBalance = false
                 decimalButton.isHighlighted = false
@@ -1295,7 +1202,7 @@ class Calculator: UIView, UITextFieldDelegate {
             zeroButton.isHighlighted = true
             
         case .changed:
-            if longPressEndTime > 0.5 {
+            if longPressEndTime > longPressRequiredTime {
                 zeroButton.highlightColor = lightRed
                 zeroButton.isHighlighted = true
                 orangeDigits()
@@ -1308,7 +1215,7 @@ class Calculator: UIView, UITextFieldDelegate {
             
         case .ended:
             
-            if longPressEndTime > 0.5 {
+            if longPressEndTime > longPressRequiredTime {
                     darkGrayDigits()
                     storeBalance = false
                     zeroButton.isHighlighted = false
@@ -1376,11 +1283,6 @@ class Calculator: UIView, UITextFieldDelegate {
             UserDefaults.standard.set(xRegisterDecimals - 1, forKey: "xRegisterDecimals")
         }
     }
-    
- 
-    
-    
-    
     
     //MARK: Stack manipulation
     
@@ -1511,7 +1413,7 @@ class Calculator: UIView, UITextFieldDelegate {
             if sender.digitValue != 0 {
                 let xRegisterNew = defaults.double(forKey: sender.digitString!)
                 amendStackRegister(value: xRegisterNew, at: 0)
-                updateNumberDisplay()
+                updateNumberDisplay(true)
             }
             isNewNumberEntry = false
             return
@@ -1669,7 +1571,7 @@ class Calculator: UIView, UITextFieldDelegate {
                 unaryAction = true
 
             default:
-                updateNumberDisplay()
+                updateNumberDisplay(true)
                 return
             }
         
@@ -1746,23 +1648,28 @@ class Calculator: UIView, UITextFieldDelegate {
         functionDisplay.text = ""
     }
     
-    private func updateNumberDisplay(){
+    private func updateNumberDisplay(_ resultMode: Bool = false){
         let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         
         let xRegister = stackRegisters[0]
         
         let xRegisterNS = NSNumber(value: xRegister)
+        var xRegisterString: String
         
         let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
-        if xRegisterDecimals == 1 {
-            formatterXRegister.minimumFractionDigits = xRegisterDecimals
-        } else {
-            formatterXRegister.minimumFractionDigits = xRegisterDecimals - 1
+        
+        if resultMode {
+            xRegisterString = formatterDecimal.string(from: xRegisterNS) ?? ""
+          
+            } else {
+                if xRegisterDecimals == 1 {
+                    formatterXRegister.minimumFractionDigits = xRegisterDecimals
+                } else {
+                    formatterXRegister.minimumFractionDigits = xRegisterDecimals - 1
+                }
+                xRegisterString = formatterXRegister.string(from: xRegisterNS) ?? ""
         }
-        var xRegisterString = formatterXRegister.string(from: xRegisterNS) ?? ""
-        if xRegister == 0.0 {
-            xRegisterString = ""
-        }
+        
         mainDisplay.text = xRegisterString
     }
     
@@ -1779,19 +1686,19 @@ class Calculator: UIView, UITextFieldDelegate {
         
         var zRegisterString, tRegisterString, uRegisterString : String
         
-        if(abs(zRegister) > stackRegisterDisplaySize) {
+        if(abs(zRegister) > maxNumberLengthForSRegister) {
             zRegisterString = self.formatterScientific.string(from: zRegisterNS) ?? ""
         } else {
             zRegisterString = self.formatterDecimal.string(from: zRegisterNS) ?? ""
         }
         
-        if(abs(tRegister) > stackRegisterDisplaySize) {
+        if(abs(tRegister) > maxNumberLengthForSRegister) {
             tRegisterString = self.formatterScientific.string(from: tRegisterNS) ?? ""
         } else {
             tRegisterString = self.formatterDecimal.string(from: tRegisterNS) ?? ""
         }
         
-        if(abs(uRegister) > stackRegisterDisplaySize) {
+        if(abs(uRegister) > maxNumberLengthForSRegister) {
             uRegisterString = self.formatterScientific.string(from: uRegisterNS) ?? ""
         } else {
             uRegisterString = self.formatterDecimal.string(from: uRegisterNS) ?? ""
@@ -1814,19 +1721,27 @@ class Calculator: UIView, UITextFieldDelegate {
         
         var lRegisterYString, lRegisterXString : String
         
-        formatterLYRegister.minimumFractionDigits = UserDefaults.standard.integer(forKey: "numDecimals")
-        formatterLXRegister.minimumFractionDigits = UserDefaults.standard.integer(forKey: "numDecimals")
-        
         let yRegister = stackRegisters[1]
-
-        lRegisterYString = formatterLYRegister.string(from: lRegisterYNS) ?? ""
-        lRegisterXString = formatterLXRegister.string(from: lRegisterXNS) ?? ""
-        let yRegisterString = formatterLYRegister.string(from: NSNumber(value: yRegister)) ?? ""
+        
+        let yRegisterString = formatterDecimal.string(from: NSNumber(value: yRegister)) ?? ""
 
         if yRegisterString == "" {
             yRegisterDisplay.text = ""
         } else {
             yRegisterDisplay.text = yRegisterString
+        }
+        
+        
+        if abs(lRegisterY) > maxNumberLengthForLRegister {
+            lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
+        } else {
+            lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
+        }
+        
+        if abs(lRegisterX) > maxNumberLengthForLRegister {
+            lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
+        } else {
+            lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
         }
 
         var lOperatorString = defaults.string(forKey: "lOperator") ?? ""
@@ -1874,10 +1789,21 @@ class Calculator: UIView, UITextFieldDelegate {
         
     }
     
+    private func setupNSFormatters(){
+        
+        formatterScientific.numberStyle = .scientific
+        formatterScientific.maximumSignificantDigits = 6
+        formatterScientific.usesSignificantDigits = true
+
+        
+        formatterDecimal.numberStyle = .decimal
+        formatterDecimal.maximumFractionDigits = 5
+    }
+    
     private func updateDisplays(){
         
         resetFunctionDisplay()
-        updateNumberDisplay()
+        updateNumberDisplay(true)
         updateLastDisplay()
         updateStackDisplay()
 
@@ -1895,15 +1821,15 @@ class Calculator: UIView, UITextFieldDelegate {
     }
     
     private func orangeDigits(){
-        oneButton.backgroundColor = lighterOrange
-        twoButton.backgroundColor = lighterOrange
-        threeButton.backgroundColor = lighterOrange
-        fourButton.backgroundColor = lighterOrange
-        fiveButton.backgroundColor = lighterOrange
-        sixButton.backgroundColor = lighterOrange
-        sevenButton.backgroundColor = lighterOrange
-        eightButton.backgroundColor = lighterOrange
-        nineButton.backgroundColor = lighterOrange
+        oneButton.backgroundColor = translucentLighterOrange
+        twoButton.backgroundColor = translucentLighterOrange
+        threeButton.backgroundColor = translucentLighterOrange
+        fourButton.backgroundColor = translucentLighterOrange
+        fiveButton.backgroundColor = translucentLighterOrange
+        sixButton.backgroundColor = translucentLighterOrange
+        sevenButton.backgroundColor = translucentLighterOrange
+        eightButton.backgroundColor = translucentLighterOrange
+        nineButton.backgroundColor = translucentLighterOrange
         
         oneButton.highlightColor = .black
         twoButton.highlightColor = .black
@@ -1917,15 +1843,18 @@ class Calculator: UIView, UITextFieldDelegate {
     }
     
     private func darkGrayDigits(){
-        oneButton.backgroundColor = .darkGray
-        twoButton.backgroundColor = .darkGray
-        threeButton.backgroundColor = .darkGray
-        fourButton.backgroundColor = .darkGray
-        fiveButton.backgroundColor = .darkGray
-        sixButton.backgroundColor = .darkGray
-        sevenButton.backgroundColor = .darkGray
-        eightButton.backgroundColor = .darkGray
-        nineButton.backgroundColor = .darkGray
+
+        decimalButton.backgroundColor = translucentDarkGray
+        zeroButton.backgroundColor = translucentDarkGray
+        oneButton.backgroundColor = translucentDarkGray
+        twoButton.backgroundColor = translucentDarkGray
+        threeButton.backgroundColor = translucentDarkGray
+        fourButton.backgroundColor = translucentDarkGray
+        fiveButton.backgroundColor = translucentDarkGray
+        sixButton.backgroundColor = translucentDarkGray
+        sevenButton.backgroundColor = translucentDarkGray
+        eightButton.backgroundColor = translucentDarkGray
+        nineButton.backgroundColor = translucentDarkGray
         
         oneButton.highlightColor = .lightGray
         twoButton.highlightColor = .lightGray
