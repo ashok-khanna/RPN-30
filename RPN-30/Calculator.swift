@@ -132,7 +132,7 @@ class Calculator: UIView, UITextFieldDelegate {
     
     private func setupButtons(){
         
-        self.backgroundColor = UIColor.black
+        // self.backgroundColor = UIColor.black
         
         displayTextfield.delegate = self
         displayTextfield.addTarget(self, action: #selector(textFieldDidChange), for: UIControl.Event.editingChanged)
@@ -206,13 +206,13 @@ class Calculator: UIView, UITextFieldDelegate {
         
         
         // Set font sizes, colors and alignments for output display
-        tzRegisterDisplay.textAlignment = .left
-        yRegisterDisplay.textAlignment = .center
+        tzRegisterDisplay.textAlignment = .center
+        yRegisterDisplay.textAlignment = .left
         lRegisterDisplay.textAlignment = .left
         functionDisplay.textAlignment = .center
         mainDisplay.textAlignment = .center
         
-        tzRegisterDisplay.textColor = .darkGray
+        tzRegisterDisplay.textColor = .white
         lRegisterDisplay.textColor = .darkGray
         
         yRegisterDisplay.textColor = .white
@@ -221,7 +221,7 @@ class Calculator: UIView, UITextFieldDelegate {
         
         tzRegisterDisplay.font = UIFont.systemFont(ofSize: 9.0)
         tzRegisterDisplay.numberOfLines = 0
-        lRegisterDisplay.font = UIFont.systemFont(ofSize: 12.0)
+        lRegisterDisplay.font = UIFont.systemFont(ofSize: 14.0)
         cancelLabel.font = UIFont.systemFont(ofSize: 10.0)
         
         cancelLabel.text = "UNDO"
@@ -229,9 +229,9 @@ class Calculator: UIView, UITextFieldDelegate {
         cancelLabel.textAlignment = .center
         cancelLabel.textColor = .black
         
-        yRegisterDisplay.font = UIFont.systemFont(ofSize: 23.0)
+        yRegisterDisplay.font = UIFont.systemFont(ofSize: 30.0)
         functionDisplay.font = UIFont.systemFont(ofSize: 10.0)
-        mainDisplay.font = UIFont.systemFont(ofSize: 36.0)
+        mainDisplay.font = UIFont.systemFont(ofSize: 40.0)
         tzRegisterDisplay.adjustsFontSizeToFitWidth = true
         yRegisterDisplay.adjustsFontSizeToFitWidth = true
         lRegisterDisplay.adjustsFontSizeToFitWidth = true
@@ -240,38 +240,42 @@ class Calculator: UIView, UITextFieldDelegate {
         
         // Set colors for UI elements
         
-        tzRegisterDisplay.backgroundColor = UIColor.lightGray
-        lRegisterDisplay.backgroundColor = UIColor.black
-        cancelLabel.backgroundColor = UIColor.black
+        tzRegisterDisplay.backgroundColor = UIColor.init(white: 1.0 / 3.0, alpha: 0.25)
+       // lRegisterDisplay.backgroundColor = UIColor.black
+       // cancelLabel.backgroundColor = UIColor.black
         
-        yRegisterDisplay.backgroundColor = UIColor.darkGray
+       // yRegisterDisplay.backgroundColor = UIColor.black
         functionDisplay.backgroundColor = UIColor.lightGray
-        mainDisplay.backgroundColor = UIColor.black
+        // mainDisplay.backgroundColor = UIColor.black
         
-        deleteButton.backgroundColor = UIColor.darkGray
-        clearButton.backgroundColor = UIColor.lightGray
-        chsButton.backgroundColor = UIColor.lightGray
-        divideButton.backgroundColor = UIColor.lightGray
+        let translucentOrange = UIColor.init(displayP3Red: 1.0, green: 0.5, blue: 0.0, alpha: 0.5)
+        let translucentDarkGray = UIColor.init(white: 1.0 / 3.0, alpha: 0.5)
+        let translucentLightGray = UIColor.init(white: 2.0 / 3.0, alpha: 0.5)
         
-        multiplyButton.backgroundColor = UIColor.orange
-        minusButton.backgroundColor = UIColor.orange
-        plusButton.backgroundColor = UIColor.orange
-        enterButton.backgroundColor = UIColor.orange
+        deleteButton.backgroundColor = translucentLightGray
+        clearButton.backgroundColor = translucentLightGray
+        chsButton.backgroundColor = translucentLightGray
+        divideButton.backgroundColor = translucentLightGray
         
-        decimalButton.backgroundColor = UIColor.darkGray
-        zeroButton.backgroundColor = UIColor.darkGray
-        oneButton.backgroundColor = UIColor.darkGray
-        twoButton.backgroundColor = UIColor.darkGray
-        threeButton.backgroundColor = UIColor.darkGray
-        fourButton.backgroundColor = UIColor.darkGray
-        fiveButton.backgroundColor = UIColor.darkGray
-        sixButton.backgroundColor = UIColor.darkGray
-        sevenButton.backgroundColor = UIColor.darkGray
-        eightButton.backgroundColor = UIColor.darkGray
-        nineButton.backgroundColor = UIColor.darkGray
+        multiplyButton.backgroundColor = translucentOrange
+        minusButton.backgroundColor = translucentOrange
+        plusButton.backgroundColor = translucentOrange
+        enterButton.backgroundColor = translucentOrange
+        
+        decimalButton.backgroundColor = translucentDarkGray
+        zeroButton.backgroundColor = translucentDarkGray
+        oneButton.backgroundColor = translucentDarkGray
+        twoButton.backgroundColor = translucentDarkGray
+        threeButton.backgroundColor = translucentDarkGray
+        fourButton.backgroundColor = translucentDarkGray
+        fiveButton.backgroundColor = translucentDarkGray
+        sixButton.backgroundColor = translucentDarkGray
+        sevenButton.backgroundColor = translucentDarkGray
+        eightButton.backgroundColor = translucentDarkGray
+        nineButton.backgroundColor = translucentDarkGray
 
         // Textfield adjustments
-        // mainDisplay.isUserInteractionEnabled = true
+        mainDisplay.isUserInteractionEnabled = true
         // displayTextfield.keyboardAppearance = .dark
 
         /*
@@ -376,12 +380,12 @@ class Calculator: UIView, UITextFieldDelegate {
         // Set spaces between buttons
         // What is CGFloat and how can I use it in constants (see bit later) but also use double there?
 
-        let actualButtonHeight = self.frame.height * buttonHeight
-        let actualButtonWidth = self.frame.width * buttonWidth
+        let actualButtonHeight = self.bounds.height * buttonHeight
+        let actualButtonWidth = self.bounds.width * buttonWidth
         
-        let buttonHorizontalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / rowWidth) * self.frame.width
+        let buttonHorizontalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / rowWidth) * self.bounds.width
         
-        let buttonVerticalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / colHeight) * self.frame.height
+        let buttonVerticalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / colHeight) * self.bounds.height
         
               //  let mainDisplayHeight = (1.0 * registerHeight * self.bounds.size.height) // Zero padding between registers as we will use right alignment vs calculating appropriate padding
         
@@ -389,9 +393,9 @@ class Calculator: UIView, UITextFieldDelegate {
         self.bringSubviewToFront(lRegisterDisplay)
         
         // Set UI element widths and heights
-        tzRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true // One-fourth height
-        yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: buttonVerticalPadding).isActive = true // One-fourth height
-        lRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: -buttonVerticalPadding).isActive = true // One-fourth height
+        tzRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.9, constant: 0.0).isActive = true // One-fourth height
+        yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: 0.0).isActive = true // One-fourth height
+        lRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.25, constant: 0.0).isActive = true // One-fourth height
         cancelLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: 0.0).isActive = true // One-fourth height
         
         functionDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.0, constant: 0.0).isActive = true
@@ -419,12 +423,12 @@ class Calculator: UIView, UITextFieldDelegate {
         
         tzRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
         yRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: 2.0 * buttonHorizontalPadding).isActive = true // Twice width
-        lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 2.0, constant: buttonHorizontalPadding * 1.0).isActive = true
+        lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: buttonHorizontalPadding * 2.0 - 2.0).isActive = true
         cancelLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: buttonHorizontalPadding * 0.0).isActive = true
         functionDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.0, constant: 0.0).isActive = true // One-third width
-        mainDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: buttonHorizontalPadding * 2.0).isActive = true // Two-third width
+        mainDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0, constant: 0.0).isActive = true // Two-third width
         
-        deleteButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
+        deleteButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.0, constant: 0.0).isActive = true
         clearButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
         chsButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
         divideButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
@@ -449,39 +453,41 @@ class Calculator: UIView, UITextFieldDelegate {
         // Placement of buttons
         
         // Row 0A
-        tzRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
+        tzRegisterDisplay.leadingAnchor.constraint(equalTo: yRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding ).isActive = true
+        tzRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
+        
         yRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         
-        lRegisterDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        lRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2.0).isActive = true
         lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant:  buttonVerticalPadding / 2.0).isActive = true
         
         cancelLabel.leadingAnchor.constraint(equalTo: lRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
         cancelLabel.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
         
-        yRegisterDisplay.leadingAnchor.constraint(equalTo: tzRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        yRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
        // functionDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding / 2.0).isActive = true
         
       //  functionDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        tzRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
+
 
         // Row 0B
         
-        mainDisplay.leadingAnchor.constraint(equalTo: deleteButton.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        deleteButton.topAnchor.constraint(equalTo: self.tzRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        mainDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
+        deleteButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
 
-        deleteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        mainDisplay.topAnchor.constraint(equalTo: deleteButton.topAnchor, constant: 0.0).isActive = true
+        deleteButton.leadingAnchor.constraint(equalTo: yRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
+        mainDisplay.topAnchor.constraint(equalTo: tzRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding * 0.5).isActive = true
         // mainDisplay.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         
         // Row 1
         clearButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        clearButton.topAnchor.constraint(equalTo: mainDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        clearButton.topAnchor.constraint(equalTo: self.topAnchor, constant: actualButtonHeight * 2.0 + buttonVerticalPadding * 2.0).isActive = true
         chsButton.leadingAnchor.constraint(equalTo: clearButton.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        chsButton.topAnchor.constraint(equalTo: mainDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        chsButton.topAnchor.constraint(equalTo: self.topAnchor, constant: actualButtonHeight * 2.0 + buttonVerticalPadding * 2.0).isActive = true
         divideButton.leadingAnchor.constraint(equalTo: chsButton.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        divideButton.topAnchor.constraint(equalTo: mainDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        divideButton.topAnchor.constraint(equalTo: self.topAnchor, constant: actualButtonHeight * 2.0 + buttonVerticalPadding * 2.0).isActive = true
         multiplyButton.leadingAnchor.constraint(equalTo: divideButton.trailingAnchor, constant: buttonHorizontalPadding).isActive = true
-        multiplyButton.topAnchor.constraint(equalTo: mainDisplay.bottomAnchor, constant: buttonVerticalPadding).isActive = true
+        multiplyButton.topAnchor.constraint(equalTo: self.topAnchor, constant: actualButtonHeight * 2.0 + buttonVerticalPadding * 2.0).isActive = true
         
         // Row 2
         sevenButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
@@ -860,56 +866,9 @@ class Calculator: UIView, UITextFieldDelegate {
         
         //Add short gestures
     
-        let mainDisplayShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(mainDisplayInput))
+        let mainDisplayShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(deleteInput))
         mainDisplayShortTapGesture.numberOfTapsRequired = 1
         mainDisplay.addGestureRecognizer(mainDisplayShortTapGesture)
-        
-        let decimalShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(decimalInput))
-        decimalShortTapGesture.numberOfTapsRequired = 1
-        decimalButton.addGestureRecognizer(decimalShortTapGesture)
-        
-        /*
-        let zeroShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(zeroInput))
-        zeroShortTapGesture.numberOfTapsRequired = 1
-        zeroButton.addGestureRecognizer(zeroShortTapGesture)
-        
-        let oneShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(oneInput))
-        oneShortTapGesture.numberOfTapsRequired = 1
-        oneButton.addGestureRecognizer(oneShortTapGesture)
-        
-        let twoShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(twoInput))
-        twoShortTapGesture.numberOfTapsRequired = 1
-        twoButton.addGestureRecognizer(twoShortTapGesture)
-        
-        let threeShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(threeInput))
-        threeShortTapGesture.numberOfTapsRequired = 1
-        threeButton.addGestureRecognizer(threeShortTapGesture)
-        
-        let fourShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(fourInput))
-        fourShortTapGesture.numberOfTapsRequired = 1
-        fourButton.addGestureRecognizer(fourShortTapGesture)
-        
-        let fiveShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(fiveInput))
-        fiveShortTapGesture.numberOfTapsRequired = 1
-        fiveButton.addGestureRecognizer(fiveShortTapGesture)
-        
-        let sixShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(sixInput))
-        sixShortTapGesture.numberOfTapsRequired = 1
-        sixButton.addGestureRecognizer(sixShortTapGesture)
-        
-        let sevenShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(sevenInput))
-        sevenShortTapGesture.numberOfTapsRequired = 1
-        sevenButton.addGestureRecognizer(sevenShortTapGesture)
-        
-        let eightShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(eightInput))
-        eightShortTapGesture.numberOfTapsRequired = 1
-        eightButton.addGestureRecognizer(eightShortTapGesture)
-        
-        let nineShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(nineInput))
-        nineShortTapGesture.numberOfTapsRequired = 1
-        nineButton.addGestureRecognizer(nineShortTapGesture)
- 
-        */
         
         let enterTapGesture = UITapGestureRecognizer(target: self, action: #selector(enterInput))
         enterTapGesture.numberOfTapsRequired = 1
@@ -1276,26 +1235,47 @@ class Calculator: UIView, UITextFieldDelegate {
             break
         }
     }
-    
-    // MARK: Number Input Actions
+
     
     @objc private func decimalButtonLongAction(gesture: UILongPressGestureRecognizer){
+        
+        let longPressEndTime = NSDate.timeIntervalSinceReferenceDate - decimalButton.longPressStartTime
         
         switch gesture.state {
             
         case .began:
-            recallBalance = true
-            decimalButton.isHighlighted = true
-        case .changed:
-            decimalButton.highlightColor = lightRed
-            decimalButton.isHighlighted = true
-            orangeDigits()
-            recallBalance = true
-        case .ended:
-            decimalButton.isHighlighted = false
+            decimalButton.longPressStartTime = NSDate.timeIntervalSinceReferenceDate
             decimalButton.highlightColor = .lightGray
-            darkGrayDigits()
-            recallBalance = false
+            decimalButton.isHighlighted = true
+            
+        case .changed:
+            if longPressEndTime > 0.5 {
+                decimalButton.highlightColor = lightRed
+                decimalButton.isHighlighted = true
+                orangeDigits()
+                recallBalance = true
+                
+            } else {
+                decimalButton.highlightColor = .lightGray
+                decimalButton.isHighlighted = true
+            }
+            
+        case .ended:
+            
+            if longPressEndTime > 0.5 {
+                darkGrayDigits()
+                recallBalance = false
+                decimalButton.isHighlighted = false
+                decimalButton.highlightColor = .lightGray
+                
+                return
+            }
+            else {
+                decimalButton.highlightColor = .lightGray
+                decimalButton.isHighlighted = false
+                decimalInput()
+            }
+            
         default:
             break
         }
@@ -1304,20 +1284,45 @@ class Calculator: UIView, UITextFieldDelegate {
     
     @objc private func zeroButtonLongAction(gesture: UILongPressGestureRecognizer){
         
+        let longPressEndTime = NSDate.timeIntervalSinceReferenceDate - zeroButton.longPressStartTime
+        
         switch gesture.state {
             
         case .began:
-            storeBalance = true
-        case .changed:
-            zeroButton.highlightColor = lightRed
-            zeroButton.isHighlighted = true
-            orangeDigits()
-            storeBalance = true
-        case .ended:
-            zeroButton.isHighlighted = false
+            zeroButton.longPressStartTime = NSDate.timeIntervalSinceReferenceDate
+            
             zeroButton.highlightColor = .lightGray
-            darkGrayDigits()
-            storeBalance = false
+            zeroButton.isHighlighted = true
+            
+        case .changed:
+            if longPressEndTime > 0.5 {
+                zeroButton.highlightColor = lightRed
+                zeroButton.isHighlighted = true
+                orangeDigits()
+                storeBalance = true
+                
+                } else {
+                    zeroButton.highlightColor = .lightGray
+                    zeroButton.isHighlighted = true
+            }
+            
+        case .ended:
+            
+            if longPressEndTime > 0.5 {
+                    darkGrayDigits()
+                    storeBalance = false
+                    zeroButton.isHighlighted = false
+                    zeroButton.highlightColor = .lightGray
+
+                    return
+                }
+                else {
+                
+                    zeroButton.highlightColor = .lightGray
+                    zeroButton.isHighlighted = false
+                    numberInput(zeroButton)
+                }
+            
         default:
             break
         }
@@ -1360,7 +1365,7 @@ class Calculator: UIView, UITextFieldDelegate {
         completeOperation(button: nineButton, gesture: gesture)
     }
     
-    @objc private func decimalInput(){
+    private func decimalInput(){
         // No override of isNewNumberEntry because action depends on state of xRegister
         
         let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
@@ -1792,7 +1797,7 @@ class Calculator: UIView, UITextFieldDelegate {
             uRegisterString = self.formatterDecimal.string(from: uRegisterNS) ?? ""
         }
         
-        tzRegisterDisplay.text = "  " + uRegisterString + "\n" + "\n" + "  " + tRegisterString + "\n" + "\n" + "  " + zRegisterString
+        tzRegisterDisplay.text = uRegisterString + "\n" + "\n" + tRegisterString + "\n" + "\n" + zRegisterString
         
     }
     
@@ -1842,16 +1847,16 @@ class Calculator: UIView, UITextFieldDelegate {
             if lRegisterY == 0.0 {
                 if (lOperatorString == " e^x " || lOperatorString == " ln x " || lOperatorString == " 1/x ") {
                     if lRegisterX == 0.0 {
-                        lRegisterYString = "  "
+                        lRegisterYString = ""
                     } else {
-                        lRegisterYString = "  0  +"
+                        lRegisterYString = "0  +"
                     }
                 } else {
-                    lRegisterYString = "  0"
+                    lRegisterYString = "0"
                 }
             }
 
-            lRegisterDisplay.text = "  " + lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString + "  "
+            lRegisterDisplay.text = lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString + "  "
         } else {
             
             if lRegisterY == 0.0 {
@@ -1859,9 +1864,9 @@ class Calculator: UIView, UITextFieldDelegate {
             }
 
             if lOperatorString != "" {
-                lRegisterDisplay.text = "  " + lOperatorString + "  " + lRegisterXString + "  "
+                lRegisterDisplay.text = "" + lOperatorString + "  " + lRegisterXString + "  "
             } else {
-                lRegisterDisplay.text = "  " + lRegisterXString + "  "
+                lRegisterDisplay.text = "" + lRegisterXString + "  "
             }
 
 

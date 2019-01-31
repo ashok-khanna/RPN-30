@@ -18,17 +18,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-R4-O5d" customClass="Calculator" customModule="RPN_30" customModuleProvider="target">
-                                <rect key="frame" x="16" y="36" width="343" height="615"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="gU8-wr-UHx">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-R4-O5d" customClass="Calculator" customModule="RPN_30" customModuleProvider="target">
+                                <rect key="frame" x="16" y="36" width="343" height="611"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="g2O-R4-O5d" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="5y1-jV-fk4"/>
+                            <constraint firstItem="gU8-wr-UHx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="6yc-rB-xht"/>
                             <constraint firstItem="g2O-R4-O5d" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="Hap-Wn-uIH"/>
+                            <constraint firstItem="gU8-wr-UHx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="KLn-hC-59i"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="g2O-R4-O5d" secondAttribute="bottom" constant="16" id="VId-IU-4FT"/>
+                            <constraint firstAttribute="trailing" secondItem="gU8-wr-UHx" secondAttribute="trailing" id="Yf1-B8-9rw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="g2O-R4-O5d" secondAttribute="trailing" constant="16" id="d4s-Sa-C2F"/>
+                            <constraint firstAttribute="bottom" secondItem="gU8-wr-UHx" secondAttribute="bottom" id="oQJ-ZN-QnP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -41,4 +48,7 @@
             <point key="canvasLocation" x="136.80000000000001" y="132.68365817091455"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image" width="600" height="988"/>
+    </resources>
 </document>
