@@ -8,3 +8,12 @@ fix 0 0 showing in lregister
 
 unary actions into button properties, incl for lOperator
 unary actions work correctly for BIN
+
+add code for last y and cancel
+
+merge clear and clear long button
+
+merge basic operation and operation
+
+connect undo gesture to target
+
