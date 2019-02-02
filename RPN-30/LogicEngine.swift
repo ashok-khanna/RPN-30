@@ -94,12 +94,12 @@ extension Calculator {
         let stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
         
         if storeBalance {
-            print(stackRegistersOld[0])
-            // print(sender.digitString!)
+            
             if sender.digitValue != 0 {
                 defaults.set(stackRegistersOld[0], forKey: sender.digitString!)
             }
             isNewNumberEntry = true
+            storeBalance = false
             
         }
 
@@ -118,6 +118,7 @@ extension Calculator {
             }
             
             isNewNumberEntry = true
+            recallBalance = false
             
             clearLastRegisters()
         }

@@ -16,16 +16,28 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let calculatorHeight = self.view.bounds.height - 96.0
+        let calculatorWidth = self.view.bounds.width - 32.0
+        calculatorView.actualButtonHeight = calculatorHeight * calculatorView.buttonHeight
+        calculatorView.actualButtonWidth = calculatorWidth * calculatorView.buttonWidth
+        
+        calculatorView.buttonVerticalPadding = CGFloat(calculatorView.spacingBetweenButtonsAsPercentageOfButton / calculatorView.colHeight) * calculatorHeight
+        calculatorView.buttonHorizontalPadding = CGFloat(calculatorView.spacingBetweenButtonsAsPercentageOfButton / calculatorView.rowWidth) * calculatorWidth
+        
+
+        
+        calculatorView.setupCalculator()
+        
+        calculatorView.layoutIfNeeded()
+        
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        calculatorView.actualButtonHeight = calculatorView.bounds.height * calculatorView.buttonHeight
-        calculatorView.actualButtonWidth = calculatorView.bounds.width * calculatorView.buttonWidth
+
         
-        print(calculatorView.bounds.height)
-        print(calculatorView.bounds.width)
-        print("test")
+        
     }
  
 }

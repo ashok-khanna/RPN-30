@@ -125,7 +125,7 @@ class Calculator: UIView, UITextFieldDelegate {
         buttonVerticalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / colHeight) * self.bounds.height
         
         setupNSFormatters()
-        setupCalculator()
+
     }
     
     required init?(coder aDecoder: NSCoder) { // Used when instantiating via storyboard
@@ -140,14 +140,10 @@ class Calculator: UIView, UITextFieldDelegate {
         actualButtonHeight = self.bounds.height * buttonHeight
         actualButtonWidth = self.bounds.width * buttonWidth
         
-        buttonHorizontalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / rowWidth) * self.bounds.width
-        
-        buttonVerticalPadding = CGFloat(spacingBetweenButtonsAsPercentageOfButton / colHeight) * self.bounds.height
         
         setupNSFormatters()
         formatterXRegister.numberStyle = .decimal
 
-        setupCalculator()
     }
     
      func setupCalculator(){

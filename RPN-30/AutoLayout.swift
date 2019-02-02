@@ -130,9 +130,7 @@ extension Calculator {
         lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant:  buttonVerticalPadding! / 2.0).isActive = true
         
         xRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        xRegisterDisplay.topAnchor.constraint(equalTo: sRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding! * 0.5).isActive = true
-        
-        xRegisterDisplay.topAnchor.constraint(equalToSystemSpacingBelow: sRegisterDisplay.bottom, multiplier: <#T##CGFloat#>)
+        xRegisterDisplay.centerYAnchor.constraint(equalTo: sRegisterDisplay.centerYAnchor, constant: actualButtonHeight! + buttonVerticalPadding!).isActive = true
         
         // Row 1
         clearButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true

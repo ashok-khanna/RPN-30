@@ -55,6 +55,9 @@ extension Calculator {
         sevenButton.operationString = "e^x"
         eightButton.operationString = "ln x"
         nineButton.operationString = "y^x"
+        
+        zeroFunctionLabel.adjustsFontSizeToFitWidth = true
+        decimalFunctionLabel.adjustsFontSizeToFitWidth = true
     
         // NSMutableAttributedStrings are used to store strings with formatting
         var myMutableString = NSMutableAttributedString()
@@ -155,7 +158,7 @@ extension Calculator {
         decimalFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         decimalFunctionLabel.centerXAnchor.constraint(equalTo: decimalButton.centerXAnchor, constant: 0.0).isActive = true
-        decimalFunctionLabel.centerYAnchor.constraint(equalTo: decimalButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        decimalFunctionLabel.bottomAnchor.constraint(equalTo: decimalButton.bottomAnchor, constant: -actualButtonHeight! / 15.0).isActive = true
         
         decimalFunctionLabel.layer.cornerRadius = 5
         decimalFunctionLabel.clipsToBounds = true
@@ -173,7 +176,7 @@ extension Calculator {
         zeroFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         zeroFunctionLabel.centerXAnchor.constraint(equalTo: zeroButton.centerXAnchor, constant: 0.0).isActive = true
-        zeroFunctionLabel.centerYAnchor.constraint(equalTo: zeroButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        zeroFunctionLabel.bottomAnchor.constraint(equalTo: zeroButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
         
         zeroFunctionLabel.layer.cornerRadius = 5
         zeroFunctionLabel.clipsToBounds = true
@@ -191,7 +194,7 @@ extension Calculator {
         oneFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         oneFunctionLabel.centerXAnchor.constraint(equalTo: oneButton.centerXAnchor, constant: 0.0).isActive = true
-        oneFunctionLabel.centerYAnchor.constraint(equalTo: oneButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        oneFunctionLabel.bottomAnchor.constraint(equalTo: oneButton.bottomAnchor, constant: -actualButtonHeight! / 15.0).isActive = true
         
         oneFunctionLabel.layer.cornerRadius = 5
         oneFunctionLabel.clipsToBounds = true
@@ -209,7 +212,7 @@ extension Calculator {
         twoFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         twoFunctionLabel.centerXAnchor.constraint(equalTo: twoButton.centerXAnchor, constant: 0.0).isActive = true
-        twoFunctionLabel.centerYAnchor.constraint(equalTo: twoButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        twoFunctionLabel.bottomAnchor.constraint(equalTo: twoButton.bottomAnchor, constant: -actualButtonHeight! / 15.0).isActive = true
         
         twoFunctionLabel.layer.cornerRadius = 5
         twoFunctionLabel.clipsToBounds = true
@@ -227,7 +230,7 @@ extension Calculator {
         threeFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         threeFunctionLabel.centerXAnchor.constraint(equalTo: threeButton.centerXAnchor, constant: 0.0).isActive = true
-        threeFunctionLabel.centerYAnchor.constraint(equalTo: threeButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        threeFunctionLabel.bottomAnchor.constraint(equalTo: threeButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
         
         threeFunctionLabel.layer.cornerRadius = 5
         threeFunctionLabel.clipsToBounds = true
@@ -245,7 +248,7 @@ extension Calculator {
         fourFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         fourFunctionLabel.centerXAnchor.constraint(equalTo: fourButton.centerXAnchor, constant: 0.0).isActive = true
-        fourFunctionLabel.centerYAnchor.constraint(equalTo: fourButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        fourFunctionLabel.bottomAnchor.constraint(equalTo: fourButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
         
         fourFunctionLabel.layer.cornerRadius = 5
         fourFunctionLabel.clipsToBounds = true
@@ -263,7 +266,7 @@ extension Calculator {
         fiveFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         fiveFunctionLabel.centerXAnchor.constraint(equalTo: fiveButton.centerXAnchor, constant: 0.0).isActive = true
-        fiveFunctionLabel.centerYAnchor.constraint(equalTo: fiveButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        fiveFunctionLabel.bottomAnchor.constraint(equalTo: fiveButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
         
         fiveFunctionLabel.layer.cornerRadius = 5
         fiveFunctionLabel.clipsToBounds = true
@@ -281,7 +284,7 @@ extension Calculator {
         sixFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         sixFunctionLabel.centerXAnchor.constraint(equalTo: sixButton.centerXAnchor, constant: 0.0).isActive = true
-        sixFunctionLabel.centerYAnchor.constraint(equalTo: sixButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        sixFunctionLabel.bottomAnchor.constraint(equalTo: sixButton.bottomAnchor, constant: -actualButtonHeight! / 15.0).isActive = true
         
         sixFunctionLabel.layer.cornerRadius = 5
         sixFunctionLabel.clipsToBounds = true
@@ -299,7 +302,7 @@ extension Calculator {
         sevenFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         sevenFunctionLabel.centerXAnchor.constraint(equalTo: sevenButton.centerXAnchor, constant: 0.0).isActive = true
-        sevenFunctionLabel.centerYAnchor.constraint(equalTo: sevenButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        sevenFunctionLabel.bottomAnchor.constraint(equalTo: sevenButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
         
         sevenFunctionLabel.layer.cornerRadius = 5
         sevenFunctionLabel.clipsToBounds = true
@@ -313,11 +316,11 @@ extension Calculator {
         eightFunctionLabel.textAlignment = .center
         eightFunctionLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(eightFunctionLabel)
-        eightFunctionLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.20, constant: 0.0).isActive = true
+        eightFunctionLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.2, constant: 0.0).isActive = true
         eightFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         eightFunctionLabel.centerXAnchor.constraint(equalTo: eightButton.centerXAnchor, constant: 0.0).isActive = true
-        eightFunctionLabel.centerYAnchor.constraint(equalTo: eightButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        eightFunctionLabel.bottomAnchor.constraint(equalTo: eightButton.bottomAnchor, constant: -actualButtonHeight! / 15.0).isActive = true
         
         eightFunctionLabel.layer.cornerRadius = 5
         eightFunctionLabel.clipsToBounds = true
@@ -336,7 +339,7 @@ extension Calculator {
         nineFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         nineFunctionLabel.centerXAnchor.constraint(equalTo: nineButton.centerXAnchor, constant: 0.0).isActive = true
-        nineFunctionLabel.centerYAnchor.constraint(equalTo: nineButton.centerYAnchor, constant: 1.75 * actualButtonHeight! / 5.0).isActive = true
+        nineFunctionLabel.bottomAnchor.constraint(equalTo: nineButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
         
         nineFunctionLabel.layer.cornerRadius = 5
         nineFunctionLabel.clipsToBounds = true
