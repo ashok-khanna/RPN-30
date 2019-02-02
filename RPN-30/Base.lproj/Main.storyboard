@@ -21,8 +21,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="gU8-wr-UHx">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-R4-O5d" customClass="Calculator" customModule="RPN_30" customModuleProvider="target">
-                                <rect key="frame" x="16" y="36" width="343" height="611"/>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-R4-O5d" customClass="Calculator" customModule="RPN_30" customModuleProvider="target">
+                                <rect key="frame" x="16" y="36" width="343" height="615"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -49,6 +49,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Image" width="600" height="988"/>
+        <image name="Image" width="576" height="1247.25"/>
     </resources>
 </document>

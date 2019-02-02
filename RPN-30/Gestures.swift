@@ -24,9 +24,10 @@ extension Calculator {
             
         case .changed:
             if longPressEndTime > longPressRequiredTime {
-                zeroButton.highlightColor = lightRed
+                zeroButton.highlightColor = longHighlightColor
                 zeroButton.isHighlighted = true
                 storeBalance = true
+                changeFunctionLabelToOrange("zero")
                 
             } else {
                 zeroButton.highlightColor = .lightGray
@@ -34,19 +35,19 @@ extension Calculator {
             }
             
         case .ended:
-            
+            changeFunctionLabelToLightGray("zero")
             if longPressEndTime > longPressRequiredTime {
                 storeBalance = false
                 zeroButton.isHighlighted = false
                 zeroButton.highlightColor = .lightGray
-                
+
                 return
             }
             else {
-                
-                zeroButton.highlightColor = .lightGray
                 zeroButton.isHighlighted = false
-                numberInput(zeroButton)
+                processDigit(zeroButton)
+                clearLastRegisters()
+                updateXRegisterDisplay(resultMode: false)
             }
             
         default:
@@ -68,26 +69,24 @@ extension Calculator {
             
         case .changed:
             if longPressEndTime > longPressRequiredTime {
-                decimalButton.highlightColor = lightRed
+                decimalButton.highlightColor = longHighlightColor
                 decimalButton.isHighlighted = true
                 recallBalance = true
-                
+                changeFunctionLabelToOrange("decimal")
             } else {
-                decimalButton.highlightColor = .lightGray
                 decimalButton.isHighlighted = true
             }
             
         case .ended:
-            
+            changeFunctionLabelToLightGray("decimal")
             if longPressEndTime > longPressRequiredTime {
                 recallBalance = false
                 decimalButton.isHighlighted = false
                 decimalButton.highlightColor = .lightGray
-                
+
                 return
             }
             else {
-                decimalButton.highlightColor = .lightGray
                 decimalButton.isHighlighted = false
                 decimalInput()
             }
@@ -96,6 +95,153 @@ extension Calculator {
             break
         }
         
+    }
+    
+    @objc func clearButtonLongAction(gesture: UILongPressGestureRecognizer){
+        
+        UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
+        
+        let longPressEndTime = NSDate.timeIntervalSinceReferenceDate - clearButton.longPressStartTime
+        
+        switch gesture.state {
+            
+        case .began:
+            clearButton.longPressStartTime = NSDate.timeIntervalSinceReferenceDate
+            clearButton.isHighlighted = true
+            
+        case .changed:
+            if longPressEndTime > longPressRequiredTime {
+                clearButton.highlightColor = longHighlightColor
+                clearButton.isHighlighted = true
+                
+                
+            } else {
+                clearButton.isHighlighted = true
+            }
+            
+        case .ended:
+            
+            stackAutoLift = false
+            isNewNumberEntry = true // Start new number after clear input
+            
+            if longPressEndTime > longPressRequiredTime {
+                
+                clearButton.isHighlighted = false
+                clearButton.highlightColor = .lightGray
+                
+                clearStack()
+                clearLastRegisters()
+                updateDisplays(afterOperation: false, onClear: true)
+  
+                return
+            }
+            else {
+                clearButton.isHighlighted = false
+            
+                var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
+                
+                if stackRegisters[0] == 0.0 {
+                    if stackRegisters[1] == 0.0 {
+                        if stackRegisters[2] == 0.0 {
+                            if stackRegisters[3] == 0.0 {
+                                defaults.set(stackRegisters, forKey: "stackRegisters")
+                                dropStackRegistersOneAtATime()
+                                
+                            } else {
+                                stackRegisters[3] = 0.0
+                                defaults.set(stackRegisters, forKey: "stackRegisters")
+                                dropStackRegistersOneAtATime()
+                            }
+                        } else {
+                            stackRegisters[2] = 0.0
+                            defaults.set(stackRegisters, forKey: "stackRegisters")
+                            dropStackRegistersOneAtATime()
+                        }
+                    } else {
+                        stackRegisters[1] = 0.0
+                        defaults.set(stackRegisters, forKey: "stackRegisters")
+                        dropStackRegistersOneAtATime()
+                        
+                    }
+                } else {
+                    stackRegisters[0] = 0.0
+                    defaults.set(stackRegisters, forKey: "stackRegisters")
+                }
+                
+                clearLastRegisters()
+                updateDisplays(afterOperation: false, onClear: true)
+            }
+            
+        default:
+            break
+        }
+        
+    }
+    
+    func completeOperation(button: CalculatorButton, gesture: UILongPressGestureRecognizer) {
+        let longPressEndTime = NSDate.timeIntervalSinceReferenceDate - button.longPressStartTime
+        let buttonOperation = button.operationString ?? ""
+        
+        switch gesture.state {
+            
+        case .began:
+            button.longPressStartTime = NSDate.timeIntervalSinceReferenceDate
+            
+            button.isHighlighted = true
+            
+        case .changed:
+            if longPressEndTime > longPressRequiredTime {
+                button.highlightColor = longHighlightColor
+                button.isHighlighted = true
+                changeFunctionLabelToOrange(button.digitString!)
+                
+                if !(storeBalance || recallBalance){
+                    
+                    updateXRegisterDisplayForFunction(buttonOperation)
+                    
+                } else {
+
+                    button.isHighlighted = true
+                }
+            }
+            
+            
+        case .ended:
+            updateLastDisplayToNil()
+            changeFunctionLabelToLightGray(button.digitString!)
+            if longPressEndTime > longPressRequiredTime {
+
+                if !(storeBalance || recallBalance){
+                    
+                    button.isHighlighted = false
+                    button.highlightColor = .lightGray
+                    processOperation(buttonOperation)
+                    updateDisplays(afterOperation: true)
+                    
+                    return
+                } else {
+                    button.isHighlighted = false
+                    button.highlightColor = .lightGray
+                    processStoreRecall(button)
+                    updateXRegisterDisplay(resultMode: false)
+                }
+            } else {
+                button.isHighlighted = false
+                
+                if !(storeBalance || recallBalance){
+                    processDigit(button)
+                    updateXRegisterDisplay(resultMode: false)
+                } else {
+                    processStoreRecall(button)
+                    clearLastRegisters()
+                    updateXRegisterDisplay(resultMode: false)
+                }
+                
+            }
+            
+        default:
+            break
+        }
     }
     
     @objc func oneButtonLongAction(gesture: UILongPressGestureRecognizer){
@@ -138,72 +284,36 @@ extension Calculator {
         isNewNumberEntry = true // Adding digits after enter key should be creating a new number
         stackAutoLift = false
         liftStackRegisters()
-        clearLastXRegister()
-        updateDisplays()
+        clearLastRegisters()
+        updateDisplays(afterOperation: false)
     }
     
     @objc func plusInput(){
-        basicOperator("+")
+        processOperation("+")
+        updateDisplays(afterOperation: true)
+        
     }
     
     @objc func minusInput(){
-        basicOperator("−")
+        processOperation("−")
+        updateDisplays(afterOperation: true)
+        
     }
     
     @objc func multiplyInput(){
-        basicOperator("x")
+        processOperation("x")
+        updateDisplays(afterOperation: true)
+        
     }
     
     @objc func divideInput(){
-        basicOperator("÷")
+        processOperation("÷")
+        updateDisplays(afterOperation: true)
     }
     
     @objc func chsInput(){
-        basicOperator("chs")
-    }
-    
-    @objc func clearInput(){
-        stackAutoLift = false
-        isNewNumberEntry = true // Start new number after clear input
-        
-        var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
-        
-        if stackRegisters[0] == 0.0 {
-            if stackRegisters[1] == 0.0 {
-                if stackRegisters[2] == 0.0 {
-                    if stackRegisters[3] == 0.0 {
-                        defaults.set(stackRegisters, forKey: "stackRegisters")
-                        dropStackRegistersOneAtATime()
-                        clearLastRegisters()
-                        updateDisplays()
-                        return
-                    } else {
-                        stackRegisters[3] = 0.0
-                    }
-                } else {
-                    stackRegisters[2] = 0.0
-                }
-            } else {
-                stackRegisters[1] = 0.0
-            }
-        } else {
-            stackRegisters[0] = 0.0
-        }
-        
-        clearLastRegisters()
-        defaults.set(stackRegisters, forKey: "stackRegisters")
-        updateDisplays()
-    }
-    
-    @ objc func clearButtonLongAction(gesture: UILongPressGestureRecognizer){
-        stackAutoLift = false
-        
-        isNewNumberEntry = true // Start new number after clear input
-        
-        let zeroRegisters = [0.0, 0.0, 0.0, 0.0, 0.0]
-        defaults.set(zeroRegisters, forKey: "stackRegisters")
-        clearLastRegisters()
-        updateDisplays()
+        processOperation("chs")
+        updateXRegisterDisplay(resultMode: false)
     }
     
     @objc func deleteInput(){
@@ -215,7 +325,24 @@ extension Calculator {
         
         let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         
-        let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
+        var xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
+        
+        // Code for getting decimals if number is from result (since then it will have xRegisterDecimals = 0
+        print(xRegisterDecimals)
+        if xRegisterDecimals == 0 {
+            xRegisterDecimals = 1
+            for i in 0...4 {
+
+                let truncateDecimals = (stackRegisters[0] * pow(10.0, Double(i))).truncatingRemainder(dividingBy: 1.0)
+
+                if truncateDecimals == 0 {
+                    break
+                } else {
+                    xRegisterDecimals += 1
+                }
+            }
+            
+        }
         
         if xRegisterDecimals <= 1 {
             
@@ -234,48 +361,74 @@ extension Calculator {
         if xRegisterDecimals <= 2 {
             UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
         }
-        clearLastXRegister()
-        updateDisplays()
+        
+        clearLastRegisters()
+        updateLastDisplayToNil()
+        updateXRegisterDisplay(resultMode: false)
     }
     
     @objc  func registerInputOne(){
         var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         stackRegisters[0] = stackRegisters[2]
         defaults.set(stackRegisters, forKey: "stackRegisters")
-        updateDisplays()
+        updateXRegisterDisplay(resultMode: false)
     }
     
     @objc  func registerInputTwo(){
         var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         stackRegisters[0] = stackRegisters[3]
         defaults.set(stackRegisters, forKey: "stackRegisters")
-        updateDisplays()
+        clearLastRegisters()
+        updateXRegisterDisplay(resultMode: false)
     }
     
     @objc  func registerInputThree(){
         var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         stackRegisters[0] = stackRegisters[4]
         defaults.set(stackRegisters, forKey: "stackRegisters")
-        updateDisplays()
+        clearLastRegisters()
+        updateXRegisterDisplay(resultMode: false)
     }
     
     @objc  func cancelInput(){
-        var stackRegisters = [Double]()
-        var stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
         
-        stackRegisters.append(defaults.double(forKey: "lRegisterX"))
-        stackRegisters.append(defaults.double(forKey: "lRegisterY"))
+        if lRegisterDisplay.text != "" {
+            var stackRegisters = [Double]()
+            var stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
+            
+            if defaults.bool(forKey: "lUnaryAction") {
+                stackRegisters.append(defaults.double(forKey: "lRegisterX"))
+                stackRegistersOld.removeFirst()
+                stackRegisters.append(contentsOf: stackRegistersOld)
+            } else {
+                stackRegisters.append(defaults.double(forKey: "lRegisterX"))
+                stackRegisters.append(defaults.double(forKey: "lRegisterY"))
+                
+                stackRegistersOld.removeFirst()
+                stackRegisters.append(contentsOf: stackRegistersOld)
+            }
+            
+            defaults.set(stackRegisters, forKey: "stackRegisters")
+            
+            clearLastRegisters()
+            updateDisplays(afterOperation: false)
+        }
+ 
+    }
+    
+    @objc  func swapInput(){
+        var stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         
+        let xRegister = stackRegisters[0]
+        let yRegister = stackRegisters[1]
         
-        stackRegistersOld.removeFirst()
-        stackRegisters.append(contentsOf: stackRegistersOld)
+        stackRegisters[0] = yRegister
+        stackRegisters[1] = xRegister
+        
         defaults.set(stackRegisters, forKey: "stackRegisters")
         
-        defaults.set(0.0, forKey: "lRegisterY")
-        defaults.set(0.0, forKey: "lRegisterX")
-        defaults.set("", forKey: "lOperator")
-        
-        updateDisplays()
+        clearLastRegisters()
+        updateDisplays(afterOperation: false)
     }
     
      func addTargets(){
@@ -348,17 +501,21 @@ extension Calculator {
         chsTapGesture.numberOfTapsRequired = 1
         chsButton.addGestureRecognizer(chsTapGesture)
         
-        let clearTapGesture = UITapGestureRecognizer(target: self, action: #selector(clearInput))
-        clearTapGesture.numberOfTapsRequired = 1
-        clearButton.addGestureRecognizer(clearTapGesture)
-        
         let clearLongTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(clearButtonLongAction(gesture:)))
         clearLongTapGesture.minimumPressDuration = minimumPressDuration
         clearButton.addGestureRecognizer(clearLongTapGesture)
         
-        let mainDisplayShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(deleteInput))
-        mainDisplayShortTapGesture.numberOfTapsRequired = 1
-        mainDisplay.addGestureRecognizer(mainDisplayShortTapGesture)
+        let swapShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(swapInput))
+        swapShortTapGesture.numberOfTapsRequired = 1
+        yRegisterDisplay.addGestureRecognizer(swapShortTapGesture)
+        
+        let cancelOperationShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(cancelInput))
+        cancelOperationShortTapGesture.numberOfTapsRequired = 1
+        lRegisterDisplay.addGestureRecognizer(cancelOperationShortTapGesture)
+        
+        let xRegisterDisplayShortTapGesture = UITapGestureRecognizer(target: self, action: #selector(deleteInput))
+        xRegisterDisplayShortTapGesture.numberOfTapsRequired = 1
+        xRegisterDisplay.addGestureRecognizer(xRegisterDisplayShortTapGesture)
         
         let registerTapGestureOne = UITapGestureRecognizer(target: self, action: #selector(registerInputOne))
         

@@ -20,12 +20,9 @@ class CalculatorButton: UIButton {
     
     var digitValue: Double?
     var digitString: String?
-    var stateZero: String?
-    var stateOne: String?
-    var stateTwo: String?
+    var operationString: String?
 
     var longPressStartTime = 0.0
-    var states: [String]?
     
     var originalBackgroundColor: UIColor!
     

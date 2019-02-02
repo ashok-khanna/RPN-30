@@ -18,6 +18,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        calculatorView.actualButtonHeight = calculatorView.bounds.height * calculatorView.buttonHeight
+        calculatorView.actualButtonWidth = calculatorView.bounds.width * calculatorView.buttonWidth
+        
+        print(calculatorView.bounds.height)
+        print(calculatorView.bounds.width)
+        print("test")
+    }
  
 }
 

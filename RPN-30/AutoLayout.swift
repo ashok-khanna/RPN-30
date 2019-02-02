@@ -17,8 +17,7 @@ extension Calculator {
         turnOffTranslatesAutoresizing()
         defineSizes()
         anchorConstraints()
-        
-        
+
     }
     
     func turnOffTranslatesAutoresizing () {
@@ -40,7 +39,7 @@ extension Calculator {
         sRegisterDisplay.translatesAutoresizingMaskIntoConstraints = false
         yRegisterDisplay.translatesAutoresizingMaskIntoConstraints = false
         lRegisterDisplay.translatesAutoresizingMaskIntoConstraints = false
-        mainDisplay.translatesAutoresizingMaskIntoConstraints = false
+        xRegisterDisplay.translatesAutoresizingMaskIntoConstraints = false
         
         clearButton.translatesAutoresizingMaskIntoConstraints = false
         chsButton.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +67,7 @@ extension Calculator {
         sRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.9, constant: 0.0).isActive = true // One-fourth height
         yRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.5, constant: 0.0).isActive = true // One-fourth height
         lRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 0.25, constant: 0.0).isActive = true // One-fourth height
-        mainDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:  buttonHeight, constant: 0.0).isActive = true
+        xRegisterDisplay.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:  buttonHeight, constant: 0.0).isActive = true
         
         clearButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
         chsButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
@@ -93,7 +92,7 @@ extension Calculator {
         yRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: 2.0 * buttonHorizontalPadding!).isActive = true // Twice width
         lRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 3.0, constant: buttonHorizontalPadding! * 2.0 - 2.0).isActive = true
         
-        mainDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0, constant: 0.0).isActive = true // Two-third width
+        xRegisterDisplay.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0, constant: 0.0).isActive = true // Two-third width
         
         clearButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
         chsButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth, constant: 0.0).isActive = true
@@ -120,28 +119,20 @@ extension Calculator {
         
         // Placement of buttons
         
-        // Row 0A
+        // Row 0
         sRegisterDisplay.leadingAnchor.constraint(equalTo: yRegisterDisplay.trailingAnchor, constant: buttonHorizontalPadding! ).isActive = true
         sRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         
         yRegisterDisplay.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
+        yRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
         
         lRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2.0).isActive = true
         lRegisterDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant:  buttonVerticalPadding! / 2.0).isActive = true
         
+        xRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
+        xRegisterDisplay.topAnchor.constraint(equalTo: sRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding! * 0.5).isActive = true
         
-        yRegisterDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        // functionDisplay.topAnchor.constraint(equalTo: yRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding! / 2.0).isActive = true
-        
-        //  functionDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        
-        
-        // Row 0B
-        
-        mainDisplay.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true
-        
-        mainDisplay.topAnchor.constraint(equalTo: sRegisterDisplay.bottomAnchor, constant: buttonVerticalPadding! * 0.5).isActive = true
-        // mainDisplay.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        xRegisterDisplay.topAnchor.constraint(equalToSystemSpacingBelow: sRegisterDisplay.bottom, multiplier: <#T##CGFloat#>)
         
         // Row 1
         clearButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0.0).isActive = true

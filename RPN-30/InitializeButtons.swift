@@ -14,20 +14,15 @@ extension Calculator {
         
         addAllToSubview()
         
-        mainDisplay.isUserInteractionEnabled = true
+        xRegisterDisplay.isUserInteractionEnabled = true
         sRegisterDisplay.isUserInteractionEnabled = true
+        lRegisterDisplay.isUserInteractionEnabled = true
+        yRegisterDisplay.isUserInteractionEnabled = true
         
         let functionTitleColor = UIColor.lightGray
         let functionTextColor = UIColor.black
-        
-        
-        // Set font size for main digits
         let digitTitleSize = UIFont.boldSystemFont(ofSize: 22.5)
-        
-        // Set font size for first row buttons
         let textTitleSize = UIFont.boldSystemFont(ofSize: 18.0)
-        
-        // Set font size for symbol buttons
         let symbolTitleSize = UIFont.systemFont(ofSize: 30.0)
         
         zeroButton.digitValue = 0.0
@@ -51,15 +46,15 @@ extension Calculator {
         eightButton.digitString = "eight"
         nineButton.digitString = "nine"
         
-        oneButton.states = ["EE"]
-        twoButton.states = ["√"]
-        threeButton.states = ["1/x"]
-        fourButton.states = ["%"]
-        fiveButton.states = ["% Δ"]
-        sixButton.states = ["% T"]
-        sevenButton.states = ["e^x"]
-        eightButton.states = ["ln x"]
-        nineButton.states = ["y^x"]
+        oneButton.operationString = "EE"
+        twoButton.operationString = "√"
+        threeButton.operationString = "1/x"
+        fourButton.operationString = "%"
+        fiveButton.operationString = "% Δ"
+        sixButton.operationString = "% T"
+        sevenButton.operationString = "e^x"
+        eightButton.operationString = "ln x"
+        nineButton.operationString = "y^x"
     
         // NSMutableAttributedStrings are used to store strings with formatting
         var myMutableString = NSMutableAttributedString()
@@ -148,8 +143,7 @@ extension Calculator {
         nineButton.setAttributedTitle(myMutableString, for: .normal)
         
         // Code for decimalButton Label
-        
-        let decimalFunctionLabel = UILabel()
+
         decimalFunctionLabel.text = "RECALL"
         decimalFunctionLabel.textColor = functionTextColor
         decimalFunctionLabel.backgroundColor = functionTitleColor
@@ -168,7 +162,6 @@ extension Calculator {
         
         // Code for zeroButton Label
         
-        let zeroFunctionLabel = UILabel()
         zeroFunctionLabel.text = "STORE"
         zeroFunctionLabel.textColor = functionTextColor
         zeroFunctionLabel.backgroundColor = functionTitleColor
@@ -187,7 +180,6 @@ extension Calculator {
         
         // Code for oneButton Label
         
-        let oneFunctionLabel = UILabel()
         oneFunctionLabel.text = "EE"
         oneFunctionLabel.textColor = functionTextColor
         oneFunctionLabel.backgroundColor = functionTitleColor
@@ -206,7 +198,6 @@ extension Calculator {
         
         // Code for twoButton Label
         
-        let twoFunctionLabel = UILabel()
         twoFunctionLabel.text = "√"
         twoFunctionLabel.textColor = functionTextColor
         twoFunctionLabel.backgroundColor = functionTitleColor
@@ -225,7 +216,6 @@ extension Calculator {
         
         // Code for threeButton Label
         
-        let threeFunctionLabel = UILabel()
         threeFunctionLabel.text = "1/x"
         threeFunctionLabel.textColor = functionTextColor
         threeFunctionLabel.backgroundColor = functionTitleColor
@@ -244,7 +234,6 @@ extension Calculator {
         
         // Code for fourButton Label
         
-        let fourFunctionLabel = UILabel()
         fourFunctionLabel.text = "%"
         fourFunctionLabel.textColor = functionTextColor
         fourFunctionLabel.backgroundColor = functionTitleColor
@@ -262,8 +251,7 @@ extension Calculator {
         fourFunctionLabel.clipsToBounds = true
         
         // Code for fiveButton Label
-        
-        let fiveFunctionLabel = UILabel()
+ 
         fiveFunctionLabel.text = "% Δ"
         fiveFunctionLabel.textColor = functionTextColor
         fiveFunctionLabel.backgroundColor = functionTitleColor
@@ -282,7 +270,6 @@ extension Calculator {
         
         // Code for sixButton Label
         
-        let sixFunctionLabel = UILabel()
         sixFunctionLabel.text = "% T"
         sixFunctionLabel.textColor = functionTextColor
         sixFunctionLabel.backgroundColor = functionTitleColor
@@ -301,7 +288,6 @@ extension Calculator {
         
         // Code for sevenButton Label
         
-        let sevenFunctionLabel = UILabel()
         sevenFunctionLabel.text = "e^x"
         sevenFunctionLabel.textColor = functionTextColor
         sevenFunctionLabel.backgroundColor = functionTitleColor
@@ -320,7 +306,6 @@ extension Calculator {
         
         // Code for eightButton Label
         
-        let eightFunctionLabel = UILabel()
         eightFunctionLabel.text = "ln x"
         eightFunctionLabel.textColor = functionTextColor
         eightFunctionLabel.backgroundColor = functionTitleColor
@@ -340,7 +325,6 @@ extension Calculator {
         
         // Code for nineButton Label
         
-        let nineFunctionLabel = UILabel()
         nineFunctionLabel.text = "y^x"
         nineFunctionLabel.textColor = functionTextColor
         nineFunctionLabel.backgroundColor = functionTitleColor
@@ -357,15 +341,13 @@ extension Calculator {
         nineFunctionLabel.layer.cornerRadius = 5
         nineFunctionLabel.clipsToBounds = true
         
-
-        
     }
     
     func addAllToSubview(){
         addSubview(sRegisterDisplay)
         addSubview(yRegisterDisplay)
         addSubview(lRegisterDisplay)
-        addSubview(mainDisplay)
+        addSubview(xRegisterDisplay)
         addSubview(clearButton)
         addSubview(chsButton)
         addSubview(divideButton)
