@@ -59,6 +59,7 @@ extension Calculator {
         sevenButton.translatesAutoresizingMaskIntoConstraints = false
         eightButton.translatesAutoresizingMaskIntoConstraints = false
         nineButton.translatesAutoresizingMaskIntoConstraints = false
+
     }
 
     
@@ -76,8 +77,8 @@ extension Calculator {
         minusButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
         plusButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
         enterButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: enterButtonHeight, constant: 0.0).isActive = true // double height
-        decimalButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
-        zeroButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
+        decimalButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 1.2, constant: 0.0).isActive = true
+        zeroButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight * 1.2, constant: 0.0).isActive = true
         oneButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
         twoButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
         threeButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: buttonHeight, constant: 0.0).isActive = true
@@ -177,6 +178,8 @@ extension Calculator {
         zeroButton.topAnchor.constraint(equalTo: oneButton.bottomAnchor, constant: buttonVerticalPadding!).isActive = true
         decimalButton.leadingAnchor.constraint(equalTo: zeroButton.trailingAnchor, constant: buttonHorizontalPadding!).isActive = true
         decimalButton.topAnchor.constraint(equalTo: threeButton.bottomAnchor, constant: buttonVerticalPadding!).isActive = true
+        
+        
     }
     
 

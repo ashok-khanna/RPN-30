@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g2O-R4-O5d" customClass="Calculator" customModule="RPN_30" customModuleProvider="target">
-                                <rect key="frame" x="16" y="52" width="343" height="551"/>
+                                <rect key="frame" x="16" y="52" width="343" height="583"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -32,7 +32,7 @@
                             <constraint firstItem="gU8-wr-UHx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="6yc-rB-xht"/>
                             <constraint firstItem="g2O-R4-O5d" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="Hap-Wn-uIH"/>
                             <constraint firstItem="gU8-wr-UHx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="KLn-hC-59i"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="g2O-R4-O5d" secondAttribute="bottom" constant="64" id="VId-IU-4FT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="g2O-R4-O5d" secondAttribute="bottom" constant="32" id="VId-IU-4FT"/>
                             <constraint firstAttribute="trailing" secondItem="gU8-wr-UHx" secondAttribute="trailing" id="Yf1-B8-9rw"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="g2O-R4-O5d" secondAttribute="trailing" constant="16" id="d4s-Sa-C2F"/>
                             <constraint firstAttribute="bottom" secondItem="gU8-wr-UHx" secondAttribute="bottom" id="oQJ-ZN-QnP"/>

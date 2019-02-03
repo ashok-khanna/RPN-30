@@ -158,7 +158,7 @@ extension Calculator {
         decimalFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         decimalFunctionLabel.centerXAnchor.constraint(equalTo: decimalButton.centerXAnchor, constant: 0.0).isActive = true
-        decimalFunctionLabel.bottomAnchor.constraint(equalTo: decimalButton.bottomAnchor, constant: -actualButtonHeight! / 15.0).isActive = true
+        decimalFunctionLabel.bottomAnchor.constraint(equalTo: decimalButton.bottomAnchor, constant: -actualButtonHeight! / 6.0).isActive = true
         
         decimalFunctionLabel.layer.cornerRadius = 5
         decimalFunctionLabel.clipsToBounds = true
@@ -176,7 +176,7 @@ extension Calculator {
         zeroFunctionLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: buttonWidth * 0.5, constant: 0.0).isActive = true
         
         zeroFunctionLabel.centerXAnchor.constraint(equalTo: zeroButton.centerXAnchor, constant: 0.0).isActive = true
-        zeroFunctionLabel.bottomAnchor.constraint(equalTo: zeroButton.bottomAnchor, constant:  -actualButtonHeight! / 15.0).isActive = true
+        zeroFunctionLabel.bottomAnchor.constraint(equalTo: zeroButton.bottomAnchor, constant:  -actualButtonHeight! / 6.0).isActive = true
         
         zeroFunctionLabel.layer.cornerRadius = 5
         zeroFunctionLabel.clipsToBounds = true
@@ -369,6 +369,7 @@ extension Calculator {
         addSubview(sevenButton)
         addSubview(eightButton)
         addSubview(nineButton)
+
     }
     
 }

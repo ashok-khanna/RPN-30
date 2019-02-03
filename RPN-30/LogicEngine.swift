@@ -45,7 +45,7 @@ extension Calculator {
         case "EE":
             xRegisterNew = yRegister * pow(10.0, Double(xRegister))
         case "√":
-            xRegisterNew = pow(xRegister, 1.0 / yRegister)
+            xRegisterNew = pow(yRegister, 1.0 / xRegister)
         case "1/x":
             xRegisterNew = 1 / xRegister
             unaryAction = true

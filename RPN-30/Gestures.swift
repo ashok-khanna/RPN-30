@@ -97,6 +97,7 @@ extension Calculator {
         
     }
     
+    
     @objc func clearButtonLongAction(gesture: UILongPressGestureRecognizer){
         
         UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
@@ -328,7 +329,7 @@ extension Calculator {
         var xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
         
         // Code for getting decimals if number is from result (since then it will have xRegisterDecimals = 0
-        print(xRegisterDecimals)
+        
         if xRegisterDecimals == 0 {
             xRegisterDecimals = 1
             for i in 0...4 {

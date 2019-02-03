@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let calculatorHeight = self.view.bounds.height - 96.0
+        let calculatorHeight = self.view.bounds.height - 64.0
         let calculatorWidth = self.view.bounds.width - 32.0
         calculatorView.actualButtonHeight = calculatorHeight * calculatorView.buttonHeight
         calculatorView.actualButtonWidth = calculatorWidth * calculatorView.buttonWidth

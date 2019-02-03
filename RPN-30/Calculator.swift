@@ -73,12 +73,12 @@ class Calculator: UIView, UITextFieldDelegate {
     
     //Bounds
     
-    let numberOfButtonRows = 7.0
+    let numberOfButtonRows = 7.2
     let numberOfButtonCols = 4.0
     let spacingBetweenButtonsAsPercentageOfButton = 0.2
     
     lazy var rowWidth = numberOfButtonCols + (numberOfButtonCols - 1.0) * spacingBetweenButtonsAsPercentageOfButton
-    lazy var colHeight = numberOfButtonRows + (numberOfButtonRows - 1.0) * spacingBetweenButtonsAsPercentageOfButton
+    lazy var colHeight = numberOfButtonRows + (numberOfButtonRows - 1.2) * spacingBetweenButtonsAsPercentageOfButton
     lazy var buttonWidth = CGFloat(1.0 / rowWidth)
     lazy var buttonHeight = CGFloat(1.0 / colHeight)
     
@@ -87,7 +87,7 @@ class Calculator: UIView, UITextFieldDelegate {
     lazy var xRegisterDisplayWidth = CGFloat((3 + 2 * spacingBetweenButtonsAsPercentageOfButton) / rowWidth)
     
     lazy var zeroButtonWidth = CGFloat((2 + spacingBetweenButtonsAsPercentageOfButton) / rowWidth)
-    lazy var enterButtonHeight = CGFloat((2 + spacingBetweenButtonsAsPercentageOfButton) / colHeight)
+    lazy var enterButtonHeight = CGFloat((2.2 + spacingBetweenButtonsAsPercentageOfButton) / colHeight)
     lazy var lRegisterWidth = CGFloat((3 + 2 * spacingBetweenButtonsAsPercentageOfButton) / rowWidth)
     
     var actualButtonHeight, actualButtonWidth, buttonHorizontalPadding, buttonVerticalPadding: CGFloat?
