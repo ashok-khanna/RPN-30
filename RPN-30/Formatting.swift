@@ -168,40 +168,43 @@ extension Calculator {
     
     func changeFunctionLabelToLightGray(_ whichDigit: String){
         
+        let functionBackgroundColor = UIColor.darkGray
+        let functionTextColor = UIColor.lightGray
+        
         switch whichDigit {
         case "decimal":
-            decimalFunctionLabel.backgroundColor = .lightGray
-            decimalFunctionLabel.textColor = .darkGray
+            decimalFunctionLabel.backgroundColor = functionBackgroundColor
+            decimalFunctionLabel.textColor = functionTextColor
         case "zero":
-            zeroFunctionLabel.backgroundColor = .lightGray
-            zeroFunctionLabel.textColor = .darkGray
+            zeroFunctionLabel.backgroundColor = functionBackgroundColor
+            zeroFunctionLabel.textColor = functionTextColor
         case "one":
-            oneFunctionLabel.backgroundColor = .lightGray
-            oneFunctionLabel.textColor = .darkGray
+            oneFunctionLabel.backgroundColor = functionBackgroundColor
+            oneFunctionLabel.textColor = functionTextColor
         case "two":
-            twoFunctionLabel.backgroundColor = .lightGray
-            twoFunctionLabel.textColor = .darkGray
+            twoFunctionLabel.backgroundColor = functionBackgroundColor
+            twoFunctionLabel.textColor = functionTextColor
         case "three":
-            threeFunctionLabel.backgroundColor = .lightGray
-            threeFunctionLabel.textColor = .darkGray
+            threeFunctionLabel.backgroundColor = functionBackgroundColor
+            threeFunctionLabel.textColor = functionTextColor
         case "four":
-            fourFunctionLabel.backgroundColor = .lightGray
-            fourFunctionLabel.textColor = .darkGray
+            fourFunctionLabel.backgroundColor = functionBackgroundColor
+            fourFunctionLabel.textColor = functionTextColor
         case "five":
-            fiveFunctionLabel.backgroundColor = .lightGray
-            fiveFunctionLabel.textColor = .darkGray
+            fiveFunctionLabel.backgroundColor = functionBackgroundColor
+            fiveFunctionLabel.textColor = functionTextColor
         case "six":
-            sixFunctionLabel.backgroundColor = .lightGray
-            sixFunctionLabel.textColor = .darkGray
+            sixFunctionLabel.backgroundColor = functionBackgroundColor
+            sixFunctionLabel.textColor = functionTextColor
         case "seven":
-            sevenFunctionLabel.backgroundColor = .lightGray
-            sevenFunctionLabel.textColor = .darkGray
+            sevenFunctionLabel.backgroundColor = functionBackgroundColor
+            sevenFunctionLabel.textColor = functionTextColor
         case "eight":
-            eightFunctionLabel.backgroundColor = .lightGray
-            eightFunctionLabel.textColor = .darkGray
+            eightFunctionLabel.backgroundColor = functionBackgroundColor
+            eightFunctionLabel.textColor = functionTextColor
         case "nine":
-            nineFunctionLabel.backgroundColor = .lightGray
-            nineFunctionLabel.textColor = .darkGray
+            nineFunctionLabel.backgroundColor = functionBackgroundColor
+            nineFunctionLabel.textColor = functionTextColor
         default:
             break
         }
@@ -210,44 +213,46 @@ extension Calculator {
     
     func changeFunctionLabelToDarkGray(_ whichDigit: String){
         
+        let functionBackgroundColor = UIColor.darkGray
+        let functionTextColor = UIColor.lightGray
+        
         switch whichDigit {
         case "decimal":
-            decimalFunctionLabel.backgroundColor = .darkGray
-            decimalFunctionLabel.textColor = .lightGray
+            decimalFunctionLabel.backgroundColor = functionBackgroundColor
+            decimalFunctionLabel.textColor = functionTextColor
         case "zero":
-            zeroFunctionLabel.backgroundColor = .darkGray
-            zeroFunctionLabel.textColor = .lightGray
+            zeroFunctionLabel.backgroundColor = functionBackgroundColor
+            zeroFunctionLabel.textColor = functionTextColor
         case "one":
-            oneFunctionLabel.backgroundColor = .darkGray
-            oneFunctionLabel.textColor = .lightGray
+            oneFunctionLabel.backgroundColor = functionBackgroundColor
+            oneFunctionLabel.textColor = functionTextColor
         case "two":
-            twoFunctionLabel.backgroundColor = .darkGray
-            twoFunctionLabel.textColor = .lightGray
+            twoFunctionLabel.backgroundColor = functionBackgroundColor
+            twoFunctionLabel.textColor = functionTextColor
         case "three":
-            threeFunctionLabel.backgroundColor = .darkGray
-            threeFunctionLabel.textColor = .lightGray
+            threeFunctionLabel.backgroundColor = functionBackgroundColor
+            threeFunctionLabel.textColor = functionTextColor
         case "four":
-            fourFunctionLabel.backgroundColor = .darkGray
-            fourFunctionLabel.textColor = .lightGray
+            fourFunctionLabel.backgroundColor = functionBackgroundColor
+            fourFunctionLabel.textColor = functionTextColor
         case "five":
-            fiveFunctionLabel.backgroundColor = .darkGray
-            fiveFunctionLabel.textColor = .lightGray
+            fiveFunctionLabel.backgroundColor = functionBackgroundColor
+            fiveFunctionLabel.textColor = functionTextColor
         case "six":
-            sixFunctionLabel.backgroundColor = .darkGray
-            sixFunctionLabel.textColor = .lightGray
+            sixFunctionLabel.backgroundColor = functionBackgroundColor
+            sixFunctionLabel.textColor = functionTextColor
         case "seven":
-            sevenFunctionLabel.backgroundColor = .darkGray
-            sevenFunctionLabel.textColor = .lightGray
+            sevenFunctionLabel.backgroundColor = functionBackgroundColor
+            sevenFunctionLabel.textColor = functionTextColor
         case "eight":
-            eightFunctionLabel.backgroundColor = .darkGray
-            eightFunctionLabel.textColor = .lightGray
+            eightFunctionLabel.backgroundColor = functionBackgroundColor
+            eightFunctionLabel.textColor = functionTextColor
         case "nine":
-            nineFunctionLabel.backgroundColor = .darkGray
-            nineFunctionLabel.textColor = .lightGray
+            nineFunctionLabel.backgroundColor = functionBackgroundColor
+            nineFunctionLabel.textColor = functionTextColor
         default:
             break
         }
-        
     }
     
 }

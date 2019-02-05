@@ -19,8 +19,8 @@ extension Calculator {
         lRegisterDisplay.isUserInteractionEnabled = true
         yRegisterDisplay.isUserInteractionEnabled = true
         
-        let functionTitleColor = UIColor.lightGray
-        let functionTextColor = UIColor.black
+        let functionTitleColor = UIColor.darkGray
+        let functionTextColor = UIColor.lightGray
         let digitTitleSize = UIFont.boldSystemFont(ofSize: 22.5)
         let textTitleSize = UIFont.boldSystemFont(ofSize: 18.0)
         let symbolTitleSize = UIFont.systemFont(ofSize: 30.0)
