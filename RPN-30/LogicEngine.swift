@@ -39,7 +39,7 @@ extension Calculator {
             xRegisterNew = yRegister / xRegister
         case "chs":
             xRegisterNew = -1 * xRegister
-            stackAutoLift = false // CHS is not an operation that should trigger stackautolift
+            stackAutoLift = true // CHS is not an operation that should trigger stackautolift (removed this)
             unaryAction = true
             
         case "EE":
@@ -171,13 +171,31 @@ extension Calculator {
     func decimalInput(){
         // No override of isNewNumberEntry because action depends on state of xRegister
         
-        let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
+        var xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
+        
+        if isNewNumberEntry {
+            if stackAutoLift {
+                liftStackRegisters()
+                stackAutoLift = false
+                clearLastRegisters()
+                updateYRegisterDisplay()
+                updateStackDisplay()
+            }
+            
+            isNewNumberEntry = false
+            amendStackRegister(value: 0.0, at: 0)
+            xRegisterDecimals = 0
+        }
+
         
         if xRegisterDecimals == 0 {
             UserDefaults.standard.set(xRegisterDecimals + 1, forKey: "xRegisterDecimals")
-        } else if xRegisterDecimals == 1 {
-            UserDefaults.standard.set(xRegisterDecimals - 1, forKey: "xRegisterDecimals")
         }
+                
+        /* Not required I think as using delete tap to remove decimals
+            else if xRegisterDecimals == 1 {
+            UserDefaults.standard.set(xRegisterDecimals - 1, forKey: "xRegisterDecimals")
+        } */
     }
     
     

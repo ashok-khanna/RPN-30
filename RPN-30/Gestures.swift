@@ -410,6 +410,7 @@ extension Calculator {
             }
             
             defaults.set(stackRegisters, forKey: "stackRegisters")
+            stackAutoLift = false
             
             clearLastRegisters()
             updateDisplays(afterOperation: false)
