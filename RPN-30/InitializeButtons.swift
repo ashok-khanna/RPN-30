@@ -47,7 +47,7 @@ extension Calculator {
         nineButton.digitString = "nine"
         
         oneButton.operationString = "x!"
-        twoButton.operationString = "√"
+        twoButton.operationString = "x√y"
         threeButton.operationString = "1/x"
         fourButton.operationString = "sin x"
         fiveButton.operationString = "% Δ"
