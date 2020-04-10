@@ -46,12 +46,12 @@ extension Calculator {
         eightButton.digitString = "eight"
         nineButton.digitString = "nine"
         
-        oneButton.operationString = "EE"
+        oneButton.operationString = "x!"
         twoButton.operationString = "√"
         threeButton.operationString = "1/x"
-        fourButton.operationString = "%"
+        fourButton.operationString = "sin x"
         fiveButton.operationString = "% Δ"
-        sixButton.operationString = "% T"
+        sixButton.operationString = "asin x"
         sevenButton.operationString = "e^x"
         eightButton.operationString = "ln x"
         nineButton.operationString = "y^x"
@@ -183,7 +183,7 @@ extension Calculator {
         
         // Code for oneButton Label
         
-        oneFunctionLabel.text = "EE"
+        oneFunctionLabel.text = "x!"
         oneFunctionLabel.textColor = functionTextColor
         oneFunctionLabel.backgroundColor = functionTitleColor
         oneFunctionLabel.font = functionLabelSize
@@ -237,7 +237,7 @@ extension Calculator {
         
         // Code for fourButton Label
         
-        fourFunctionLabel.text = "%"
+        fourFunctionLabel.text = "sin x"
         fourFunctionLabel.textColor = functionTextColor
         fourFunctionLabel.backgroundColor = functionTitleColor
         fourFunctionLabel.font = functionLabelSize
@@ -273,7 +273,7 @@ extension Calculator {
         
         // Code for sixButton Label
         
-        sixFunctionLabel.text = "% T"
+        sixFunctionLabel.text = "asin x"
         sixFunctionLabel.textColor = functionTextColor
         sixFunctionLabel.backgroundColor = functionTitleColor
         sixFunctionLabel.font = functionLabelSize

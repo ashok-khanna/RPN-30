@@ -63,6 +63,38 @@ extension Calculator {
             unaryAction = true
         case "y^x":
             xRegisterNew = pow(yRegister, xRegister)
+            
+        // New functions added Friday 10 April 2020
+        case "sin x":
+            xRegisterNew = sin(xRegister)
+            
+        case "asin x":
+            xRegisterNew = asin(xRegister)
+            unaryAction = true
+
+        case "x!":
+            
+            var xRegisterInt: Int = 0
+            
+            if xRegister >= 0.0 && xRegister < Double(Int.max) {
+                xRegisterInt = Int(xRegister.rounded())
+            }
+            
+            if xRegisterInt == 0 {
+                xRegisterNew = 1
+            } else {
+                
+                var a: Double = 1
+                for i in 1...xRegisterInt {
+                    a *= Double(i)
+                }
+                
+                xRegisterNew = a
+                
+            }
+
+            unaryAction = true
+        
         default:
             return
         }
