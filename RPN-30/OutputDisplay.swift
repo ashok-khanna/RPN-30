@@ -126,9 +126,11 @@ extension Calculator {
         
         if isUnary {
             lRegisterDisplay.text = lOperatorString + "  " + lRegisterXString
+        } else if lOperatorString == "√" {
+            lRegisterDisplay.text = lRegisterXString + "  " + "√" + "  " + lRegisterYString
         } else {
-            lRegisterDisplay.text = lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString
-        }
+	    lRegisterDisplay.text = lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString
+	}
         
     }
     
