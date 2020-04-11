@@ -105,7 +105,7 @@ extension Calculator {
         
         let lRegisterX = defaults.double(forKey: "lRegisterX")
         let lRegisterY = defaults.double(forKey: "lRegisterY")
-        let lOperatorString = defaults.string(forKey: "lOperator") ?? ""
+        var lOperatorString = defaults.string(forKey: "lOperator") ?? ""
 
         let lRegisterXNS = NSNumber(value: lRegisterX)
         let lRegisterYNS = NSNumber(value: lRegisterY)
@@ -124,13 +124,41 @@ extension Calculator {
             lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
         }
         
-        if isUnary {
-            lRegisterDisplay.text = lOperatorString + "  " + lRegisterXString
-        } else if lOperatorString == "√" {
-            lRegisterDisplay.text = lRegisterXString + "  " + "√" + "  " + lRegisterYString
-        } else {
-	    lRegisterDisplay.text = lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString
-	}
+        switch lOperatorString {
+            
+            case "+":
+                lRegisterDisplay.text = lRegisterYString + " " + lOperatorString + " " + lRegisterXString
+            case "−":
+                lRegisterDisplay.text = lRegisterYString + " " + lOperatorString + " " + lRegisterXString
+            case "x":
+                lRegisterDisplay.text = lRegisterYString + " " + lOperatorString + " " + lRegisterXString
+            case "÷":
+                lRegisterDisplay.text = lRegisterYString + " " + lOperatorString + " " + lRegisterXString
+            case "x!":
+                lRegisterDisplay.text = lRegisterXString + "!"
+            case "x√y":
+                lRegisterDisplay.text = lRegisterXString + " " + "√" + " " + lRegisterYString
+            case "1/x":
+                lRegisterDisplay.text = "1 ÷ " + lRegisterXString
+            case "sin x":
+                lRegisterDisplay.text = "sin(" + lRegisterXString + ")"
+            case "% Δ":
+                lRegisterDisplay.text = "% change  of (" + lRegisterXString + " - " + lRegisterYString + ")"
+            case "asin x":
+                lRegisterDisplay.text = "asin(" + lRegisterXString + ")"
+            case "e^x":
+                lRegisterDisplay.text = "e ^ " + lRegisterXString
+            case "ln x":
+                lRegisterDisplay.text = "ln(" + lRegisterXString + ")"
+            case "y^x":
+                lRegisterDisplay.text = lRegisterYString + " " + "^" + " " + lRegisterXString
+            default:
+                if isUnary {
+                    lRegisterDisplay.text = lOperatorString + "  " + lRegisterXString
+                } else {
+                   lRegisterDisplay.text = lRegisterYString + "  " + lOperatorString + "  " + lRegisterXString
+                }
+        }
         
     }
     
