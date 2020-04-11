@@ -122,12 +122,17 @@ extension Calculator {
     }
     
     func processStoreRecall(_ sender: CalculatorButton) {
+
+        // Trying to make STORE/RECALL to register 9 write/read iOS Clipboard
+        // Warning: mash may not know what he is doing!!
         
         let stackRegistersOld = defaults.array(forKey: "stackRegisters") as! [Double]
         
         if storeBalance {
-            
-            if sender.digitValue != 0 {
+
+            if sender.digitValue == 9 { // write to iOS clipboard
+                UIPasteboard.general.string = stackRegistersOld[0]
+            } else if sender.digitValue != 0 {
                 defaults.set(stackRegistersOld[0], forKey: sender.digitString!)
             }
             isNewNumberEntry = true
@@ -144,7 +149,11 @@ extension Calculator {
                 updateStackDisplay()
             }
             
-            if sender.digitValue != 0 {
+            if sender.digitValue == 9 { // read from iOS clipboard
+                // Probably need to test that clipboard content is a number, otherwise convert to 0 or give error
+                let xRegisterNew = UIPasteboard.general.string
+                amendStackRegister(value: xRegisterNew, at: 0)
+            } else if sender.digitValue != 0 {
                 let xRegisterNew = defaults.double(forKey: sender.digitString!)
                 amendStackRegister(value: xRegisterNew, at: 0)
             }
