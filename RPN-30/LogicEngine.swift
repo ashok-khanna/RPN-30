@@ -77,6 +77,9 @@ extension Calculator {
             // If the math library https://swift.org/blog/numerics/ already has gamma()
             // Then the generalized factorial https://en.wikipedia.org/wiki/Gamma_function is really easy
             // Otherwise mash will port https://en.wikipedia.org/wiki/Lanczos_approximation#Simple_implementation
+
+            // On closer reading the built-in function for swift appears to be tgamma()
+            // Just correcting it here.
             
             // var xRegisterInt: Int = 0
             
@@ -97,7 +100,7 @@ extension Calculator {
                 
             // }
 
-            xRegisterNew = gamma(xRegister + 1)
+            xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
         
         default:
