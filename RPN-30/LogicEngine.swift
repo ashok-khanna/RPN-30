@@ -73,26 +73,31 @@ extension Calculator {
             unaryAction = true
 
         case "x!":
-            
-            var xRegisterInt: Int = 0
-            
-            if xRegister >= 0.0 && xRegister < Double(Int.max) {
-                xRegisterInt = Int(xRegister.rounded())
-            }
-            
-            if xRegisterInt == 0 {
-                xRegisterNew = 1
-            } else {
-                
-                var a: Double = 1
-                for i in 1...xRegisterInt {
-                    a *= Double(i)
-                }
-                
-                xRegisterNew = a
-                
-            }
 
+            // If the math library https://swift.org/blog/numerics/ already has gamma()
+            // Then the generalized factorial https://en.wikipedia.org/wiki/Gamma_function is really easy
+            // Otherwise mash will port https://en.wikipedia.org/wiki/Lanczos_approximation#Simple_implementation
+            
+            // var xRegisterInt: Int = 0
+            
+            // if xRegister >= 0.0 && xRegister < Double(Int.max) {
+            //     xRegisterInt = Int(xRegister.rounded())
+            // }
+            
+            // if xRegisterInt == 0 {
+            //     xRegisterNew = 1
+            // } else {
+                
+            //     var a: Double = 1
+            //     for i in 1...xRegisterInt {
+            //         a *= Double(i)
+            //     }
+                
+            //     xRegisterNew = a
+                
+            // }
+
+            xRegisterNew = gamma(xRegister + 1)
             unaryAction = true
         
         default:
