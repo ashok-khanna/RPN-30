@@ -67,6 +67,7 @@ extension Calculator {
         // New functions added Friday 10 April 2020
         case "sin x":
             xRegisterNew = sin(xRegister)
+            unaryAction = true
             
         case "asin x":
             xRegisterNew = asin(xRegister)
