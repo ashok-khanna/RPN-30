@@ -67,6 +67,7 @@ extension Calculator {
         // New functions added Friday 10 April 2020
         case "sin x":
             xRegisterNew = sin(xRegister)
+            unaryAction = true
             
         case "asin x":
             xRegisterNew = asin(xRegister)
@@ -74,26 +75,33 @@ extension Calculator {
 
         case "x!":
             
-            var xRegisterInt: Int = 0
             
-            if xRegister >= 0.0 && xRegister < Double(Int.max) {
-                xRegisterInt = Int(xRegister.rounded())
-            }
-            
-            if xRegisterInt == 0 {
-                xRegisterNew = 1
-            } else {
-                
-                var a: Double = 1
-                for i in 1...xRegisterInt {
-                    a *= Double(i)
-                }
-                
-                xRegisterNew = a
-                
-            }
-
+            xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
+            
+ /* Old code for integer factorials
+             var xRegisterInt: Int = 0
+             
+             if xRegister >= 0.0 && xRegister < Double(Int.max) {
+                 xRegisterInt = Int(xRegister.rounded())
+             }
+             
+             if xRegisterInt == 0 {
+                 xRegisterNew = 1
+             } else {
+                 
+                 var a: Double = 1
+                 for i in 1...xRegisterInt {
+                     a *= Double(i)
+                 }
+                 
+                 xRegisterNew = a
+                 
+             }
+             
+             
+*/
+
         
         default:
             return
@@ -127,11 +135,15 @@ extension Calculator {
         
         if storeBalance {
             
-            if sender.digitValue != 0 {
+            if sender.digitValue != 0 && sender.digitValue != 9 {
                 defaults.set(stackRegistersOld[0], forKey: sender.digitString!)
             }
             isNewNumberEntry = true
             storeBalance = false
+            
+            if sender.digitValue == 9 {
+                UIPasteboard.general.string = String(stackRegistersOld[0])
+            }
             
         }
 
@@ -144,9 +156,18 @@ extension Calculator {
                 updateStackDisplay()
             }
             
-            if sender.digitValue != 0 {
+            if sender.digitValue != 0 && sender.digitValue != 9 {
                 let xRegisterNew = defaults.double(forKey: sender.digitString!)
                 amendStackRegister(value: xRegisterNew, at: 0)
+            }
+            
+            if sender.digitValue == 9 {
+                
+                if let myString = UIPasteboard.general.string {
+                    let xRegisterNew = Double(myString) ?? 0.0
+                    amendStackRegister(value: xRegisterNew, at: 0)
+                }
+
             }
             
             isNewNumberEntry = true

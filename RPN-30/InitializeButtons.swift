@@ -46,15 +46,15 @@ extension Calculator {
         eightButton.digitString = "eight"
         nineButton.digitString = "nine"
         
-        oneButton.operationString = "x!"
+        oneButton.operationString = "y^x"
         twoButton.operationString = "x√y"
         threeButton.operationString = "1/x"
         fourButton.operationString = "sin x"
-        fiveButton.operationString = "% Δ"
-        sixButton.operationString = "asin x"
+        fiveButton.operationString = "asin x"
+        sixButton.operationString = "x!"
         sevenButton.operationString = "e^x"
         eightButton.operationString = "ln x"
-        nineButton.operationString = "y^x"
+        nineButton.operationString = "EE"
         
         zeroFunctionLabel.adjustsFontSizeToFitWidth = true
         decimalFunctionLabel.adjustsFontSizeToFitWidth = true
