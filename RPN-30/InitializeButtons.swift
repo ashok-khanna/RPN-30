@@ -54,7 +54,7 @@ extension Calculator {
         sixButton.operationString = "x!"
         sevenButton.operationString = "e^x"
         eightButton.operationString = "ln x"
-        nineButton.operationString = "yEEx"
+        nineButton.operationString = "y EE x"
         
         zeroFunctionLabel.adjustsFontSizeToFitWidth = true
         decimalFunctionLabel.adjustsFontSizeToFitWidth = true
