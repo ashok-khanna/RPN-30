@@ -47,14 +47,14 @@ extension Calculator {
         nineButton.digitString = "nine"
         
         oneButton.operationString = "y^x"
-        twoButton.operationString = "x√y"
+        twoButton.operationString = "√x"
         threeButton.operationString = "1/x"
         fourButton.operationString = "sin x"
         fiveButton.operationString = "asin x"
         sixButton.operationString = "x!"
         sevenButton.operationString = "e^x"
         eightButton.operationString = "ln x"
-        nineButton.operationString = "EE"
+        nineButton.operationString = "yEEx"
         
         zeroFunctionLabel.adjustsFontSizeToFitWidth = true
         decimalFunctionLabel.adjustsFontSizeToFitWidth = true

@@ -136,6 +136,8 @@ extension Calculator {
                 lRegisterDisplay.text = lRegisterYString + " " + lOperatorString + " " + lRegisterXString
             case "x!":
                 lRegisterDisplay.text = lRegisterXString + "!"
+            case "√x":
+                lRegisterDisplay.text = "√" + lRegisterXString
             case "x√y":
                 lRegisterDisplay.text = lRegisterXString + " " + "√" + " " + lRegisterYString
             case "1/x":
