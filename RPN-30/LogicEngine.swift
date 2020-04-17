@@ -42,7 +42,7 @@ extension Calculator {
             stackAutoLift = true // CHS is not an operation that should trigger stackautolift (removed this)
             unaryAction = true
             
-        case "yEEx":
+        case "y EE x":
             xRegisterNew = yRegister * pow(10.0, Double(xRegister))
         case "√x":
             xRegisterNew = sqrt(xRegister)
