@@ -42,8 +42,11 @@ extension Calculator {
             stackAutoLift = true // CHS is not an operation that should trigger stackautolift (removed this)
             unaryAction = true
             
-        case "EE":
+        case "yEEx":
             xRegisterNew = yRegister * pow(10.0, Double(xRegister))
+        case "√x":
+            xRegisterNew = sqrt(xRegister)
+            unaryAction = true
         case "x√y":
             xRegisterNew = pow(yRegister, 1.0 / xRegister)
         case "1/x":
@@ -64,18 +67,26 @@ extension Calculator {
         case "y^x":
             xRegisterNew = pow(yRegister, xRegister)
             
-        // New functions added Friday 10 April 2020
+        // New functions added since Friday 10 April 2020
         case "sin x":
             xRegisterNew = sin(xRegister)
             unaryAction = true
-            
+        case "cos x":
+            xRegisterNew = cos(xRegister)
+            unaryAction = true
+        case "tan x":
+            xRegisterNew = tan(xRegister)
+            unaryAction = true
         case "asin x":
             xRegisterNew = asin(xRegister)
             unaryAction = true
-
+        case "acos x":
+            xRegisterNew = acos(xRegister)
+            unaryAction = true
+        case "atan x":
+            xRegisterNew = atan(xRegister)
+            unaryAction = true
         case "x!":
-            
-            
             xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
             
