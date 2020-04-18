@@ -79,36 +79,29 @@ extension Calculator {
             xRegisterNew = log2(x)
             unaryAction = true
 
-            // Trig functions (from second page)            
+            // Trig functions (from second page)
+            // Treat these unary actions as if they were not so that they roll the stack 
         case "TRIG":
             switch xRegister {
             case "1":
                 xRegisterNew = sin(yRegister)
-                unaryAction = true
             case "2":
                 xRegisterNew = cos(yRegister)
-                unaryAction = true
             case "3":
                 xRegisterNew = tan(yRegister)
-                unaryAction = true
             case "4":
                 xRegisterNew = asin(yRegister)
-                unaryAction = true
             case "5":
                 xRegisterNew = acos(yRegister)
-                unaryAction = true
             case "6":
                 xRegisterNew = atan(yRegister)
-                unaryAction = true
             case "7":
                 xRegisterNew = M_PI
                 unaryAction = true
             case "8":
                 xRegisterNew = M_PI * yRegister / 180.0
-                unaryAction = true
             case "9":
                 xRegisterNew = 180.0 * yRegister / M_PI
-                unaryAction = true
             default:
                 return
             }
