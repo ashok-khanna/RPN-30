@@ -148,8 +148,10 @@ extension Calculator {
                 lRegisterDisplay.text = "e ^ " + lRegisterXString
             case "ln x":
                 lRegisterDisplay.text = "ln(" + lRegisterXString + ")"
-            case "log10 x"                
-            lRegisterDisplay.text = "log10(" + lRegisterXString + ")"
+            case "log10 x":
+                lRegisterDisplay.text = "log10(" + lRegisterXString + ")"
+            case "log2 x":
+                lRegisterDisplay.text = "log2(" + lRegisterXString + ")"
             case "y^x":
                 lRegisterDisplay.text = lRegisterYString + " " + "^" + " " + lRegisterXString
             case "TRIG":
