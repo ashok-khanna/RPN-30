@@ -11,7 +11,7 @@ import UIKit
 extension Calculator {
     
     // MARK: Operations and Number Entry
-
+    
     func processOperation(_ operation: String){
         
         // Function is called whenever a operator key is entered
@@ -67,53 +67,79 @@ extension Calculator {
         case "y^x":
             xRegisterNew = pow(yRegister, xRegister)
             
-        // New functions added since Friday 10 April 2020
-        case "sin x":
-            xRegisterNew = sin(xRegister)
-            unaryAction = true
-        case "cos x":
-            xRegisterNew = cos(xRegister)
-            unaryAction = true
-        case "tan x":
-            xRegisterNew = tan(xRegister)
-            unaryAction = true
-        case "asin x":
-            xRegisterNew = asin(xRegister)
-            unaryAction = true
-        case "acos x":
-            xRegisterNew = acos(xRegister)
-            unaryAction = true
-        case "atan x":
-            xRegisterNew = atan(xRegister)
-            unaryAction = true
+            // New functions added since Friday 10 April 2020
+            
         case "x!":
             xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
-            
- /* Old code for integer factorials
-             var xRegisterInt: Int = 0
-             
-             if xRegister >= 0.0 && xRegister < Double(Int.max) {
-                 xRegisterInt = Int(xRegister.rounded())
-             }
-             
-             if xRegisterInt == 0 {
-                 xRegisterNew = 1
-             } else {
-                 
-                 var a: Double = 1
-                 for i in 1...xRegisterInt {
-                     a *= Double(i)
-                 }
-                 
-                 xRegisterNew = a
-                 
-             }
-             
-             
-*/
+        case "log10 x":
+            xRegisterNew = log10(x)
+            unaryAction = true
+        case "log2 x":
+            xRegisterNew = log2(x)
+            unaryAction = true
 
-        
+            // Trig functions (from second page)            
+        case "TRIG":
+            switch xRegister {
+            case "1":
+                xRegisterNew = sin(yRegister)
+                unaryAction = true
+            case "2":
+                xRegisterNew = cos(yRegister)
+                unaryAction = true
+            case "3":
+                xRegisterNew = tan(yRegister)
+                unaryAction = true
+            case "4":
+                xRegisterNew = asin(yRegister)
+                unaryAction = true
+            case "5":
+                xRegisterNew = acos(yRegister)
+                unaryAction = true
+            case "6":
+                xRegisterNew = atan(yRegister)
+                unaryAction = true
+            case "7":
+                xRegisterNew = M_PI
+                unaryAction = true
+            case "8":
+                xRegisterNew = M_PI * yRegister / 180.0
+                unaryAction = true
+            case "9":
+                xRegisterNew = 180.0 * yRegister / M_PI
+                unaryAction = true
+            default:
+                return
+            }
+
+        case "sin x":
+            xRegisterNew = sin(yRegister)
+            unaryAction = true
+        case "cos x":
+            xRegisterNew = cos(yRegister)
+            unaryAction = true
+        case "tan x":
+            xRegisterNew = tan(yRegister)
+            unaryAction = true
+        case "asin x":
+            xRegisterNew = asin(yRegister)
+            unaryAction = true
+        case "acos x":
+            xRegisterNew = acos(yRegister)
+            unaryAction = true
+        case "atan x":
+            xRegisterNew = atan(yRegister)
+            unaryAction = true
+        case "pi":
+            xRegisterNew = M_PI
+            unaryAction = true
+        case "D→R":
+            xRegisterNew = M_PI * yRegister / 180.0
+            unaryAction = true
+        case "R→D":
+            xRegisterNew = 180.0 * yRegister / M_PI
+            unaryAction = true
         default:
             return
         }
