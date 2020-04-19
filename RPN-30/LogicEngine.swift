@@ -87,24 +87,24 @@ extension Calculator {
             // Treat these unary actions as if they were not so that they roll the stack 
         case "TRIG":
             switch xRegister {
-            case "1":
+            case 1.0:
                 xRegisterNew = sin(yRegister)
-            case "2":
+            case 2.0:
                 xRegisterNew = cos(yRegister)
-            case "3":
+            case 3.0:
                 xRegisterNew = tan(yRegister)
-            case "4":
+            case 4.0:
                 xRegisterNew = asin(yRegister)
-            case "5":
+            case 5.0:
                 xRegisterNew = acos(yRegister)
-            case "6":
+            case 6.0:
                 xRegisterNew = atan(yRegister)
-            case "7":
+            case 7.0:
                 xRegisterNew = Double.pi
                 unaryAction = true
-            case "8":
+            case 8.0:
                 xRegisterNew = Double.pi * yRegister / 180.0
-            case "9":
+            case 9.0:
                 xRegisterNew = 180.0 * yRegister / Double.pi
             default:
                 return
