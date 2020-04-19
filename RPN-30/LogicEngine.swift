@@ -10,8 +10,12 @@ import UIKit
 
 extension Calculator {
     
+    func logC(val: Double, forBase base: Double) -> Double {
+        return log(val)/log(base)
+    }
+    
     // MARK: Operations and Number Entry
-
+    
     func processOperation(_ operation: String){
         
         // Function is called whenever a operator key is entered
@@ -67,53 +71,72 @@ extension Calculator {
         case "y^x":
             xRegisterNew = pow(yRegister, xRegister)
             
-        // New functions added since Friday 10 April 2020
-        case "sin x":
-            xRegisterNew = sin(xRegister)
-            unaryAction = true
-        case "cos x":
-            xRegisterNew = cos(xRegister)
-            unaryAction = true
-        case "tan x":
-            xRegisterNew = tan(xRegister)
-            unaryAction = true
-        case "asin x":
-            xRegisterNew = asin(xRegister)
-            unaryAction = true
-        case "acos x":
-            xRegisterNew = acos(xRegister)
-            unaryAction = true
-        case "atan x":
-            xRegisterNew = atan(xRegister)
-            unaryAction = true
+            // New functions added since Friday 10 April 2020
+            
         case "x!":
             xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
-            
- /* Old code for integer factorials
-             var xRegisterInt: Int = 0
-             
-             if xRegister >= 0.0 && xRegister < Double(Int.max) {
-                 xRegisterInt = Int(xRegister.rounded())
-             }
-             
-             if xRegisterInt == 0 {
-                 xRegisterNew = 1
-             } else {
-                 
-                 var a: Double = 1
-                 for i in 1...xRegisterInt {
-                     a *= Double(i)
-                 }
-                 
-                 xRegisterNew = a
-                 
-             }
-             
-             
-*/
+        case "log10 x":
+            xRegisterNew = logC(val:xRegister, forBase:10.0)
+            unaryAction = true
+        case "log x":
+            xRegisterNew = logC(val:xRegister, forBase:2.0)
+            unaryAction = true
 
-        
+            // Trig functions (from second page)
+            // Treat these unary actions as if they were not so that they roll the stack 
+        case "TRIG":
+            switch xRegister {
+            case 1.0:
+                xRegisterNew = sin(yRegister)
+            case 2.0:
+                xRegisterNew = cos(yRegister)
+            case 3.0:
+                xRegisterNew = tan(yRegister)
+            case 4.0:
+                xRegisterNew = asin(yRegister)
+            case 5.0:
+                xRegisterNew = acos(yRegister)
+            case 6.0:
+                xRegisterNew = atan(yRegister)
+            case 7.0:
+                xRegisterNew = Double.pi
+                unaryAction = true
+            case 8.0:
+                xRegisterNew = Double.pi * yRegister / 180.0
+            case 9.0:
+                xRegisterNew = 180.0 * yRegister / Double.pi
+            default:
+                return
+            }
+
+        case "sin x":
+            xRegisterNew = sin(yRegister)
+            unaryAction = true
+        case "cos x":
+            xRegisterNew = cos(yRegister)
+            unaryAction = true
+        case "tan x":
+            xRegisterNew = tan(yRegister)
+            unaryAction = true
+        case "asin x":
+            xRegisterNew = asin(yRegister)
+            unaryAction = true
+        case "acos x":
+            xRegisterNew = acos(yRegister)
+            unaryAction = true
+        case "atan x":
+            xRegisterNew = atan(yRegister)
+            unaryAction = true
+        case "pi":
+            xRegisterNew = Double.pi
+            unaryAction = true
+        case "D→R":
+            xRegisterNew = Double.pi * yRegister / 180.0
+            unaryAction = true
+        case "R→D":
+            xRegisterNew = 180.0 * yRegister / Double.pi
+            unaryAction = true
         default:
             return
         }

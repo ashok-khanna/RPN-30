@@ -142,18 +142,54 @@ extension Calculator {
                 lRegisterDisplay.text = lRegisterXString + " " + "√" + " " + lRegisterYString
             case "1/x":
                 lRegisterDisplay.text = "1 ÷ " + lRegisterXString
-            case "sin x":
-                lRegisterDisplay.text = "sin(" + lRegisterXString + ")"
             case "% Δ":
                 lRegisterDisplay.text = "% change  of (" + lRegisterXString + " - " + lRegisterYString + ")"
-            case "asin x":
-                lRegisterDisplay.text = "asin(" + lRegisterXString + ")"
             case "e^x":
                 lRegisterDisplay.text = "e ^ " + lRegisterXString
             case "ln x":
                 lRegisterDisplay.text = "ln(" + lRegisterXString + ")"
+            case "log10 x":
+                lRegisterDisplay.text = "log10(" + lRegisterXString + ")"
+            case "log2 x":
+                lRegisterDisplay.text = "log2(" + lRegisterXString + ")"
             case "y^x":
                 lRegisterDisplay.text = lRegisterYString + " " + "^" + " " + lRegisterXString
+            case "TRIG":
+                switch lRegisterXString {
+                case "1":
+                    lRegisterDisplay.text = "sin(" + lRegisterYString + ")"
+                case "2":
+                    lRegisterDisplay.text = "cos(" + lRegisterYString + ")"
+                case "3":
+                    lRegisterDisplay.text = "tan(" + lRegisterYString + ")"
+                case "4":
+                    lRegisterDisplay.text = "asin(" + lRegisterYString + ")"
+                case "5":
+                    lRegisterDisplay.text = "acos(" + lRegisterYString + ")"
+                case "6":
+                    lRegisterDisplay.text = "atan(" + lRegisterYString + ")"                    
+                case "7":
+                    lRegisterDisplay.text = "pi"
+                case "8":
+                    lRegisterDisplay.text = "D→R"
+                case "9":
+                    lRegisterDisplay.text = "R→D"
+                default:
+                    return
+                }
+                
+            case "sin x":
+                lRegisterDisplay.text = "sin(" + lRegisterYString + ")"
+            case "cos x":
+                lRegisterDisplay.text = "cos(" + lRegisterYString + ")"
+            case "tan x":
+                lRegisterDisplay.text = "tan(" + lRegisterYString + ")"
+            case "asin x":
+                lRegisterDisplay.text = "asin(" + lRegisterYString + ")"
+            case "acos x":
+                lRegisterDisplay.text = "acos(" + lRegisterYString + ")"
+            case "atan x":
+                lRegisterDisplay.text = "atan(" + lRegisterYString + ")"
             default:
                 if isUnary {
                     lRegisterDisplay.text = lOperatorString + "  " + lRegisterXString
