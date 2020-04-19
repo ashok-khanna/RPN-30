@@ -10,6 +10,10 @@ import UIKit
 
 extension Calculator {
     
+    func logC(val: Double, forBase base: Double) -> Double {
+        return log(val)/log(base)
+    }
+    
     // MARK: Operations and Number Entry
     
     func processOperation(_ operation: String){
@@ -73,10 +77,10 @@ extension Calculator {
             xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
         case "log10 x":
-            xRegisterNew = log10(x)
+            xRegisterNew = logC(val:xRegister, forBase:10.0)
             unaryAction = true
-        case "log2 x":
-            xRegisterNew = log2(x)
+        case "log x":
+            xRegisterNew = logC(val:xRegister, forBase:2.0)
             unaryAction = true
 
             // Trig functions (from second page)
@@ -96,12 +100,12 @@ extension Calculator {
             case "6":
                 xRegisterNew = atan(yRegister)
             case "7":
-                xRegisterNew = M_PI
+                xRegisterNew = Double.pi
                 unaryAction = true
             case "8":
-                xRegisterNew = M_PI * yRegister / 180.0
+                xRegisterNew = Double.pi * yRegister / 180.0
             case "9":
-                xRegisterNew = 180.0 * yRegister / M_PI
+                xRegisterNew = 180.0 * yRegister / Double.pi
             default:
                 return
             }
@@ -125,13 +129,13 @@ extension Calculator {
             xRegisterNew = atan(yRegister)
             unaryAction = true
         case "pi":
-            xRegisterNew = M_PI
+            xRegisterNew = Double.pi
             unaryAction = true
         case "D→R":
-            xRegisterNew = M_PI * yRegister / 180.0
+            xRegisterNew = Double.pi * yRegister / 180.0
             unaryAction = true
         case "R→D":
-            xRegisterNew = 180.0 * yRegister / M_PI
+            xRegisterNew = 180.0 * yRegister / Double.pi
             unaryAction = true
         default:
             return
