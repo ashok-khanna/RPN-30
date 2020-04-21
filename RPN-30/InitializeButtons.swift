@@ -49,10 +49,10 @@ extension Calculator {
         oneButton.operationString = "√x"
         twoButton.operationString = "1/x"
         threeButton.operationString = "y^x"
-        fourButton.operationString = "TRIG"
+        fourButton.operationString = "x!"
         fiveButton.operationString = "ln x"
         sixButton.operationString = "log10 x"
-        sevenButton.operationString = "x!"
+        sevenButton.operationString = "TRIG"
         eightButton.operationString = "e^x"
         nineButton.operationString = "y EE x"
         
