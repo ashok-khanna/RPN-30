@@ -334,7 +334,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.90;
+				MARKETING_VERSION = 1.91;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ashok.RPN-30";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -354,7 +354,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.90;
+				MARKETING_VERSION = 1.91;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ashok.RPN-30";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
