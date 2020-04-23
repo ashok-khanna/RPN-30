@@ -79,7 +79,7 @@ extension Calculator {
         case "log10 x":
             xRegisterNew = logC(val:xRegister, forBase:10.0)
             unaryAction = true
-        case "log x":
+        case "log2 x":
             xRegisterNew = logC(val:xRegister, forBase:2.0)
             unaryAction = true
 
@@ -128,7 +128,7 @@ extension Calculator {
         case "atan x":
             xRegisterNew = atan(yRegister)
             unaryAction = true
-        case "pi":
+        case "π":
             xRegisterNew = Double.pi
             unaryAction = true
         case "D→R":

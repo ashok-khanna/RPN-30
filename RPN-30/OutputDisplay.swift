@@ -114,13 +114,21 @@ extension Calculator {
         
         if abs(lRegisterY) > maxNumberLengthForLRegister {
             lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
-        } else {
+        } else if lRegisterY == 0 {
+	    lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
+	} else if lRegisterY < minNumberLengthForLRegister {
+	    lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
+	} else {
             lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
         }
         
         if abs(lRegisterX) > maxNumberLengthForLRegister {
             lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
-        } else {
+        } else if lRegisterX == 0 {
+	    lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
+	} else if lRegisterX < minNumberLengthForLRegister {
+	    lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
+	} else {
             lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
         }
         
@@ -154,6 +162,8 @@ extension Calculator {
                 lRegisterDisplay.text = "log2(" + lRegisterXString + ")"
             case "y^x":
                 lRegisterDisplay.text = lRegisterYString + " " + "^" + " " + lRegisterXString
+            case "y EE x":
+                lRegisterDisplay.text = lRegisterYString + "EE" + lRegisterXString
             case "TRIG":
                 switch lRegisterXString {
                 case "1":
@@ -169,7 +179,7 @@ extension Calculator {
                 case "6":
                     lRegisterDisplay.text = "atan(" + lRegisterYString + ")"                    
                 case "7":
-                    lRegisterDisplay.text = "pi"
+                    lRegisterDisplay.text = "π"
                 case "8":
                     lRegisterDisplay.text = "D→R"
                 case "9":
