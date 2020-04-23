@@ -82,14 +82,21 @@ extension Calculator {
         
         xRegisterDisplay.text = xRegisterString
     }
-    
 
     
     func updateYRegisterDisplay(){
         let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
+        var yRegisterString : String
         
         let yRegister = stackRegisters[1]
-        let yRegisterString = formatterDecimal.string(from: NSNumber(value: yRegister)) ?? ""
+        if yRegister == 0 {
+            yRegisterString = formatterDecimal.string(from: NSNumber(value: yRegister)) ?? ""
+        } else if abs(yRegister) < minNumberLengthForLRegister {
+            yRegisterString = formatterScientific.string(from: NSNumber(value: yRegister)) ?? ""
+        } else {
+            yRegisterString = formatterDecimal.string(from: NSNumber(value: yRegister)) ?? ""
+        }
+        
         
         if yRegisterString == "" {
             yRegisterDisplay.text = ""
@@ -105,7 +112,7 @@ extension Calculator {
         
         let lRegisterX = defaults.double(forKey: "lRegisterX")
         let lRegisterY = defaults.double(forKey: "lRegisterY")
-        var lOperatorString = defaults.string(forKey: "lOperator") ?? ""
+        let lOperatorString = defaults.string(forKey: "lOperator") ?? ""
 
         let lRegisterXNS = NSNumber(value: lRegisterX)
         let lRegisterYNS = NSNumber(value: lRegisterY)
@@ -114,11 +121,19 @@ extension Calculator {
         
         if abs(lRegisterY) > maxNumberLengthForLRegister {
             lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
+        } else if lRegisterY == 0 {
+            lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
+        } else if abs(lRegisterY) < minNumberLengthForLRegister {
+            lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
         } else {
             lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
         }
         
         if abs(lRegisterX) > maxNumberLengthForLRegister {
+            lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
+        } else if lRegisterX == 0 {
+            lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
+        } else if abs(lRegisterX) < minNumberLengthForLRegister {
             lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
         } else {
             lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
@@ -154,6 +169,8 @@ extension Calculator {
                 lRegisterDisplay.text = "log2(" + lRegisterXString + ")"
             case "y^x":
                 lRegisterDisplay.text = lRegisterYString + " " + "^" + " " + lRegisterXString
+            case "y EE x":
+                lRegisterDisplay.text = lRegisterYString + "EE" + lRegisterXString
             case "TRIG":
                 switch lRegisterXString {
                 case "1":
@@ -169,7 +186,7 @@ extension Calculator {
                 case "6":
                     lRegisterDisplay.text = "atan(" + lRegisterYString + ")"                    
                 case "7":
-                    lRegisterDisplay.text = "pi"
+                    lRegisterDisplay.text = "π"
                 case "8":
                     lRegisterDisplay.text = "D→R"
                 case "9":
@@ -212,24 +229,37 @@ extension Calculator {
         let fourthRegisterNS = NSNumber(value: fourthRegister)
         
         var secondRegisterString, thirdRegisterString, fourthRegisterString : String
-        
-        if(abs(secondRegister) > maxNumberLengthForSRegister) {
-            secondRegisterString = self.formatterScientific.string(from: secondRegisterNS) ?? ""
+
+        if abs(secondRegister) > maxNumberLengthForLRegister {
+            secondRegisterString = formatterScientific.string(from: secondRegisterNS) ?? ""
+        } else if secondRegister == 0 {
+            secondRegisterString = formatterDecimal.string(from: secondRegisterNS) ?? ""
+        } else if abs(secondRegister) < minNumberLengthForLRegister {
+            secondRegisterString = formatterScientific.string(from: secondRegisterNS) ?? ""
         } else {
-            secondRegisterString = self.formatterDecimal.string(from: secondRegisterNS) ?? ""
+            secondRegisterString = formatterDecimal.string(from: secondRegisterNS) ?? ""
         }
-        
-        if(abs(thirdRegister) > maxNumberLengthForSRegister) {
-            thirdRegisterString = self.formatterScientific.string(from: thirdRegisterNS) ?? ""
+
+        if abs(thirdRegister) > maxNumberLengthForLRegister {
+            thirdRegisterString = formatterScientific.string(from: thirdRegisterNS) ?? ""
+        } else if thirdRegister == 0 {
+            thirdRegisterString = formatterDecimal.string(from: thirdRegisterNS) ?? ""
+        } else if abs(thirdRegister) < minNumberLengthForLRegister {
+            thirdRegisterString = formatterScientific.string(from: thirdRegisterNS) ?? ""
         } else {
-            thirdRegisterString = self.formatterDecimal.string(from: thirdRegisterNS) ?? ""
+            thirdRegisterString = formatterDecimal.string(from: thirdRegisterNS) ?? ""
         }
-        
-        if(abs(fourthRegister) > maxNumberLengthForSRegister) {
-            fourthRegisterString = self.formatterScientific.string(from: fourthRegisterNS) ?? ""
+
+        if abs(fourthRegister) > maxNumberLengthForLRegister {
+            fourthRegisterString = formatterScientific.string(from: fourthRegisterNS) ?? ""
+        } else if fourthRegister == 0 {
+            fourthRegisterString = formatterDecimal.string(from: fourthRegisterNS) ?? ""
+        } else if abs(fourthRegister) < minNumberLengthForLRegister {
+            fourthRegisterString = formatterScientific.string(from: fourthRegisterNS) ?? ""
         } else {
-            fourthRegisterString = self.formatterDecimal.string(from: fourthRegisterNS) ?? ""
+            fourthRegisterString = formatterDecimal.string(from: fourthRegisterNS) ?? ""
         }
+
         
         sRegisterDisplay.text = fourthRegisterString + "\n" + "\n" + thirdRegisterString + "\n" + "\n" + secondRegisterString
     }
