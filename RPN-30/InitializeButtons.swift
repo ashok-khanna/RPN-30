@@ -46,15 +46,29 @@ extension Calculator {
         eightButton.digitString = "eight"
         nineButton.digitString = "nine"
         
-        oneButton.operationString = "√x"
-        twoButton.operationString = "1/x"
-        threeButton.operationString = "y^x"
-        fourButton.operationString = "x!"
-        fiveButton.operationString = "ln x"
-        sixButton.operationString = "log10 x"
-        sevenButton.operationString = "TRIG"
-        eightButton.operationString = "e^x"
-        nineButton.operationString = "y EE x"
+        
+        if(UserDefaults.standard.bool(forKey: "scientific_functions")){
+            oneButton.operationString = "√x"
+            twoButton.operationString = "1/x"
+            threeButton.operationString = "y^x"
+            fourButton.operationString = "x!"
+            fiveButton.operationString = "ln x"
+            sixButton.operationString = "log10 x"
+            sevenButton.operationString = "TRIG"
+            eightButton.operationString = "e^x"
+            nineButton.operationString = "y EE x"
+        } else {
+            oneButton.operationString = "y EE x"
+            twoButton.operationString = "√x"
+            threeButton.operationString = "1/x"
+            fourButton.operationString = "%"
+            fiveButton.operationString = "% ∆"
+            sixButton.operationString = "% T"
+            sevenButton.operationString = "e^x"
+            eightButton.operationString = "ln x"
+            nineButton.operationString = "y ^ x"
+        }
+
         
         zeroFunctionLabel.adjustsFontSizeToFitWidth = true
         decimalFunctionLabel.adjustsFontSizeToFitWidth = true
