@@ -70,16 +70,28 @@ extension Calculator {
         let xRegister = stackRegisters[0]
         let xRegisterNS = NSNumber(value: xRegister)
         var xRegisterString: String
-        
+                
         let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
- 
-        if resultMode { xRegisterString = formatterDecimal.string(from: xRegisterNS) ?? "" }
+        if resultMode {
+            if(UserDefaults.standard.bool(forKey: "use_significant")){
+                xRegisterString = formatterScientificXY.string(from: xRegisterNS) ?? ""
+            } else {
+                xRegisterString = formatterDecimalXY.string(from: xRegisterNS) ?? ""
+            }
+        }
         else {
-            if xRegisterDecimals <= 1 { formatterXRegister.minimumFractionDigits = xRegisterDecimals }
-            else { formatterXRegister.minimumFractionDigits = xRegisterDecimals - 1 }
+            if xRegisterDecimals <= 1 {
+                formatterXRegister.minimumFractionDigits = xRegisterDecimals
+                formatterXRegister.maximumFractionDigits = xRegisterDecimals
+            }
+            else {
+                formatterXRegister.minimumFractionDigits = xRegisterDecimals - 1
+                formatterXRegister.maximumFractionDigits = xRegisterDecimals - 1
+                
+            }
             xRegisterString = formatterXRegister.string(from: xRegisterNS) ?? ""
         }
-        
+                
         xRegisterDisplay.text = xRegisterString
     }
     
@@ -89,7 +101,14 @@ extension Calculator {
         let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
         
         let yRegister = stackRegisters[1]
-        let yRegisterString = formatterDecimal.string(from: NSNumber(value: yRegister)) ?? ""
+        var yRegisterString: String
+        
+        if(UserDefaults.standard.bool(forKey: "use_significant")){
+            yRegisterString = formatterScientificXY.string(from: NSNumber(value: yRegister)) ?? ""
+        } else {
+            yRegisterString = formatterDecimalXY.string(from: NSNumber(value: yRegister)) ?? ""
+        }
+
         
         if yRegisterString == "" {
             yRegisterDisplay.text = ""

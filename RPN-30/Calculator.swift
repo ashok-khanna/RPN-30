@@ -97,6 +97,8 @@ class Calculator: UIView, UITextFieldDelegate {
     
     // Number formatters
     let formatterDecimal = NumberFormatter()
+    let formatterDecimalXY = NumberFormatter()
+    let formatterScientificXY = NumberFormatter()
     let formatterScientific = NumberFormatter() // For displaying numbers in scientific mode
     let formatterXRegister = NumberFormatter() // For showing all decimals for x Register
     let formatterBasic = NumberFormatter()
@@ -140,6 +142,7 @@ class Calculator: UIView, UITextFieldDelegate {
         actualButtonHeight = self.bounds.height * buttonHeight
         actualButtonWidth = self.bounds.width * buttonWidth
         
+        UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
         
         setupNSFormatters()
         formatterXRegister.numberStyle = .decimal
