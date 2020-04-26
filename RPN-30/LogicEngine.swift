@@ -46,7 +46,7 @@ extension Calculator {
             stackAutoLift = true // CHS is not an operation that should trigger stackautolift (removed this)
             unaryAction = true
             
-        case "y EE x":
+        case "EE":
             xRegisterNew = yRegister * pow(10.0, Double(xRegister))
         case "√x":
             xRegisterNew = sqrt(xRegister)
@@ -128,7 +128,7 @@ extension Calculator {
         case "atan x":
             xRegisterNew = atan(yRegister)
             unaryAction = true
-        case "pi":
+        case "π":
             xRegisterNew = Double.pi
             unaryAction = true
         case "D→R":

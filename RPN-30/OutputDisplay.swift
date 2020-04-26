@@ -165,6 +165,8 @@ extension Calculator {
                 lRegisterDisplay.text = "% change  of (" + lRegisterXString + " - " + lRegisterYString + ")"
             case "e^x":
                 lRegisterDisplay.text = "e ^ " + lRegisterXString
+            case "EE":
+                lRegisterDisplay.text = lRegisterYString + "e" + lRegisterXString
             case "ln x":
                 lRegisterDisplay.text = "ln(" + lRegisterXString + ")"
             case "log10 x":
@@ -188,7 +190,7 @@ extension Calculator {
                 case "6":
                     lRegisterDisplay.text = "atan(" + lRegisterYString + ")"                    
                 case "7":
-                    lRegisterDisplay.text = "pi"
+                    lRegisterDisplay.text = "π"
                 case "8":
                     lRegisterDisplay.text = "D→R"
                 case "9":

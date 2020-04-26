@@ -30,9 +30,10 @@ class ViewController: UIViewController {
         calculatorView.setupCalculator()
         
         calculatorView.layoutIfNeeded()
-        
+       
 
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
 
