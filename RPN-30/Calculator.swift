@@ -106,6 +106,9 @@ class Calculator: UIView, UITextFieldDelegate {
     let maxNumberLengthForLRegister = 999999999.9
     let maxNumberLengthForSRegister = 99999999.9
     let defaultMaximumDecimalsForXRegister = 5
+
+    let minNumberLengthForLRegister = 0.000000001
+    let minNumberLengthForSRegister = 0.00000001 
     
     let functionLabelSize = UIFont.systemFont(ofSize: 8.5)
     

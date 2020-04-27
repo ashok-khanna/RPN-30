@@ -133,11 +133,19 @@ extension Calculator {
         
         if abs(lRegisterY) > maxNumberLengthForLRegister {
             lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
+        } else if lRegisterY == 0 {
+            lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
+        } else if abs(lRegisterY) < minNumberLengthForLRegister {
+            lRegisterYString = formatterScientific.string(from: lRegisterYNS) ?? ""
         } else {
             lRegisterYString = formatterDecimal.string(from: lRegisterYNS) ?? ""
         }
-        
+
         if abs(lRegisterX) > maxNumberLengthForLRegister {
+            lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
+        } else if lRegisterX == 0 {
+            lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
+        } else if abs(lRegisterX) < minNumberLengthForLRegister {
             lRegisterXString = formatterScientific.string(from: lRegisterXNS) ?? ""
         } else {
             lRegisterXString = formatterDecimal.string(from: lRegisterXNS) ?? ""
@@ -234,22 +242,34 @@ extension Calculator {
         
         var secondRegisterString, thirdRegisterString, fourthRegisterString : String
         
-        if(abs(secondRegister) > maxNumberLengthForSRegister) {
-            secondRegisterString = self.formatterScientific.string(from: secondRegisterNS) ?? ""
+        if abs(secondRegister) > maxNumberLengthForLRegister {
+            secondRegisterString = formatterScientific.string(from: secondRegisterNS) ?? ""
+        } else if secondRegister == 0 {
+            secondRegisterString = formatterDecimal.string(from: secondRegisterNS) ?? ""
+        } else if abs(secondRegister) < minNumberLengthForLRegister {
+            secondRegisterString = formatterScientific.string(from: secondRegisterNS) ?? ""
         } else {
-            secondRegisterString = self.formatterDecimal.string(from: secondRegisterNS) ?? ""
+            secondRegisterString = formatterDecimal.string(from: secondRegisterNS) ?? ""
         }
-        
-        if(abs(thirdRegister) > maxNumberLengthForSRegister) {
-            thirdRegisterString = self.formatterScientific.string(from: thirdRegisterNS) ?? ""
+
+        if abs(thirdRegister) > maxNumberLengthForLRegister {
+            thirdRegisterString = formatterScientific.string(from: thirdRegisterNS) ?? ""
+        } else if thirdRegister == 0 {
+            thirdRegisterString = formatterDecimal.string(from: thirdRegisterNS) ?? ""
+        } else if abs(thirdRegister) < minNumberLengthForLRegister {
+            thirdRegisterString = formatterScientific.string(from: thirdRegisterNS) ?? ""
         } else {
-            thirdRegisterString = self.formatterDecimal.string(from: thirdRegisterNS) ?? ""
+            thirdRegisterString = formatterDecimal.string(from: thirdRegisterNS) ?? ""
         }
-        
-        if(abs(fourthRegister) > maxNumberLengthForSRegister) {
-            fourthRegisterString = self.formatterScientific.string(from: fourthRegisterNS) ?? ""
+
+        if abs(fourthRegister) > maxNumberLengthForLRegister {
+            fourthRegisterString = formatterScientific.string(from: fourthRegisterNS) ?? ""
+        } else if fourthRegister == 0 {
+            fourthRegisterString = formatterDecimal.string(from: fourthRegisterNS) ?? ""
+        } else if abs(fourthRegister) < minNumberLengthForLRegister {
+            fourthRegisterString = formatterScientific.string(from: fourthRegisterNS) ?? ""
         } else {
-            fourthRegisterString = self.formatterDecimal.string(from: fourthRegisterNS) ?? ""
+            fourthRegisterString = formatterDecimal.string(from: fourthRegisterNS) ?? ""
         }
         
         sRegisterDisplay.text = fourthRegisterString + "\n" + "\n" + thirdRegisterString + "\n" + "\n" + secondRegisterString
