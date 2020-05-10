@@ -9,7 +9,10 @@
 import UIKit
 
 extension Calculator {
-    
+
+// mash: maybe better to use native log functions log10, log2
+// this function generates some rounding errors for long decimals
+
     func logC(val: Double, forBase base: Double) -> Double {
         return log(val)/log(base)
     }
@@ -70,21 +73,23 @@ extension Calculator {
             unaryAction = true
         case "y^x":
             xRegisterNew = pow(yRegister, xRegister)
-            
-            // New functions added since Friday 10 April 2020
-            
         case "x!":
             xRegisterNew = tgamma(xRegister + 1)
             unaryAction = true
         case "log10 x":
-            xRegisterNew = logC(val:xRegister, forBase:10.0)
+            // mash: native log10 better than logC on rounding
+            // xRegisterNew = logC(val:xRegister, forBase:10.0)
+	    xRegisterNew = log10(xRegister)
             unaryAction = true
-        case "log x":
-            xRegisterNew = logC(val:xRegister, forBase:2.0)
+        case "log2 x":
+            // mash: native log2 better than logC on rounding
+            // xRegisterNew = logC(val:xRegister, forBase:2.0)
+	    xRegisterNew = log2(xRegister)
             unaryAction = true
 
             // Trig functions (from second page)
-            // Treat these unary actions as if they were not so that they roll the stack 
+            // Treat these unary actions as if they were not so that they roll the stack
+            // Argument in yRegister is in RADIANS for sin, cos, tan 
         case "TRIG":
             switch xRegister {
             case 1.0:
@@ -110,6 +115,7 @@ extension Calculator {
                 return
             }
 
+        // Trig functions not currently in use     
         case "sin x":
             xRegisterNew = sin(yRegister)
             unaryAction = true
@@ -137,6 +143,7 @@ extension Calculator {
         case "R→D":
             xRegisterNew = 180.0 * yRegister / Double.pi
             unaryAction = true
+
         default:
             return
         }

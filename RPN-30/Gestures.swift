@@ -224,7 +224,8 @@ extension Calculator {
                     button.isHighlighted = false
                     button.highlightColor = .lightGray
                     processStoreRecall(button)
-                    updateXRegisterDisplay(resultMode: false)
+                    // Changed the following from false to true to make decimals appear in recalled values May 10, 2020
+                    updateXRegisterDisplay(resultMode: true)
                 }
             } else {
                 button.isHighlighted = false
@@ -235,7 +236,8 @@ extension Calculator {
                 } else {
                     processStoreRecall(button)
                     clearLastRegisters()
-                    updateXRegisterDisplay(resultMode: false)
+                    // Changed the following from false to true to make decimals appear in recalled values May 10, 2020
+                    updateXRegisterDisplay(resultMode: true)
                 }
                 
             }

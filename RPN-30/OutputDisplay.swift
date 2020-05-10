@@ -66,11 +66,11 @@ extension Calculator {
     func updateXRegisterDisplay(resultMode: Bool = false){
         
         let stackRegisters = defaults.array(forKey: "stackRegisters") as! [Double]
-        
+
         let xRegister = stackRegisters[0]
         let xRegisterNS = NSNumber(value: xRegister)
         var xRegisterString: String
-                
+
         let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
         if resultMode {
             if(UserDefaults.standard.bool(forKey: "use_significant")){
