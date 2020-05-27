@@ -23,6 +23,7 @@
 		8000B59122041C7600617988 /* Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B59022041C7600617988 /* Formatting.swift */; };
 		8000B59322041D0400617988 /* InitializeButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B59222041D0400617988 /* InitializeButtons.swift */; };
 		8000B5952204236900617988 /* OutputDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8000B5942204236900617988 /* OutputDisplay.swift */; };
+		80A7BBE02456054700B3A60A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 80A7BBDF2456054700B3A60A /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		8000B59022041C7600617988 /* Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatting.swift; sourceTree = "<group>"; };
 		8000B59222041D0400617988 /* InitializeButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializeButtons.swift; sourceTree = "<group>"; };
 		8000B5942204236900617988 /* OutputDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputDisplay.swift; sourceTree = "<group>"; };
+		80A7BBDF2456054700B3A60A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		8000B55921F31C8000617988 = {
 			isa = PBXGroup;
 			children = (
+				80A7BBDF2456054700B3A60A /* Settings.bundle */,
 				8000B56421F31C8000617988 /* RPN-30 */,
 				8000B56321F31C8000617988 /* Products */,
 			);
@@ -81,9 +84,9 @@
 				8000B59222041D0400617988 /* InitializeButtons.swift */,
 				8000B58A2204185F00617988 /* AutoLayout.swift */,
 				8000B59022041C7600617988 /* Formatting.swift */,
+				8000B5942204236900617988 /* OutputDisplay.swift */,
 				8000B58C22041B8D00617988 /* Gestures.swift */,
 				8000B58E22041C5600617988 /* LogicEngine.swift */,
-				8000B5942204236900617988 /* OutputDisplay.swift */,
 				8000B58421FE3C1D00617988 /* To do */,
 				8000B58621FE44C000617988 /* ColorExtension.swift */,
 				8000B56521F31C8000617988 /* AppDelegate.swift */,
@@ -157,6 +160,7 @@
 			files = (
 				8000B57321F31C8200617988 /* LaunchScreen.storyboard in Resources */,
 				8000B57021F31C8200617988 /* Assets.xcassets in Resources */,
+				80A7BBE02456054700B3A60A /* Settings.bundle in Resources */,
 				8000B56B21F31C8000617988 /* Main.storyboard in Resources */,
 				8000B58521FE3C1D00617988 /* To do in Resources */,
 			);
@@ -327,12 +331,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CQ36333N7;
 				INFOPLIST_FILE = "RPN-30/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.91;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ashok.RPN-30";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -345,12 +351,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7CQ36333N7;
 				INFOPLIST_FILE = "RPN-30/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.91;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ashok.RPN-30";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

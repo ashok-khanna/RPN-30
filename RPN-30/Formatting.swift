@@ -112,6 +112,25 @@ extension Calculator {
     
     func setupNSFormatters(){
         
+        formatterScientificXY.numberStyle = .scientific
+        formatterScientificXY.usesSignificantDigits = true
+        
+        if let textInt = Int(UserDefaults.standard.string(forKey: "number_significant") ?? "") {
+            formatterScientificXY.maximumSignificantDigits = textInt
+        } else {
+            formatterScientificXY.maximumSignificantDigits = 6
+        }
+        
+        
+        formatterDecimalXY.numberStyle = .decimal
+        
+        if let textInt = Int(UserDefaults.standard.string(forKey: "number_decimals") ?? "") {
+            formatterDecimalXY.maximumFractionDigits = textInt
+        } else {
+            formatterDecimalXY.maximumFractionDigits = 4
+        }
+        
+         
         formatterScientific.numberStyle = .scientific
         formatterScientific.maximumSignificantDigits = 6
         formatterScientific.usesSignificantDigits = true

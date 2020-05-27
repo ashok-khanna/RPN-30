@@ -46,15 +46,29 @@ extension Calculator {
         eightButton.digitString = "eight"
         nineButton.digitString = "nine"
         
-        oneButton.operationString = "EE"
-        twoButton.operationString = "√"
-        threeButton.operationString = "1/x"
-        fourButton.operationString = "%"
-        fiveButton.operationString = "% Δ"
-        sixButton.operationString = "% T"
-        sevenButton.operationString = "e^x"
-        eightButton.operationString = "ln x"
-        nineButton.operationString = "y^x"
+        
+        if(UserDefaults.standard.bool(forKey: "scientific_functions")){
+            oneButton.operationString = "√x"
+            twoButton.operationString = "1/x"
+            threeButton.operationString = "y^x"
+            fourButton.operationString = "x!"
+            fiveButton.operationString = "ln x"
+            sixButton.operationString = "log10 x"
+            sevenButton.operationString = "TRIG"
+            eightButton.operationString = "e^x"
+            nineButton.operationString = "EE"
+        } else {
+            oneButton.operationString = "EE"
+            twoButton.operationString = "√x"
+            threeButton.operationString = "1/x"
+            fourButton.operationString = "%"
+            fiveButton.operationString = "% ∆"
+            sixButton.operationString = "% T"
+            sevenButton.operationString = "e^x"
+            eightButton.operationString = "ln x"
+            nineButton.operationString = "y ^ x"
+        }
+
         
         zeroFunctionLabel.adjustsFontSizeToFitWidth = true
         decimalFunctionLabel.adjustsFontSizeToFitWidth = true
@@ -183,7 +197,7 @@ extension Calculator {
         
         // Code for oneButton Label
         
-        oneFunctionLabel.text = "EE"
+        oneFunctionLabel.text = oneButton.operationString
         oneFunctionLabel.textColor = functionTextColor
         oneFunctionLabel.backgroundColor = functionTitleColor
         oneFunctionLabel.font = functionLabelSize
@@ -201,7 +215,7 @@ extension Calculator {
         
         // Code for twoButton Label
         
-        twoFunctionLabel.text = "√"
+        twoFunctionLabel.text = twoButton.operationString
         twoFunctionLabel.textColor = functionTextColor
         twoFunctionLabel.backgroundColor = functionTitleColor
         twoFunctionLabel.font = functionLabelSize
@@ -219,7 +233,7 @@ extension Calculator {
         
         // Code for threeButton Label
         
-        threeFunctionLabel.text = "1/x"
+        threeFunctionLabel.text = threeButton.operationString
         threeFunctionLabel.textColor = functionTextColor
         threeFunctionLabel.backgroundColor = functionTitleColor
         threeFunctionLabel.font = functionLabelSize
@@ -237,7 +251,7 @@ extension Calculator {
         
         // Code for fourButton Label
         
-        fourFunctionLabel.text = "%"
+        fourFunctionLabel.text = fourButton.operationString
         fourFunctionLabel.textColor = functionTextColor
         fourFunctionLabel.backgroundColor = functionTitleColor
         fourFunctionLabel.font = functionLabelSize
@@ -255,7 +269,7 @@ extension Calculator {
         
         // Code for fiveButton Label
  
-        fiveFunctionLabel.text = "% Δ"
+        fiveFunctionLabel.text = fiveButton.operationString
         fiveFunctionLabel.textColor = functionTextColor
         fiveFunctionLabel.backgroundColor = functionTitleColor
         fiveFunctionLabel.font = functionLabelSize
@@ -273,7 +287,7 @@ extension Calculator {
         
         // Code for sixButton Label
         
-        sixFunctionLabel.text = "% T"
+        sixFunctionLabel.text = sixButton.operationString
         sixFunctionLabel.textColor = functionTextColor
         sixFunctionLabel.backgroundColor = functionTitleColor
         sixFunctionLabel.font = functionLabelSize
@@ -291,7 +305,7 @@ extension Calculator {
         
         // Code for sevenButton Label
         
-        sevenFunctionLabel.text = "e^x"
+        sevenFunctionLabel.text = sevenButton.operationString
         sevenFunctionLabel.textColor = functionTextColor
         sevenFunctionLabel.backgroundColor = functionTitleColor
         sevenFunctionLabel.font = functionLabelSize
@@ -309,7 +323,7 @@ extension Calculator {
         
         // Code for eightButton Label
         
-        eightFunctionLabel.text = "ln x"
+        eightFunctionLabel.text = eightButton.operationString
         eightFunctionLabel.textColor = functionTextColor
         eightFunctionLabel.backgroundColor = functionTitleColor
         eightFunctionLabel.font = functionLabelSize
@@ -328,7 +342,7 @@ extension Calculator {
         
         // Code for nineButton Label
         
-        nineFunctionLabel.text = "y^x"
+        nineFunctionLabel.text = nineButton.operationString
         nineFunctionLabel.textColor = functionTextColor
         nineFunctionLabel.backgroundColor = functionTitleColor
         nineFunctionLabel.font = functionLabelSize
