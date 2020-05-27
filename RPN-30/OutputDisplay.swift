@@ -71,6 +71,7 @@ extension Calculator {
         let xRegisterNS = NSNumber(value: xRegister)
         var xRegisterString: String
 
+      
         let xRegisterDecimals = UserDefaults.standard.integer(forKey: "xRegisterDecimals")
         if resultMode {
             if(UserDefaults.standard.bool(forKey: "use_significant")){

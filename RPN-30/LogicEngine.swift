@@ -17,6 +17,10 @@ extension Calculator {
         return log(val)/log(base)
     }
     
+    func logC(val: Double, forBase base: Double) -> Double {
+        return log(val)/log(base)
+    }
+    
     // MARK: Operations and Number Entry
     
     func processOperation(_ operation: String){
@@ -79,12 +83,12 @@ extension Calculator {
         case "log10 x":
             // mash: native log10 better than logC on rounding
             // xRegisterNew = logC(val:xRegister, forBase:10.0)
-	    xRegisterNew = log10(xRegister)
+      	    xRegisterNew = log10(xRegister)
             unaryAction = true
         case "log2 x":
-            // mash: native log2 better than logC on rounding
-            // xRegisterNew = logC(val:xRegister, forBase:2.0)
-	    xRegisterNew = log2(xRegister)
+              // mash: native log2 better than logC on rounding
+              // xRegisterNew = logC(val:xRegister, forBase:2.0)
+	          xRegisterNew = log2(xRegister)
             unaryAction = true
 
             // Trig functions (from second page)
@@ -143,7 +147,6 @@ extension Calculator {
         case "R→D":
             xRegisterNew = 180.0 * yRegister / Double.pi
             unaryAction = true
-
         default:
             return
         }
