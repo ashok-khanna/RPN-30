@@ -97,6 +97,8 @@ class Calculator: UIView, UITextFieldDelegate {
     
     // Number formatters
     let formatterDecimal = NumberFormatter()
+    let formatterDecimalXY = NumberFormatter()
+    let formatterScientificXY = NumberFormatter()
     let formatterScientific = NumberFormatter() // For displaying numbers in scientific mode
     let formatterXRegister = NumberFormatter() // For showing all decimals for x Register
     let formatterBasic = NumberFormatter()
@@ -104,6 +106,9 @@ class Calculator: UIView, UITextFieldDelegate {
     let maxNumberLengthForLRegister = 999999999.9
     let maxNumberLengthForSRegister = 99999999.9
     let defaultMaximumDecimalsForXRegister = 5
+
+    let minNumberLengthForLRegister = 0.000000001
+    let minNumberLengthForSRegister = 0.00000001 
     
     let functionLabelSize = UIFont.systemFont(ofSize: 8.5)
     
@@ -140,6 +145,7 @@ class Calculator: UIView, UITextFieldDelegate {
         actualButtonHeight = self.bounds.height * buttonHeight
         actualButtonWidth = self.bounds.width * buttonWidth
         
+        UserDefaults.standard.set(0, forKey: "xRegisterDecimals")
         
         setupNSFormatters()
         formatterXRegister.numberStyle = .decimal

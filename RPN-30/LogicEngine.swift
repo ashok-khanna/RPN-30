@@ -10,8 +10,12 @@ import UIKit
 
 extension Calculator {
     
+    func logC(val: Double, forBase base: Double) -> Double {
+        return log(val)/log(base)
+    }
+    
     // MARK: Operations and Number Entry
-
+    
     func processOperation(_ operation: String){
         
         // Function is called whenever a operator key is entered
@@ -44,7 +48,10 @@ extension Calculator {
             
         case "EE":
             xRegisterNew = yRegister * pow(10.0, Double(xRegister))
-        case "√":
+        case "√x":
+            xRegisterNew = sqrt(xRegister)
+            unaryAction = true
+        case "x√y":
             xRegisterNew = pow(yRegister, 1.0 / xRegister)
         case "1/x":
             xRegisterNew = 1 / xRegister
@@ -63,6 +70,73 @@ extension Calculator {
             unaryAction = true
         case "y^x":
             xRegisterNew = pow(yRegister, xRegister)
+            
+            // New functions added since Friday 10 April 2020
+            
+        case "x!":
+            xRegisterNew = tgamma(xRegister + 1)
+            unaryAction = true
+        case "log10 x":
+            xRegisterNew = logC(val:xRegister, forBase:10.0)
+            unaryAction = true
+        case "log x":
+            xRegisterNew = logC(val:xRegister, forBase:2.0)
+            unaryAction = true
+
+            // Trig functions (from second page)
+            // Treat these unary actions as if they were not so that they roll the stack 
+        case "TRIG":
+            switch xRegister {
+            case 1.0:
+                xRegisterNew = sin(yRegister)
+            case 2.0:
+                xRegisterNew = cos(yRegister)
+            case 3.0:
+                xRegisterNew = tan(yRegister)
+            case 4.0:
+                xRegisterNew = asin(yRegister)
+            case 5.0:
+                xRegisterNew = acos(yRegister)
+            case 6.0:
+                xRegisterNew = atan(yRegister)
+            case 7.0:
+                xRegisterNew = Double.pi
+                unaryAction = true
+            case 8.0:
+                xRegisterNew = Double.pi * yRegister / 180.0
+            case 9.0:
+                xRegisterNew = 180.0 * yRegister / Double.pi
+            default:
+                return
+            }
+
+        case "sin x":
+            xRegisterNew = sin(yRegister)
+            unaryAction = true
+        case "cos x":
+            xRegisterNew = cos(yRegister)
+            unaryAction = true
+        case "tan x":
+            xRegisterNew = tan(yRegister)
+            unaryAction = true
+        case "asin x":
+            xRegisterNew = asin(yRegister)
+            unaryAction = true
+        case "acos x":
+            xRegisterNew = acos(yRegister)
+            unaryAction = true
+        case "atan x":
+            xRegisterNew = atan(yRegister)
+            unaryAction = true
+        case "π":
+            xRegisterNew = Double.pi
+            unaryAction = true
+        case "D→R":
+            xRegisterNew = Double.pi * yRegister / 180.0
+            unaryAction = true
+        case "R→D":
+            xRegisterNew = 180.0 * yRegister / Double.pi
+            unaryAction = true
         default:
             return
         }
@@ -95,11 +169,15 @@ extension Calculator {
         
         if storeBalance {
             
-            if sender.digitValue != 0 {
+            if sender.digitValue != 0 && sender.digitValue != 9 {
                 defaults.set(stackRegistersOld[0], forKey: sender.digitString!)
             }
             isNewNumberEntry = true
             storeBalance = false
+            
+            if sender.digitValue == 9 {
+                UIPasteboard.general.string = String(stackRegistersOld[0])
+            }
             
         }
 
@@ -112,9 +190,18 @@ extension Calculator {
                 updateStackDisplay()
             }
             
-            if sender.digitValue != 0 {
+            if sender.digitValue != 0 && sender.digitValue != 9 {
                 let xRegisterNew = defaults.double(forKey: sender.digitString!)
                 amendStackRegister(value: xRegisterNew, at: 0)
+            }
+            
+            if sender.digitValue == 9 {
+                
+                if let myString = UIPasteboard.general.string {
+                    let xRegisterNew = Double(myString) ?? 0.0
+                    amendStackRegister(value: xRegisterNew, at: 0)
+                }
+
             }
             
             isNewNumberEntry = true
